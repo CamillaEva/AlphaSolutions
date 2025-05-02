@@ -4,7 +4,7 @@
 name: Build and deploy JAR app to Azure Web App - AlphaSolutions
 
 on:
-  push:
+  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -21,10 +21,14 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
-          java-version: 'java21'
+          java-version: '21'
           distribution: 'microsoft'
 
       - name: Build with Maven
+        env:
+          DB_DATABASE_URL: ${{secrets.DB_URL}}
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: mvn clean install
 
       - name: Upload artifact for deployment job
