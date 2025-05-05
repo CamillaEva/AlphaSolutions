@@ -17,8 +17,7 @@ public class Project {
     //private Status status; //opret enum klasse  //har egen constructor - nice-to-have
 
 
-
-    public Project(int projectID, int subprojectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+    public Project(int projectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime) {
         this.projectID = projectID;
         this.subprojectID = subprojectID;
         this.name = name;
@@ -26,10 +25,10 @@ public class Project {
         this.startDate = startDate;
         this.endDate = endDate;
         this.timeEst = timeEst;
+        this.usedTime = usedTime;
     }
 
-
-    /*public Project(int projectID, int subprojectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime, Status status) {
+    public Project(int projectID, int subprojectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
         this.projectID = projectID;
         this.subprojectID = subprojectID;
         this.name = name;
@@ -41,7 +40,18 @@ public class Project {
         this.status = status;
     }
 
-     */
+// constructor, if we need to work with status on a project!
+//    public Project(int projectID, int subprojectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime, Status status) {
+//        this.projectID = projectID;
+//        this.subprojectID = subprojectID;
+//        this.name = name;
+//        this.description = description;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.timeEst = timeEst;
+//        this.usedTime = usedTime;
+//        this.status = status;
+//    }
 
 
     public int getProjectID() {
@@ -108,12 +118,13 @@ public class Project {
         this.usedTime = usedTime;
     }
 
-    /*public Status getStatus() {
-        return status;
-    }
+//    public Status getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(Status status) {
+//        this.status = status;
+//    }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-     */
+
 }
