@@ -7,7 +7,7 @@ public class Employee {
     private String lastName;
     private String mail;
     private String password;
-    private Skill skill;  //har egen constructor - nice-to-have
+    //private Skill skill;  //har egen constructor - nice-to-have
     private Role role;
 
 
@@ -20,8 +20,13 @@ public class Employee {
         this.role = role;
     }
 
+    //Empty constructor to add emp
+    public Employee(){
 
-    public Employee(int empID, String firstName, String lastName, String mail, String password, Skill skill, Role role) {
+    }
+
+    //Constructor with SKILL included
+    /*public Employee(int empID, String firstName, String lastName, String mail, String password, Skill skill, Role role) {
         this.empID = empID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,6 +35,7 @@ public class Employee {
         this.skill = skill;
         this.role = role;
     }
+     */
 
 
     public int getEmpID() {
@@ -72,13 +78,14 @@ public class Employee {
         this.password = password;
     }
 
-    public Skill getSkill() {
+    /*public Skill getSkill() {
         return skill;
     }
 
     public void setSkill(Skill skill) {
         this.skill = skill;
     }
+     */
 
     public Role getRole() {
         return role;
@@ -86,5 +93,16 @@ public class Employee {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empID=" + empID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

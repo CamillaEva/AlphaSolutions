@@ -14,7 +14,7 @@ public class Project {
     private LocalDate endDate;
     private int timeEst;
     private int usedTime; //har egen constructor - nice-to-have
-    private Status status; //opret enum klasse  //har egen constructor - nice-to-have
+    //private Status status; //opret enum klasse  //har egen constructor - nice-to-have
 
 
 
@@ -29,7 +29,7 @@ public class Project {
     }
 
 
-    public Project(int projectID, int subprojectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime, Status status) {
+    /*public Project(int projectID, int subprojectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime, Status status) {
         this.projectID = projectID;
         this.subprojectID = subprojectID;
         this.name = name;
@@ -40,6 +40,8 @@ public class Project {
         this.usedTime = usedTime;
         this.status = status;
     }
+
+     */
 
 
     public int getProjectID() {
@@ -106,11 +108,12 @@ public class Project {
         this.usedTime = usedTime;
     }
 
-    public Status getStatus() {
+    /*public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }
+     */
 }

@@ -13,9 +13,9 @@ public class SubProject {
     private LocalDate endDate;
     private int timeEst;
     private int usedTime;  //har egen constructor - nice-to-have
-    private Status status; //har egen constructor - nice-to-have
+    //private Status status; //har egen constructor - nice-to-have
 
-
+    /*
     public SubProject(int subProjectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime, Status status) {
         this.subProjectID = subProjectID;
         this.taskID = taskID;
@@ -27,6 +27,8 @@ public class SubProject {
         this.usedTime = usedTime;
         this.status = status;
     }
+
+     */
 
 
     public SubProject(int subProjectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
@@ -104,6 +106,7 @@ public class SubProject {
         this.usedTime = usedTime;
     }
 
+    /*
     public Status getStatus() {
         return status;
     }
@@ -111,4 +114,6 @@ public class SubProject {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+     */
 }
