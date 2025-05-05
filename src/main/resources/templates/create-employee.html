@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create employee</title>
+</head>
+<h1>Create employee</h1>
+<body>
+<form th:action="@{/home/create-employee}" th:object="${emp}" th:method="post">
+    <label th:for="*{firstName}">First Name</label>
+    <input type="text" th:field="*{firstName}" autofocus required/><br>
+
+    <label th:for="*{lastName}">Last Name</label>
+    <input type="text" th:field="*{lastName}" required/><br>
+
+    <label th:for="*{mail}">Mail</label>
+    <input type="text" th:field="*{mail}" required placeholder="Name@AlphaSolutions.com"/><br>
+
+    <label th:for="*{password}">Password</label>
+    <input type="text" th:field="*{password}" required/><br>
+
+    <label th:for="*{role}">Role</label>
+    <select th:field="*{role}">
+        <option th:each="role : ${roles}"
+                th:value="${role}"
+                th:text="${role}">
+        </option>
+    </select><br>
+
+    <button type="submit">Save</button>
+
+
+</form>
+</body>
+</html>
