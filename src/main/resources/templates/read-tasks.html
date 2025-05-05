@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+</head>
+<body>
+<h1>Tasks</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="task : ${tasks}">
+        <td th:text="${task.name}"></td>
+        <td th:text="${task.description}"></td>
+    </tr>
+</table>
+
+<form th:action="@{/pl/create-task}" method="get">
+    <button type="submit">Create task</button>
+</form>
+</body>
+</html>
