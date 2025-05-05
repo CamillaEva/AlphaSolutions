@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+</head>
+<h1>Employee Details</h1>
+<body>
+    <label th:for="name"><STRONG>Name:</STRONG></label>
+    <span th:text="${employee.firstName} + ' ' + ${employee.lastName}"></span><br>
+
+    <label th:for="email"><strong>Email:</strong></label>
+    <span th:text="${employee.mail}"></span><br>
+
+    <label th:for="role"><strong>Role:</strong></label>
+    <span th:text="${employee.role}"></span><br>
+
+    <a th:href="@{/home/edit-employee/{empId}(empId=${employee.empID})}">
+        <button type="button">Edit employee</button>
+    </a>
+</body>
+</html>

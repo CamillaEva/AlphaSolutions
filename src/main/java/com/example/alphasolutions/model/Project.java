@@ -1,7 +1,8 @@
 package com.example.alphasolutions.model;
 
+import org.springframework.cglib.core.Local;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Project {
 
@@ -13,11 +14,12 @@ public class Project {
     private LocalDate endDate;
     private int timeEst;
     private int usedTime; //har egen constructor - nice-to-have
-//    private Status status; //opret enum klasse  //har egen constructor - nice-to-have
+    //private Status status; //opret enum klasse  //har egen constructor - nice-to-have
 
 
     public Project(int projectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime) {
         this.projectID = projectID;
+        this.subprojectID = subprojectID;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
@@ -34,6 +36,8 @@ public class Project {
         this.startDate = startDate;
         this.endDate = endDate;
         this.timeEst = timeEst;
+        this.usedTime = usedTime;
+        this.status = status;
     }
 
 // constructor, if we need to work with status on a project!
@@ -57,7 +61,6 @@ public class Project {
     public void setProjectID(int projectID) {
         this.projectID = projectID;
     }
-
 
     public int getSubprojectID() {
         return subprojectID;
