@@ -19,7 +19,7 @@ public class SubProjectRepository {
                 System.getenv("DB_USERNAME"),
                 System.getenv("DB_PASSWORD")
         );
-        dataSource.setDriverClassName("com.mysql.cj.jdb.Driver");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

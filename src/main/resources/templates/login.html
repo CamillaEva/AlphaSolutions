@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="/home/login" method="post">
+        <p th:if="${wrongCredentials}" class="error">Wrong username or password. Try again</p>
+        <p><label>Username:</label>
+            <input name="uid" type="text" autofocus></p> <!-- autofocus gør at man "starter" ved brugernavn input felt -->
+        <p><label>Password:</label>
+            <input name="pw" type="password"></p>
+        <p>
+            <button type="submit">Login</button>
+        </p>
+    </form>
+</body>
+</html>
