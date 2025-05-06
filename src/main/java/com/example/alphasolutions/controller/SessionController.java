@@ -26,7 +26,7 @@ public class SessionController {
         return "login";
     }
 
-    @GetMapping("/main-page")
+    @GetMapping("/main-page/{empID}")
     public String showMainPage(){
         return "main-page";
     }
@@ -41,7 +41,7 @@ public class SessionController {
         } else if (employee != null) {
            session.setAttribute("emp", employee);
            session.setAttribute("role", employee.getRole());
-            return "redirect:/main-page";
+            return "redirect:/main-page/" + employee.getEmpID();
         }
         model.addAttribute("wrongCredentials", true);
         return "login";
