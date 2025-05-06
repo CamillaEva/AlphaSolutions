@@ -6,7 +6,7 @@
 </head>
 <h1>Create employee</h1>
 <body>
-<form th:action="@{/home/create-employee}" th:object="${emp}" th:method="post">
+<form th:action="@{/admin/create-employee}" th:object="${emp}" th:method="post">
     <label th:for="*{firstName}">First Name</label>
     <input type="text" th:field="*{firstName}" autofocus required/><br>
 

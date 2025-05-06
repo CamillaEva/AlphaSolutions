@@ -30,17 +30,17 @@ public class Controller {
     }
 
     //____________________________________CREATE METHODS____________________________________
-    @GetMapping("/home/create-employee")
+    @GetMapping("/admin/create-employee")
     public String createEmployee(Model model) {
         model.addAttribute("emp", new Employee());
         model.addAttribute("roles", Role.values());
         return "create-employee";
     }
 
-    @PostMapping("/home/create-employee")
+    @PostMapping("/admin/create-employee")
     public String saveEmployee(@ModelAttribute("emp") Employee employee) {
         empService.createEmployee(employee);
-        return "redirect:/home/read-employees";
+        return "redirect:/admin/read-employees";
     }
 
     @GetMapping("/pl/create-task")
@@ -56,14 +56,14 @@ public class Controller {
     }
 
     //____________________________________READ METHODS______________________________________
-    @GetMapping("/home/read-employees")
+    @GetMapping("/admin/read-employees")
     public String readAllEmployees(Model model) {
         List<Employee> employees = empService.getAllEmployees();
         model.addAttribute("employees", employees);
         return "read-employees";
     }
 
-    @GetMapping("/home/read-employee/{empId}")
+    @GetMapping("/admin/read-employee/{empId}")
     public String readEmployeeById(@PathVariable int empId, Model model) {
         Employee employee = empService.readEmployeeById(empId);
         model.addAttribute("employee", employee);
@@ -94,7 +94,7 @@ public class Controller {
 
     //____________________________________UPDATE METHODS____________________________________
     //Mapping to edit employees data
-    @GetMapping("/home/edit-employee/{empId}")
+    @GetMapping("/admin/edit-employee/{empId}")
     public String editEmployee(@PathVariable int empId, Model model) {
         Employee employee = empService.readEmployeeById(empId);
         model.addAttribute("employee", employee);
@@ -103,7 +103,7 @@ public class Controller {
     }
 
     //Mapping to UPDATE employees data
-    @PostMapping("/home/edit-employee/{empId}")
+    @PostMapping("/admin/edit-employee/{empId}")
     public String updateEmployee(@PathVariable int empId, @ModelAttribute("employee") Employee employee) {
         // Konverter enum til en String
         String roleAsString = employee.getRole().name(); // 'ADMIN', 'USER', etc.
@@ -111,7 +111,7 @@ public class Controller {
         employee.setRole(Role.valueOf(roleAsString)); // Konverter tilbage til enum, hvis nødvendigt
 
         empService.updateEmployee(employee);
-        return "redirect:/home/read-employee/" + empId;
+        return "redirect:/admin/read-employee/" + empId;
     }
 
     @GetMapping("/pl/edit-task/{taskID}")
