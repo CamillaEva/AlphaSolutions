@@ -24,14 +24,14 @@ public class Controller {
         this.taskService = taskService;
     }
 
-    @GetMapping("/home")
-    public String homePage() {
-        return "home"; // Dette refererer til home.html
+    @GetMapping("/admin")
+    public String adminMainPage() {
+        return "admin-main"; // Dette refererer til admin-main.html
     }
 
     @GetMapping("/pl-main")
-    public String plMain(){
-        return "plMain";
+    public String plMainPage(){
+        return "pl-main";
     }
 
     //____________________________________CREATE METHODS____________________________________
@@ -129,7 +129,7 @@ public class Controller {
     @PostMapping("/pl/edit-task/{taskID}")
     public String updateTask (@PathVariable int taskID, @ModelAttribute("task") Task task){
         taskService.updateTask(task);
-        return "redirect:/pl/read-tasks/" + taskID;
+        return "redirect:/read-tasks/" + taskID;
     }
 
     //____________________________________DELETE METHODS____________________________________
