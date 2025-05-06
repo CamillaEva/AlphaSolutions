@@ -16,6 +16,11 @@ form label, input{
     display: block;
 }
 
+.login-button{
+    display: block; /*no other elements on the same line */
+    margin: 0 auto; /*centering the button */
+}
+
 
 
 

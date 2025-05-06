@@ -16,4 +16,14 @@ form button{
     padding: 10px;
     border: none;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+form button:hover{
+    background-color: #FF326A;
+}
+
+img {
+    height: 80px;
+    width: 160px;
 }
