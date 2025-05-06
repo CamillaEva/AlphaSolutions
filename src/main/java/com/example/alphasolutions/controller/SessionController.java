@@ -1,7 +1,9 @@
 package com.example.alphasolutions.controller;
 
 import com.example.alphasolutions.model.Admin;
+import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.service.AdminService;
+import com.example.alphasolutions.service.EmpService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SessionController {
     private AdminService adminService;
+    private EmpService empService;
 
-    public SessionController(AdminService adminService) {
+    public SessionController(AdminService adminService, EmpService empService) {
         this.adminService = adminService;
-    }
-
-    //maybe delete this method??????????
-    private boolean isLoggedIn(HttpSession session) {
-        return session.getAttribute("user") != null;
+        this.empService = empService;
     }
 
     @GetMapping("/home/login")
@@ -27,12 +26,22 @@ public class SessionController {
         return "login";
     }
 
+    @GetMapping("/main-page")
+    public String showMainPage(){
+        return "main-page";
+    }
+
     @PostMapping("/home/login")
-    public String login(@RequestParam("uid") String uid, @RequestParam("pw") String pw, HttpSession session, Model model) {
-        if (adminService.adminLogin(uid, pw)) {
-            session.setAttribute("admin", new Admin(uid, pw));
+    public String login(@RequestParam("mail") String mail, @RequestParam("password") String password, HttpSession session, Model model) {
+        Employee employee = empService.signIn(mail, password);
+        if (adminService.adminLogin(mail, password)) {
+            session.setAttribute("admin", new Admin(mail, password));
             session.setMaxInactiveInterval(30); //Session timout 30sec, does not redirect before a request is sent.
             return "redirect:/home";
+        } else if (employee != null) {
+           session.setAttribute("emp", employee);
+           session.setAttribute("role", employee.getRole());
+            return "redirect:/main-page";
         }
         model.addAttribute("wrongCredentials", true);
         return "login";

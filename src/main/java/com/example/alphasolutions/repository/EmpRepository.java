@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 
@@ -53,6 +54,12 @@ public class EmpRepository {
         String sql = "SELECT EMPID, FIRSTNAME, LASTNAME, MAIL, PASSWORD, ROLE FROM emp WHERE EMPID = ?";
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), empId);
     }
+
+    public Employee signIn(String mail, String password){
+    String sql = "SELECT * FROM EMP WHERE MAIL = ? AND PASSWORD = ?";
+    return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(),mail, password);
+    }
+
 
     //------------------------------------UPDATE-----------------------------------------------------------------
     public void updateEmployee(Employee employee) {
