@@ -24,14 +24,9 @@ public class Controller {
         this.taskService = taskService;
     }
 
-    @GetMapping("/home")
-    public String homePage() {
-        return "home"; // Dette refererer til home.html
-    }
-
-    @GetMapping("/pl-main")
-    public String plMain(){
-        return "plMain";
+    @GetMapping("/admin")
+    public String adminMainPage() {
+        return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
     }
 
     //____________________________________CREATE METHODS____________________________________
@@ -129,7 +124,7 @@ public class Controller {
     @PostMapping("/pl/edit-task/{taskID}")
     public String updateTask (@PathVariable int taskID, @ModelAttribute("task") Task task){
         taskService.updateTask(task);
-        return "redirect:/pl/read-tasks/" + taskID;
+        return "redirect:/read-tasks/" + taskID;
     }
 
     //____________________________________DELETE METHODS____________________________________
