@@ -12,11 +12,11 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public boolean adminLogin(String uid, String pw) {
-        Admin admin = adminRepository.getAdmin(uid);
+    public boolean adminLogin(String mail, String password) {
+        Admin admin = adminRepository.getAdmin(mail);
         if (admin != null) {
             // Admin found - check credentials
-            return admin.getPw().equals(pw);
+            return admin.getPassword().equals(password);
         }
         return false;
     }
