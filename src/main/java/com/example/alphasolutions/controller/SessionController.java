@@ -21,7 +21,7 @@ public class SessionController {
         this.empService = empService;
     }
 
-    @GetMapping("/home/login")
+    @GetMapping("/login")
     public String showLogin() {
         return "login";
     }
@@ -31,13 +31,13 @@ public class SessionController {
         return "main-page";
     }
 
-    @PostMapping("/home/login")
+    @PostMapping("/login")
     public String login(@RequestParam("mail") String mail, @RequestParam("password") String password, HttpSession session, Model model) {
         Employee employee = empService.signIn(mail, password);
         if (adminService.adminLogin(mail, password)) {
             session.setAttribute("admin", new Admin(mail, password));
             session.setMaxInactiveInterval(30); //Session timout 30sec, does not redirect before a request is sent.
-            return "redirect:/home";
+            return "redirect:/admin";
         } else if (employee != null) {
            session.setAttribute("emp", employee);
            session.setAttribute("role", employee.getRole());
@@ -47,9 +47,9 @@ public class SessionController {
         return "login";
     }
 
-    @GetMapping("/home/logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/home/login";
+        return "redirect:/login";
     }
 }
