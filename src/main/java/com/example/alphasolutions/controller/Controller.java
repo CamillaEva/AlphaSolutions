@@ -26,12 +26,7 @@ public class Controller {
 
     @GetMapping("/admin")
     public String adminMainPage() {
-        return "admin-main"; // Dette refererer til admin-main.html
-    }
-
-    @GetMapping("/pl-main")
-    public String plMainPage(){
-        return "pl-main";
+        return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
     }
 
     //____________________________________CREATE METHODS____________________________________
