@@ -15,7 +15,7 @@
     <label th:for="role"><strong>Role:</strong></label>
     <span th:text="${employee.role}"></span><br>
 
-    <a th:href="@{/home/edit-employee/{empId}(empId=${employee.empID})}">
+    <a th:href="@{/admin/edit-employee/{empId}(empId=${employee.empID})}">
         <button type="button">Edit employee</button>
     </a>
 </body>
