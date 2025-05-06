@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/general.css}">
+<link rel="stylesheet" th:href="@{/css/login.css}">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
+<div class="login-container">
     <h1>Login</h1>
     <form action="/login" method="post">
         <p th:if="${wrongCredentials}" class="error">Wrong mail or password. Try again</p>
@@ -13,8 +16,10 @@
         <p><label>Password:</label>
             <input name="password" type="password"></p>
         <p>
-            <button type="submit">Login</button>
+            <button type="submit" class="login-button">Login</button>
         </p>
     </form>
+    <img src="/image/AlphaSolutionsLogo.png">
+</div>
 </body>
 </html>
