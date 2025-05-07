@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class SessionController {
     private AdminService adminService;
@@ -27,7 +29,9 @@ public class SessionController {
     }
 
     @GetMapping("/admin")
-    public String adminMainPage() {
+    public String adminMainPage(Model model) {
+        List<Employee> employee = empService.getAllEmployees();
+        model.addAttribute("emp", employee);
         return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
     }
 

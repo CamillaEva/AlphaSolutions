@@ -1,0 +1,26 @@
+/* ---------------------- ADMIN -------------------------*/
+.admin-buttons{
+    grid-area: main;
+    flex-direction: column;
+}
+
+section{
+    grid-area: main;
+}
+
+.user-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.userlist{
+    flex: 1;
+}
+
+/* ---------------------- PROJECT LEADER -------------------------*/
+
+
+
+
+/* ---------------------- EMPLOYEE -------------------------*/

@@ -10,7 +10,7 @@ body {
     min-height: 100vh;
 }
 
-form button{
+form button {
     background-color: #FF325A;
     color: white;
     padding: 10px;
@@ -19,11 +19,24 @@ form button{
     cursor: pointer;
 }
 
-form button:hover{
+form button:hover {
     background-color: #FF326A;
 }
 
 img {
     height: 80px;
     width: 160px;
+}
+
+header {
+    grid-area: banner;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: space-between;
+    height: 50px;
+}
+
+header button{
+    margin: 50px;
 }
