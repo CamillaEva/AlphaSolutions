@@ -2,12 +2,12 @@ package com.example.alphasolutions.model;
 
 public class Admin {
     private String name;
-    private String uid;
-    private String pw;
+    private String mail;
+    private String password;
 
-    public Admin(String uid, String pw) {
-        this.uid = uid;
-        this.pw = pw;
+    public Admin(String mail, String password) {
+        this.mail = mail;
+        this.password = password;
     }
 
     public String getName() {
@@ -18,28 +18,28 @@ public class Admin {
         this.name = name;
     }
 
-    public String getUid() {
-        return uid;
+    public String getMail() {
+        return mail;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public String getPw() {
-        return pw;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "Admin{" +
                 "name='" + name + '\'' +
-                ", uid='" + uid + '\'' +
-                ", pw='" + pw + '\'' +
+                ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

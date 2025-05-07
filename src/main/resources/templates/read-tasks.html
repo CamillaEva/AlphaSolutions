@@ -12,7 +12,9 @@
         <th>Description</th>
     </tr>
     <tr th:each="task : ${tasks}">
-        <td th:text="${task.name}"></td>
+        <td>
+            <a th:href="@{/read-tasks/{taskID}(taskID=${task.getTaskID()})}" th:text="${task.name}"></a>
+        </td>
         <td th:text="${task.description}"></td>
     </tr>
 </table>
