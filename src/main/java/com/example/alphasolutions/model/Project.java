@@ -17,14 +17,18 @@ public class Project {
     //private Status status; //opret enum klasse  //har egen constructor - nice-to-have
 
 
-    public Project(int projectID,  String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime) {
+    public Project(){
+
+    }
+
+    public Project(int projectID,  String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
         this.projectID = projectID;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.timeEst = timeEst;
-        this.usedTime = usedTime;
+
     }
 
 

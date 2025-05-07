@@ -1,9 +1,13 @@
 package com.example.alphasolutions.controller;
 
 import com.example.alphasolutions.model.Employee;
+import com.example.alphasolutions.model.Project;
 import com.example.alphasolutions.model.Role;
+import com.example.alphasolutions.model.SubProject;
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.service.EmpService;
+import com.example.alphasolutions.service.ProjectService;
+import com.example.alphasolutions.service.SubProjectService;
 import com.example.alphasolutions.service.TaskService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +21,16 @@ import java.util.List;
 public class Controller {
 
     private final EmpService empService;
+    private final ProjectService projectService;
+    private final SubProjectService subProjectService;
     private final TaskService taskService;
 
-    public Controller(EmpService empService, TaskService taskService) {
+
+    public Controller(EmpService empService, TaskService taskService, ProjectService projectService, SubProjectService subProjectService) {
         this.empService = empService;
         this.taskService = taskService;
+        this.projectService = projectService;
+        this.subProjectService = subProjectService;
     }
 
     //____________________________________CREATE METHODS____________________________________
@@ -49,6 +58,34 @@ public class Controller {
         taskService.createTask(task);
         return "redirect:/pl/read-tasks";
     }
+
+
+  @GetMapping("/create-project")
+  public String createProject(Model model){
+        model.addAttribute("project", new Project());
+        return "create-project";
+  }
+
+  @PostMapping("/create-project")
+  public String saveProject(@ModelAttribute("project") Project project){
+        projectService.createProject(project);
+        return "redirect:/read-projects";
+  }
+
+    @GetMapping("/create-subproject")
+    public String createSubProject(Model model){
+        model.addAttribute("subproject", new SubProject());
+        return "create-subproject";
+    }
+
+    @PostMapping("/create-subproject")
+    public String saveSubProject(@ModelAttribute("subProject") SubProject subProject){
+        subProjectService.createSubProject(subProject);
+        return "redirect:/read-subprojects";
+    }
+
+
+
 
     //____________________________________READ METHODS______________________________________
     @GetMapping("/admin/read-employees")
@@ -86,8 +123,40 @@ public class Controller {
             return "read-my-tasks";
         }
 
+    @GetMapping("/read-projects")
+    public String readAllprojects(Model model){
+        List<Project> projects = projectService.readAllProjects();
+        model.addAttribute("projects", projects);
+        return "read-projects";
+    }
 
-    //____________________________________UPDATE METHODS____________________________________
+
+    @GetMapping("/read-project/{projectID}")
+    public String getProjectByID(@PathVariable int projectID, Model model){
+        Project project = projectService.getProjectByID(projectID);
+        model.addAttribute("project", project);
+        return "read-project";
+    }
+
+    @GetMapping("/read-subprojects")
+    public String readAllSubProjects(Model model){
+        List<SubProject> subProjects = subProjectService.readAllSubProjects();
+        model.addAttribute("subProject", subProjects);
+        return "read-subprojects";
+    }
+
+    @GetMapping("/read-subproject/{subProjectID}")
+    public String getSubProjectByID(@PathVariable int subProjectID, Model model){
+        SubProject subProject = subProjectService.getSubProjectByID(subProjectID);
+        model.addAttribute("subProject", subProject);
+        return "read-subproject";
+    }
+
+
+
+
+
+    //____________________________________UPDATE ____________________________________
     //Mapping to edit employees data
     @GetMapping("/admin/edit-employee/{empId}")
     public String editEmployee(@PathVariable int empId, Model model) {
@@ -122,6 +191,36 @@ public class Controller {
         return "redirect:/read-tasks/" + taskID;
     }
 
+
+    @GetMapping("/edit-project/{projectID}")
+    public String editProject(@PathVariable int projectID, Model model){
+        Project project = projectService.getProjectByID(projectID);
+        model.addAttribute("project", project);
+        return "update-project";
+    }
+
+    @PostMapping("/edit-project/{projectID}")
+    public String updateProject (@PathVariable int projectID, @ModelAttribute("project") Project project){
+        projectService.updateProject(project);
+        return "redirect:/read-project/" + projectID;
+    }
+
+    @GetMapping("/edit-subproject/{subProjectID}")
+    public String editSubProject(@PathVariable int subProjectID, Model model){
+        SubProject subProject = subProjectService.getSubProjectByID(subProjectID);
+        model.addAttribute("subProject", subProject);
+        return "update-subproject";
+    }
+
+    @PostMapping("/edit-subproject/{subProjectID}")
+    public String updateSubProject (@PathVariable int subProjectID, @ModelAttribute("subProject") SubProject subProject){
+        subProjectService.updateSubProject(subProject);
+        return "redirect:/read-subproject/" + subProjectID;
+    }
+
+
+
+    //____________________________________DELETE____________________________________
     //____________________________________DELETE METHODS____________________________________
     @PostMapping("/pl/delete-task/{taskID}")
     public String deleteTask(@PathVariable int taskID){
@@ -137,4 +236,17 @@ public class Controller {
         return "redirect:/admin/read-employees";
     }
 
+    @PostMapping("/delete-project/{projectID}")
+    public String deleteProject(@PathVariable int projectID){
+        Project project = projectService.getProjectByID(projectID);
+        projectService.deleteProject(project);
+        return "redirect:/read-projects";
+    }
+
+    @PostMapping("/delete-subproject/{subProjectID}")
+    public String deleteSubProject(@PathVariable int subProjectID){
+        SubProject subProject = subProjectService.getSubProjectByID(subProjectID);
+        subProjectService.deleteSubProject(subProject.getSubProjectID());
+        return "redirect:/read-subprojects";
+    }
 }
