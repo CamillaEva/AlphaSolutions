@@ -2,6 +2,7 @@ package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.EmployeeRowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -56,8 +57,12 @@ public class EmpRepository {
     }
 
     public Employee signIn(String mail, String password){
-    String sql = "SELECT * FROM EMP WHERE MAIL = ? AND PASSWORD = ?";
-    return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(),mail, password);
+        try {
+            String sql = "SELECT * FROM EMP WHERE MAIL = ? AND PASSWORD = ?";
+            return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), mail, password);
+        } catch(EmptyResultDataAccessException o){
+            return null;
+        }
     }
 
 
