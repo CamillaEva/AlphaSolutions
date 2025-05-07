@@ -29,6 +29,10 @@ public class EmpService {
         return empRepository.readEmployeeById(empId);
     }
 
+    public Employee signIn(String mail, String password){
+        return empRepository.signIn(mail, password);
+    }
+
     //----------------------------------------UPDATE--------------------------------------------------------------
     public void updateEmployee(Employee employee) {
         empRepository.updateEmployee(employee);

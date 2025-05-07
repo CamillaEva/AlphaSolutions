@@ -2,12 +2,14 @@ package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.EmployeeRowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 
@@ -54,9 +56,18 @@ public class EmpRepository {
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), empId);
     }
 
+    public Employee signIn(String mail, String password){
+        try {
+            String sql = "SELECT * FROM EMP WHERE MAIL = ? AND PASSWORD = ?";
+            return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), mail, password);
+        } catch(EmptyResultDataAccessException o){
+            return null;
+        }
+    }
+
+
     //------------------------------------UPDATE-----------------------------------------------------------------
     public void updateEmployee(Employee employee) {
-        System.out.println("Updating employee with Role: " + employee.getRole()); // Debugging output
         String sql = "UPDATE EMP SET FIRSTNAME = ?, LASTNAME = ?, MAIL = ?, PASSWORD = ?, ROLE = ? WHERE EMPID = ?";
         jdbcTemplate.update(sql, employee.getFirstName(), employee.getLastName(), employee.getMail(),
                 employee.getPassword(), employee.getRole().name(), employee.getEmpID());

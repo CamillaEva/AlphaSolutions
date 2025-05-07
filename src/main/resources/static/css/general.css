@@ -1,0 +1,29 @@
+body {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+            'banner banner'
+                'main main'
+                'footer footer';
+    height: 100%;
+    margin: 0; /* no space between sections*/
+    min-height: 100vh;
+}
+
+form button{
+    background-color: #FF325A;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+form button:hover{
+    background-color: #FF326A;
+}
+
+img {
+    height: 80px;
+    width: 160px;
+}

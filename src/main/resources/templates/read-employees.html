@@ -13,9 +13,17 @@
       <th>Role</th>
     </tr>
     <tr th:each="emp : ${employees}">
-      <td th:text="${emp.firstName + ' ' + emp.lastName}"></td>
+      <td>
+        <a th:href="@{/admin/read-employee/{empId}(empId=${emp.empID})}" th:text="${emp.firstName + ' ' + emp.lastName}">
+        </a>
+      </td>>
       <td th:text="${emp.mail}"></td>
       <td th:text="${emp.role}"></td>
+      <td>
+        <form th:action="@{/admin/read-employee/{empId}(empId=${emp.empID})}" th:method="get">
+          <button type="submit">Show employee</button>
+        </form>
+      </td>
     </tr>
   </table>
   </body>

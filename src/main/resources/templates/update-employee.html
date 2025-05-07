@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Update employee</h1>
-<form th:action="@{/home/edit-employee/{empId}(empId=${employee.empID})}" th:object="${employee}" method="post">
+<form th:action="@{/admin/edit-employee/{empId}(empId=${employee.empID})}" th:object="${employee}" method="post">
 
     <input type="hidden" th:field="*{empID}"/>
 
@@ -30,7 +30,7 @@
         </option>
     </select><br>
 
-    <button type="submit">Save</button>
+    <button type="submit" th:onclick="alert ('User has been updated')">Save</button>
 </form>
 </body>
 </html>

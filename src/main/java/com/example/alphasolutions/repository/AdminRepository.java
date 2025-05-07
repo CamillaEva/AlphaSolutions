@@ -23,9 +23,9 @@ public class AdminRepository {
 
     List<Admin> admins = new ArrayList<>(List.of(new Admin("Admin", "1234")));
 
-    public Admin getAdmin(String uid) {
+    public Admin getAdmin(String mail) {
         for (Admin admin : admins) {
-            if (admin.getUid().equals(uid))
+            if (admin.getMail().equals(mail))
                 return admin;
         }
         return null;

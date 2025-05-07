@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+</head>
+<body>
+<h1></h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Time estimated</th>
+    </tr>
+    <tr>
+        <td th:text="${task.name}"></td>
+        <td th:text="${task.description}"></td>
+        <td th:text="${task.startDate}"></td>
+        <td th:text="${task.endDate}"></td>
+        <td th:text="${task.timeEst}"></td>
+    </tr>
+</table>
+
+<form th:action="@{/pl/edit-task/{taskID}(taskID=${task.getTaskID()})}" method="get">
+    <button type="submit">Edit task</button>
+</form>
+<form th:action="@{/pl/delete-task/{taskID}(taskID=${task.getTaskID()})}" method="post">
+    <button type="submit" onclick="return confirm('Are you sure you want to delete the task?')">Delete task</button>
+</form>
+</body>
+</html>
