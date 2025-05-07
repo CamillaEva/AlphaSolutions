@@ -25,8 +25,8 @@ public class Controller {
     private final SubProjectService subProjectService;
     private final TaskService taskService;
 
-    public Controller(EmpService empService, TaskService taskService) {
-    public Controller(EmpService empService, ProjectService projectService, SubProjectService subProjectService) {
+
+    public Controller(EmpService empService, TaskService taskService, ProjectService projectService, SubProjectService subProjectService) {
         this.empService = empService;
         this.taskService = taskService;
         this.projectService = projectService;
@@ -35,8 +35,6 @@ public class Controller {
 
     //____________________________________CREATE METHODS____________________________________
     @GetMapping("/admin/create-employee")
-    //____________________________________CREATE ____________________________________
-    @GetMapping("/home/create-employee")
     public String createEmployee(Model model) {
         model.addAttribute("emp", new Employee());
         model.addAttribute("roles", Role.values());
@@ -89,8 +87,6 @@ public class Controller {
 
 
 
-    //____________________________________READ ______________________________________
-    @GetMapping("/home/read-employees")
     //____________________________________READ METHODS______________________________________
     @GetMapping("/admin/read-employees")
     public String readAllEmployees(Model model) {
