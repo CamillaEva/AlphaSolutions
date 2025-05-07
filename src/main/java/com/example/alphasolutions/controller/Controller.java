@@ -140,4 +140,11 @@ public class Controller {
         return "redirect:/pl/read-tasks";
     }
 
+    @PostMapping("/home/delete-employee/{empId}")
+    public String deleteEmployee(@PathVariable int empId) {
+        Employee employee = empService.readEmployeeById(empId);
+        empService.deleteEmployee(employee);
+        return "redirect:/home/read-employees";
+    }
+
 }
