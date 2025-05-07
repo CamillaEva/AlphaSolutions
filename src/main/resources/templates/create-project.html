@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Project</title>
+</head>
+<body>
+<h1>Create Project</h1>
+<form th:action="@{/create-project}" th:object="${project}" th:method="post">
+
+  <label th:for="*{name}">project name:</label>
+  <input type="text" th:field="*{name}" autofocus required /><br>
+
+  <label th:for="*{description}">Description:</label>
+  <input type="text" th:field="*{description}" required/><br>
+
+  <label th:for="*{startDate}">start date:</label>
+  <input type="date" th:field="*{startDate}" required /><br>
+
+  <label th:for="*{endDate}">end date:</label>
+  <input type="date" th:field="*{endDate}" /><br>
+
+  <label th:for="*{timeEst}">time Estimate</label>
+  <input type="number" th:field="*{timeEst}" required/><br>
+
+
+  <button type="submit">save</button>
+</form>
+</body>
+</html>

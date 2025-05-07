@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>read projects</title>
+</head>
+<body>
+<h1>projects</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <tr th:each="project : ${projects}">
+    <td>
+      <a th:href="@{/read-project/{projectID}(projectID=${project.getProjectID()})}" th:text="${project.name}"></a>
+    </td>
+    <td th:text="${project.description}"></td>
+  </tr>
+</table>
+
+<form th:action="@{/create-project}" method="get">
+  <button type="submit">Create project</button>
+</form>
+</body>
+</html>

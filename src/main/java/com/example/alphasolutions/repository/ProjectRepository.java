@@ -30,7 +30,6 @@ public class ProjectRepository {
 
 
     //_______________________________________________CREATE METHOD______________________________________________________
-    //der skal da ikke være usedtime med her???
     public int createProject(Project project) {
         String sql = "INSERT INTO PROJECT (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST) VALUES (?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -54,6 +53,13 @@ public class ProjectRepository {
         String sql = "SELECT PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, USEDTIME FROM project";
         return jdbcTemplate.query(sql, new ProjectRowMapper());
     }
+
+    public Project getProjectByID(int projectID){
+        String sql = "SELECT PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM PROJECT WHERE PROJECTID = ?";
+        return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectID);
+    }
+
+
 
 
     //______________________________________________UPDATE METHOD_______________________________________________________
@@ -79,9 +85,5 @@ public class ProjectRepository {
 
 
 
-    public Project getProjectByID(int projectID){
-        String sql = "SELECT PROJECTID, SUBPROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM PROJECT WHERE PROJECTID = ?";
-        return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectID);
-    }
 
 }

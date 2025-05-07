@@ -6,6 +6,7 @@ public class SubProject {
 
 
     private int subProjectID;
+    private int projectID;
     private int taskID;
     private String name;
     private String description;
@@ -29,9 +30,22 @@ public class SubProject {
 //        this.status = status;
 //    }
 
+    public SubProject(){
 
-    public SubProject(int subProjectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+    }
+
+    public SubProject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
         this.subProjectID = subProjectID;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timeEst = timeEst;
+    }
+
+    public SubProject(int subProjectID, int projectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+        this.subProjectID = subProjectID;
+        this.projectID = projectID;
         this.taskID = taskID;
         this.name = name;
         this.description = description;
@@ -47,6 +61,14 @@ public class SubProject {
 
     public void setSubProjectID(int subProjectID) {
         this.subProjectID = subProjectID;
+    }
+
+    public int getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
     }
 
     public int getTaskID() {
