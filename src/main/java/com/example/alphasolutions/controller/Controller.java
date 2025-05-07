@@ -24,11 +24,6 @@ public class Controller {
         this.taskService = taskService;
     }
 
-    @GetMapping("/admin")
-    public String adminMainPage() {
-        return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
-    }
-
     //____________________________________CREATE METHODS____________________________________
     @GetMapping("/admin/create-employee")
     public String createEmployee(Model model) {
