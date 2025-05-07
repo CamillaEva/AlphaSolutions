@@ -2,29 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/main-page.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/main-page.css}">
 </head>
 <body>
 <header th:replace="fragments/header :: site-header"></header>
-<section class="user-container">
-    <div class="userlist">
+<div class="main-area">
+    <div class="user-container">
         <h1>Users</h1>
-        <div th:each="emp : ${emp}">
-            <a th:href="@{'/admin/read-employee/{empID}' + ${emp.getEmpID()}}">
-                <p th:text="${emp.firstName + ' ' + emp.lastName + ' ' + emp.getRole()}"></p>
-            </a>
-        </div>
+        <table class="user-table">
+            <tbody>
+            <tr th:each="emp : ${emp}">
+                <td>
+                    <a th:href="@{'/admin/read-employee/' + ${emp.getEmpID()}}"
+                       th:text="${emp.firstName + ' ' + emp.lastName}"></a>
+                </td>
+                <td th:text="${emp.getRole()}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="admin-buttons">
+    <div class="admin-button">
         <form th:action="@{/admin/create-employee}">
             <button type="submit">Create employee</button>
         </form>
-        <form th:action="@{/admin/read-employees}">
-            <button type="submit">View employees</button>
-        </form>
     </div>
-</section>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>

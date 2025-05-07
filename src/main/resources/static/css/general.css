@@ -1,6 +1,6 @@
 body {
     display: grid;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
             'banner banner'
                 'main main'
@@ -37,6 +37,26 @@ header {
     height: 50px;
 }
 
-header button{
+header button {
     margin: 50px;
 }
+
+footer {
+    grid-area: footer;
+    position: sticky;
+    width: 100%;
+    background-color: #F0F4F6;
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    bottom: 0px;
+    width: 100%;
+}
+
+.footer-container .info {
+    justify-self: right;
+}
+
