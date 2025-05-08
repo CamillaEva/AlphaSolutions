@@ -1,0 +1,17 @@
+.create-box {
+    background-color: #F0F4F6;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 100%;
+    margin: auto auto;
+    grid-area: main;
+}
+
+form input {
+    font-family: "Bodoni MT";
+    display: block;
+}
+
+button{
+    display: inline-block; /*no other elements on the same line */
+}
