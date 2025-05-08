@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
+    <link rel="stylesheet" th:href="@{/css/main-page.css}">
+    <link rel="stylesheet" th:href="@{/css/general.css}">
 </head>
 <body>
-
+<header th:replace="fragments/header :: site-header"></header>
 <h1> Hello <a th:text="${session.emp.getFirstName()}"></a></h1>
 
 <div th:if="${session.emp.getRole() == T(com.example.alphasolutions.model.Role).PROJECT_LEADER}">
