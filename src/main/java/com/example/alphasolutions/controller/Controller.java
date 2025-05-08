@@ -171,7 +171,7 @@ public class Controller {
         employee.setRole(Role.valueOf(roleAsString)); // Konverter tilbage til enum, hvis nødvendigt
 
         empService.updateEmployee(employee);
-        return "redirect:/admin/read-employee/" + empId;
+        return "redirect:/read-employee/" + empId;
     }
 
     @GetMapping("/pl/edit-task/{taskID}")
