@@ -23,6 +23,10 @@ public class SubProjectService {
         subProjectRepository.createSubProject(subProject);
     }
 
+    public void addSubProject(SubProject subProject){
+        subProjectRepository.addSubProject(subProject);
+    }
+
     //_____________________________READ________________________________________________
 
     public List<SubProject> readAllSubProjects(){
