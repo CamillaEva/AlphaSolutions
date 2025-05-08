@@ -35,6 +35,13 @@ public class SubProjectRepository {
 
     }
 
+
+    public void addSubProject(SubProject subProject){
+        String sql = "INSERT INTO subproject (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, PROJECTID) VALUES (?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, subProject.getName(), subProject.getDescription(), subProject.getStartDate(), subProject.getEndDate(), subProject.getTimeEst(), subProject.getProjectID());
+    }
+
+
     //________________________________READ____________________________________________
 
 

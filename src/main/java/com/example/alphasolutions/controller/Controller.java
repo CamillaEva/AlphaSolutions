@@ -72,16 +72,23 @@ public class Controller {
         return "redirect:/read-projects";
   }
 
-    @GetMapping("/create-subproject")
+    @GetMapping("/create-subproject/{proejctID}")
     public String createSubProject(Model model){
         model.addAttribute("subproject", new SubProject());
         return "create-subproject";
     }
 
+//    @PostMapping("/create-subproject")
+//    public String saveSubProject(@ModelAttribute("subProject") SubProject subProject){
+//        subProjectService.createSubProject(subProject);
+//        return "redirect:/read-subprojects";
+//    }
+
     @PostMapping("/create-subproject")
-    public String saveSubProject(@ModelAttribute("subProject") SubProject subProject){
-        subProjectService.createSubProject(subProject);
-        return "redirect:/read-subprojects";
+    public String addSubProject(@PathVariable("id") int projectID, @ModelAttribute SubProject subProject){
+        subProject.setProjectID(projectID);
+        subProjectService.addSubProject(subProject);
+        return "redirect:/read-project/" + projectID;
     }
 
 
