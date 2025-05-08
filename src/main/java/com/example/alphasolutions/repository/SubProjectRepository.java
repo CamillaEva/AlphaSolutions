@@ -1,9 +1,6 @@
 package com.example.alphasolutions.repository;
 
-import com.example.alphasolutions.model.Project;
-import com.example.alphasolutions.model.ProjectRowMapper;
-import com.example.alphasolutions.model.SubProject;
-import com.example.alphasolutions.model.SubProjectRowMapper;
+import com.example.alphasolutions.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
@@ -13,6 +10,7 @@ import java.util.List;
 @Repository
 public class SubProjectRepository {
 
+    private SubProjectMapper subProjectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public SubProjectRepository(){
@@ -23,6 +21,7 @@ public class SubProjectRepository {
         );
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.subProjectMapper = new SubProjectMapper();
     }
 
 
@@ -52,8 +51,9 @@ public class SubProjectRepository {
 
 
     public SubProject getSubProjectById(int subProjectID) {
-        String sql = "SELECT SUBPROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM SUBPROJECT WHERE SUBPROJECTID = ?";
-        return jdbcTemplate.queryForObject(sql, new SubProjectRowMapper(), subProjectID);
+        String sql = "SELECT SP.SUBPROJECTID, SP.NAME, SP.DESCRIPTION, SP.STARTDATE, SP.ENDDATE, SP.TIMEEST, T.TASKID AS TID, T.NAME AS TName, T.DESCRIPTION AS TDESCRIPTION FROM SUBPROJECT SP " +
+                "INNER JOIN TASK T ON SP.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
+        return  subProjectMapper.subProjectWithTasks(jdbcTemplate.queryForList(sql, subProjectID)).get(0);
     }
 
 
@@ -61,6 +61,8 @@ public class SubProjectRepository {
         String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM SUBPROJECT WHERE PROJECTID = ?";
         return jdbcTemplate.query(sql, new SubProjectRowMapper(), projectID);
     }
+
+
 
 
     //__________________________________UPDATE_______________________________________
