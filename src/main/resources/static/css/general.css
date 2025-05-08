@@ -10,6 +10,9 @@ body {
     min-height: 100vh;
 }
 
+
+/*-----------------------------------BUTTONS-----------------------------------------------*/
+
 form button {
     background-color: #FF325A;
     color: white;
@@ -23,11 +26,14 @@ form button:hover {
     background-color: #FF326A;
 }
 
+/*-----------------------------------IMAGE-----------------------------------------------*/
+
 img {
     height: 80px;
     width: 160px;
 }
 
+/*-----------------------------------HEADER-----------------------------------------------*/
 header {
     grid-area: banner;
     display: flex;
@@ -41,6 +47,7 @@ header button {
     margin: 50px;
 }
 
+/*-----------------------------------FOOTER-----------------------------------------------*/
 footer {
     grid-area: footer;
     position: sticky;
@@ -55,8 +62,3 @@ footer {
     bottom: 0px;
     width: 100%;
 }
-
-.footer-container .info {
-    justify-self: right;
-}
-
