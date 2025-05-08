@@ -10,10 +10,9 @@ body {
     min-height: 100vh;
 }
 
-
 /*-----------------------------------BUTTONS-----------------------------------------------*/
 
-form button {
+button {
     background-color: #FF325A;
     color: white;
     padding: 10px;
@@ -22,7 +21,7 @@ form button {
     cursor: pointer;
 }
 
-form button:hover {
+button:hover {
     background-color: #FF326A;
 }
 
@@ -50,7 +49,8 @@ header button {
 /*-----------------------------------FOOTER-----------------------------------------------*/
 footer {
     grid-area: footer;
-    position: sticky;
+    position: relative;
+    bottom: 0;
     width: 100%;
     background-color: #F0F4F6;
 }
