@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>Create employee</title>
     <link rel="stylesheet" th:href="@{/css/general.css}">
-    <link rel="stylesheet" th:href="@{/css/create.css}">
+    <link rel="stylesheet" th:href="@{/css/form-box.css}">
 </head>
 <body>
 <header th:replace="fragments/header :: site-header"></header>
-<div class="create-box">
+<div class="box">
     <h1>Create user</h1>
         <form th:action="@{/admin/create-employee}" th:object="${emp}" th:method="post">
             <label th:for="*{firstName}">First Name</label>
