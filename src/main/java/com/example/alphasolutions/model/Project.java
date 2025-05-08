@@ -2,12 +2,14 @@ package com.example.alphasolutions.model;
 
 import org.springframework.cglib.core.Local;
 
+import java.sql.Array;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Project {
 
     private int projectID;
-    private int subprojectID;
+    private List<SubProject> subProjects;
     private String name;
     private String description;
     private LocalDate startDate;
@@ -17,15 +19,20 @@ public class Project {
     //private Status status; //opret enum klasse  //har egen constructor - nice-to-have
 
 
-    public Project(int projectID,  String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime) {
+    public Project(){
+
+    }
+
+    public Project(int projectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
         this.projectID = projectID;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.timeEst = timeEst;
-        this.usedTime = usedTime;
+
     }
+
 
 
 
@@ -43,6 +50,10 @@ public class Project {
 //    }
 
 
+    public void addSubproject(SubProject subProject){
+        subProjects.add(subProject);
+    }
+
     public int getProjectID() {
         return projectID;
     }
@@ -51,12 +62,12 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public int getSubprojectID() {
-        return subprojectID;
+    public List<SubProject> getSubProjects() {
+        return subProjects;
     }
 
-    public void setSubprojectID(int subprojectID) {
-        this.subprojectID = subprojectID;
+    public void setSubProjects(List<SubProject> subProjects) {
+        this.subProjects = subProjects;
     }
 
     public String getName() {

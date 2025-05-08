@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create subProject</title>
+</head>
+<body>
+<h1>Create subProject</h1>
+<form th:action="@{/create-subproject}" th:object="${subproject}" th:method="post">
+
+  <label th:for="*{name}">Subproject name:</label>
+  <input type="text" th:field="*{name}" autofocus required /><br>
+
+  <label th:for="*{description}">Description:</label>
+  <input type="text" th:field="*{description}" required/><br>
+
+  <label th:for="*{startDate}">start date:</label>
+  <input type="date" th:field="*{startDate}" required /><br>
+
+  <label th:for="*{endDate}">end date:</label>
+  <input type="date" th:field="*{endDate}" /><br>
+
+  <label th:for="*{timeEst}">time Estimate</label>
+  <input type="number" th:field="*{timeEst}" required/><br>
+
+
+  <button type="submit">save</button>
+</form>
+</body>
+</html>

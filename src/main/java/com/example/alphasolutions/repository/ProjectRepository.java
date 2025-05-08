@@ -1,6 +1,7 @@
 package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Project;
+import com.example.alphasolutions.model.ProjectMapper;
 import com.example.alphasolutions.model.ProjectRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -16,6 +17,7 @@ import java.util.List;
 @Repository
 public class ProjectRepository {
 
+    private ProjectMapper projectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public ProjectRepository() {
@@ -26,11 +28,11 @@ public class ProjectRepository {
         );
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver" );
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.projectMapper = new ProjectMapper();
     }
 
 
     //_______________________________________________CREATE METHOD______________________________________________________
-    //der skal da ikke være usedtime med her???
     public int createProject(Project project) {
         String sql = "INSERT INTO PROJECT (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST) VALUES (?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -51,9 +53,17 @@ public class ProjectRepository {
 
     //_______________________________________________READ METHOD________________________________________________________
     public List<Project> readAllProjects() {
-        String sql = "SELECT PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, USEDTIME FROM project";
+        String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST FROM PROJECT P ";
         return jdbcTemplate.query(sql, new ProjectRowMapper());
     }
+
+    public Project getProjectByID(int projectID){
+        String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST, SP.SUBPROJECTID AS SPID, SP.NAME AS SPName, SP.DESCRIPTION AS SPDescription FROM PROJECT P " +
+                "INNER JOIN SUBPROJECT SP ON P.PROJECTID WHERE P.PROJECTID = ?";
+        return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
+    }
+
+
 
 
     //______________________________________________UPDATE METHOD_______________________________________________________
@@ -79,9 +89,5 @@ public class ProjectRepository {
 
 
 
-    public Project getProjectByID(int projectID){
-        String sql = "SELECT PROJECTID, SUBPROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM PROJECT WHERE PROJECTID = ?";
-        return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectID);
-    }
 
 }

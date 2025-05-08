@@ -15,8 +15,7 @@ public class ProjectRowMapper implements RowMapper<Project> {
                 rs.getString("DESCRIPTION"),
                 rs.getDate("STARTDATE").toLocalDate(),
                 rs.getDate("ENDDATE").toLocalDate(),
-                rs.getInt("TIMEEST"),
-                rs.getInt("USEDTIME")
+                rs.getInt("TIMEEST")
         );
     }
 }
