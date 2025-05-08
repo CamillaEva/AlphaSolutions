@@ -22,6 +22,19 @@
     </tr>
 </table>
 
+<h2>Tasks</h2>
+<ul>
+    <li th:each="task : ${subProject.tasks}">
+        <a th:href="@{/read-tasks/{id}(id=${task.taskID})}"
+           th:text="${task.name}">task Name</a><br>
+        Description: <span th:text="${task.description}"></span><br>
+        Start: <span th:text="${task.startDate}"></span><br>
+        End: <span th:text="${task.endDate}"></span><br>
+        Time Estimate: <span th:text="${task.timeEst}"></span>
+        <hr>
+    </li>
+</ul>
+
 <form th:action="@{/edit-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}" method="get">
     <button type="submit">Edit subproject</button>
 </form>
