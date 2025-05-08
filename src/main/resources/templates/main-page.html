@@ -10,10 +10,10 @@
 <header th:replace="fragments/header :: site-header"></header>
 <h1> Hello <a th:text="${session.emp.getFirstName()}"></a></h1>
 
-<div th:if="${session.emp.getRole() == T(com.example.alphasolutions.model.Role).PROJECT_LEADER}">
+<div th:if="${session.emp.role.name() == 'PROJECT_LEADER'}">
     <p>You're a project leader</p>
 </div>
-<div th:if="${session.emp.getRole() == T(com.example.alphasolutions.model.Role).EMPLOYEE}"> <!--T er type, da role er enum og ikke string -->
+<div th:if="${session.emp.role.name() == 'EMPLOYEE'}"> <!--T er type, da role er enum og ikke string -->
     <p>EMPLOYEEEE</p>
 </div>
 </body>

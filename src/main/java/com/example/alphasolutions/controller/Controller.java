@@ -88,14 +88,14 @@ public class Controller {
     }
 
     //____________________________________READ METHODS______________________________________
-    @GetMapping("/admin/read-employees")
+    @GetMapping("/read-employees")
     public String readAllEmployees(Model model) {
         List<Employee> employees = empService.getAllEmployees();
         model.addAttribute("employees", employees);
         return "read-employees";
     }
 
-    @GetMapping("/admin/read-employee/{empId}")
+    @GetMapping("/read-employee/{empId}")
     public String readEmployeeById(@PathVariable int empId, Model model) {
         Employee employee = empService.readEmployeeById(empId);
         model.addAttribute("employee", employee);
@@ -171,7 +171,7 @@ public class Controller {
         employee.setRole(Role.valueOf(roleAsString)); // Konverter tilbage til enum, hvis nødvendigt
 
         empService.updateEmployee(employee);
-        return "redirect:/admin/read-employee/" + empId;
+        return "redirect:/read-employee/" + empId;
     }
 
     @GetMapping("/pl/edit-task/{taskID}")
