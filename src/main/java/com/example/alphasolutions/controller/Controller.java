@@ -88,14 +88,14 @@ public class Controller {
     }
 
     //____________________________________READ METHODS______________________________________
-    @GetMapping("/admin/read-employees")
+    @GetMapping("/read-employees")
     public String readAllEmployees(Model model) {
         List<Employee> employees = empService.getAllEmployees();
         model.addAttribute("employees", employees);
         return "read-employees";
     }
 
-    @GetMapping("/admin/read-employee/{empId}")
+    @GetMapping("/read-employee/{empId}")
     public String readEmployeeById(@PathVariable int empId, Model model) {
         Employee employee = empService.readEmployeeById(empId);
         model.addAttribute("employee", employee);
