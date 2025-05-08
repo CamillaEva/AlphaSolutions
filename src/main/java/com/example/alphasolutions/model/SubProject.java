@@ -1,12 +1,14 @@
 package com.example.alphasolutions.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class SubProject {
 
 
     private int subProjectID;
     private int projectID;
+    private List<Task> tasks;
     private int taskID;
     private String name;
     private String description;
@@ -54,6 +56,10 @@ public class SubProject {
         this.timeEst = timeEst;
     }
 
+    public void addTask(Task task){
+        tasks.add(task);
+    }
+
 
     public int getSubProjectID() {
         return subProjectID;
@@ -69,6 +75,14 @@ public class SubProject {
 
     public void setProjectID(int projectID) {
         this.projectID = projectID;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public int getTaskID() {
