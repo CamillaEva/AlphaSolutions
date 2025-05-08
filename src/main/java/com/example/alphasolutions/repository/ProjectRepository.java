@@ -22,11 +22,11 @@ public class ProjectRepository {
 
     public ProjectRepository() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(
-                System.getenv("DB_URL" ),
-                System.getenv("DB_USERNAME" ),
-                System.getenv("DB_PASSWORD" )
+                System.getenv("DB_URL"),
+                System.getenv("DB_USERNAME"),
+                System.getenv("DB_PASSWORD")
         );
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver" );
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
     }
@@ -64,8 +64,6 @@ public class ProjectRepository {
     }
 
 
-
-
     //______________________________________________UPDATE METHOD_______________________________________________________
     public void updateProject(Project project) {
         String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE PROJECTID = ?";
@@ -79,15 +77,12 @@ public class ProjectRepository {
     }
 
     //_______________________________________________DELETE METHOD______________________________________________________
-    public void deleteProject(Project project){
+    public void deleteProject(Project project) {
         String deleteSql = "DELETE FROM SUBPROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(deleteSql, project.getProjectID());
 
         String sql = "DELETE FROM PROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(sql, project.getProjectID());
     }
-
-
-
 
 }

@@ -44,7 +44,7 @@ public class Controller {
     @PostMapping("/admin/create-employee")
     public String saveEmployee(@ModelAttribute("emp") Employee employee) {
         empService.createEmployee(employee);
-        return "redirect:/admin/read-employees";
+        return "redirect:/admin";
     }
 
     @GetMapping("/pl/create-task")
@@ -72,27 +72,20 @@ public class Controller {
         return "redirect:/read-projects";
   }
 
-    @GetMapping("/create-subproject/{proejctID}")
-    public String createSubProject(Model model){
+    @GetMapping("/create-subproject/{projectID}")
+    public String createSubProject(@PathVariable("projectID") int projectID, Model model){
+        Project project = projectService.getProjectByID(projectID);
+        model.addAttribute("project", project);
         model.addAttribute("subproject", new SubProject());
         return "create-subproject";
     }
 
-//    @PostMapping("/create-subproject")
-//    public String saveSubProject(@ModelAttribute("subProject") SubProject subProject){
-//        subProjectService.createSubProject(subProject);
-//        return "redirect:/read-subprojects";
-//    }
-
-    @PostMapping("/create-subproject")
-    public String addSubProject(@PathVariable("id") int projectID, @ModelAttribute SubProject subProject){
+    @PostMapping("/create-subproject/{projectID}/add")
+    public String addSubProject(@PathVariable("projectID") int projectID, @ModelAttribute SubProject subProject){
         subProject.setProjectID(projectID);
         subProjectService.addSubProject(subProject);
         return "redirect:/read-project/" + projectID;
     }
-
-
-
 
     //____________________________________READ METHODS______________________________________
     @GetMapping("/admin/read-employees")
@@ -158,10 +151,6 @@ public class Controller {
         model.addAttribute("subProject", subProject);
         return "read-subproject";
     }
-
-
-
-
 
     //____________________________________UPDATE ____________________________________
     //Mapping to edit employees data
