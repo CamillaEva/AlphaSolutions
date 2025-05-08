@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>read subprojects</title>
+</head>
+<body>
+<h1>subprojects</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="subProject : ${subProject}">
+        <td>
+            <a th:href="@{/read-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}" th:text="${subProject.name}"></a>
+        </td>
+        <td th:text="${subProject.description}"></td>
+    </tr>
+</table>
+
+<form th:action="@{/create-subproject}" method="get">
+    <button type="submit">Create subproject</button>
+</form>
+</body>
+</html>
