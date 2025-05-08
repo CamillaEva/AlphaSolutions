@@ -44,7 +44,7 @@ public class Controller {
     @PostMapping("/admin/create-employee")
     public String saveEmployee(@ModelAttribute("emp") Employee employee) {
         empService.createEmployee(employee);
-        return "redirect:/admin/read-employees";
+        return "redirect:/admin";
     }
 
     @GetMapping("/pl/create-task")
