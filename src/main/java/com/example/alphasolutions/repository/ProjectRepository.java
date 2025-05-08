@@ -22,11 +22,11 @@ public class ProjectRepository {
 
     public ProjectRepository() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(
-                System.getenv("DB_URL" ),
-                System.getenv("DB_USERNAME" ),
-                System.getenv("DB_PASSWORD" )
+                System.getenv("DB_URL"),
+                System.getenv("DB_USERNAME"),
+                System.getenv("DB_PASSWORD")
         );
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver" );
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
     }
@@ -57,13 +57,11 @@ public class ProjectRepository {
         return jdbcTemplate.query(sql, new ProjectRowMapper());
     }
 
-    public Project getProjectByID(int projectID){
+    public Project getProjectByID(int projectID) {
         String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST, SP.SUBPROJECTID AS SPID, SP.NAME AS SPName, SP.DESCRIPTION AS SPDescription FROM PROJECT P " +
                 "INNER JOIN SUBPROJECT SP ON P.PROJECTID WHERE P.PROJECTID = ?";
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
-
-
 
 
     //______________________________________________UPDATE METHOD_______________________________________________________
@@ -79,15 +77,12 @@ public class ProjectRepository {
     }
 
     //_______________________________________________DELETE METHOD______________________________________________________
-    public void deleteProject(Project project){
+    public void deleteProject(Project project) {
         String deleteSql = "DELETE FROM SUBPROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(deleteSql, project.getProjectID());
 
         String sql = "DELETE FROM PROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(sql, project.getProjectID());
     }
-
-
-
 
 }

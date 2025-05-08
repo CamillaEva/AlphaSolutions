@@ -38,7 +38,7 @@
   <button type="button">Edit Project</button>
 </a>
 
-<a th:href="@{/create-subproject}">
+<a th:href="@{/create-subproject/{projectID}(projectID=${project.projectID})}">
   <button type="button">Add Subproject</button>
 </a>
 

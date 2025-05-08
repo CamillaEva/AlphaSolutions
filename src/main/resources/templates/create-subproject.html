@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Create subProject</title>
+    <title>Create subProject</title>
 </head>
 <body>
 <h1>Create subProject</h1>
-<form th:action="@{/create-subproject}" th:object="${subproject}" th:method="post">
+<form th:action="@{/create-subproject/{projectID}/add(projectID=${project.projectID})}" th:object="${subproject}" method="post">
 
-  <label th:for="*{name}">Subproject name:</label>
-  <input type="text" th:field="*{name}" autofocus required /><br>
+    <input type="hidden" th:field="*{projectID}" th:value="${project.projectID}"/>
 
-  <label th:for="*{description}">Description:</label>
-  <input type="text" th:field="*{description}" required/><br>
+    <label th:for="*{name}">Subproject name:</label>
+    <input type="text" th:field="*{name}" required/>
 
-  <label th:for="*{startDate}">start date:</label>
-  <input type="date" th:field="*{startDate}" required /><br>
+    <label th:for="*{description}">Description:</label>
+    <input type="text" th:field="*{description}" required/>
 
-  <label th:for="*{endDate}">end date:</label>
-  <input type="date" th:field="*{endDate}" /><br>
+    <label th:for="*{startDate}">Start date:</label>
+    <input type="date" th:field="*{startDate}" required/>
 
-  <label th:for="*{timeEst}">time Estimate</label>
-  <input type="number" th:field="*{timeEst}" required/><br>
+    <label th:for="*{endDate}">End date:</label>
+    <input type="date" th:field="*{endDate}"/>
 
+    <label th:for="*{timeEst}">Time Estimate:</label>
+    <input type="number" th:field="*{timeEst}" required/>
 
-  <button type="submit">save</button>
+    <button type="submit">Save</button>
 </form>
 </body>
 </html>
