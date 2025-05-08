@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/main-page.css}">
 </head>
 <body>
-<h1>Welcome to the Home Page!</h1>
-<a href="/admin/create-employee">Create Employee</a>
-<a href="/admin/read-employees">View Employees</a>
+<header th:replace="fragments/header :: site-header"></header>
+<div class="main-area">
+    <div class="user-container">
+        <h1>Users</h1>
+        <table class="user-table">
+            <tbody>
+            <tr th:each="emp : ${emp}">
+                <td>
+                    <a th:href="@{'/admin/read-employee/' + ${emp.getEmpID()}}"
+                       th:text="${emp.firstName + ' ' + emp.lastName}"></a>
+                </td>
+                <td th:text="${emp.getRole()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="admin-button">
+        <form th:action="@{/admin/create-employee}">
+            <button type="submit">Create user</button>
+        </form>
+    </div>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>

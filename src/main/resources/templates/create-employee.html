@@ -3,34 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Create employee</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/form-box.css}">
 </head>
-<h1>Create employee</h1>
 <body>
-<form th:action="@{/admin/create-employee}" th:object="${emp}" th:method="post">
-    <label th:for="*{firstName}">First Name</label>
-    <input type="text" th:field="*{firstName}" autofocus required/><br>
+<header th:replace="fragments/header :: site-header"></header>
+<div class="box">
+    <h1>Create user</h1>
+        <form th:action="@{/admin/create-employee}" th:object="${emp}" th:method="post">
+            <label th:for="*{firstName}">First Name</label>
+            <input type="text" th:field="*{firstName}" autofocus required/><br>
 
-    <label th:for="*{lastName}">Last Name</label>
-    <input type="text" th:field="*{lastName}" required/><br>
+            <label th:for="*{lastName}">Last Name</label>
+            <input type="text" th:field="*{lastName}" required/><br>
 
-    <label th:for="*{mail}">Mail</label>
-    <input type="email" th:field="*{mail}" required pattern=".+@alphasolutions\.com" placeholder="Name@alphasolutions.com"/><br>
+            <label th:for="*{mail}">Mail</label>
+            <input type="email" th:field="*{mail}" required pattern=".+@alphasolutions\.com"
+                   placeholder="Name@alphasolutions.com"/><br>
 
-    <label th:for="*{password}">Password</label>
-    <input type="text" th:field="*{password}" required/><br>
+            <label th:for="*{password}">Password</label>
+            <input type="text" th:field="*{password}" required/><br>
 
-    <label th:for="*{role}">Role</label>
-    <select th:field="*{role}">
-        <option th:each="role : ${roles}"
-                th:value="${role}"
-                th:text="${role}">
-        </option>
-    </select><br>
+            <label th:for="*{role}">Role</label>
+            <select th:field="*{role}">
+                <option th:each="role : ${roles}"
+                        th:value="${role}"
+                        th:text="${role}">
+                </option>
+            </select><br>
 
-    <button type="submit" th:onclick="alert ('User has been created')">Save</button>
-    <a th:href="@{/admin/read-employees}">
-        <button type="button">Cancel</button>
-    </a>
-</form>
+            <button type="submit" th:onclick="alert ('User has been created')">Save</button>
+            <a th:href="@{/admin}">
+                <button type="button">Cancel</button>
+            </a>
+        </form>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>

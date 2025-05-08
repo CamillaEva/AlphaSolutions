@@ -3,34 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Update employee</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/form-box.css}">
 </head>
 <body>
-<h1>Update employee</h1>
-<form th:action="@{/admin/edit-employee/{empId}(empId=${employee.empID})}" th:object="${employee}" method="post">
+<header th:replace="fragments/header :: site-header"></header>
+<div class="box">
+    <h1>Update employee</h1>
+    <form th:action="@{/admin/edit-employee/{empId}(empId=${employee.empID})}" th:object="${employee}" method="post">
 
-    <input type="hidden" th:field="*{empID}"/>
+        <input type="hidden" th:field="*{empID}"/>
 
-    <label for="firstName">First name:</label>
-    <input type="text" id="firstName" th:field="*{firstName}"/><br>
+        <label for="firstName">First name:</label>
+        <input type="text" id="firstName" th:field="*{firstName}"/><br>
 
-    <label for="lastName">Last name:</label>
-    <input type="text" id="lastName" th:field="*{lastName}"/><br>
+        <label for="lastName">Last name:</label>
+        <input type="text" id="lastName" th:field="*{lastName}"/><br>
 
-    <label for="mail">Email:</label><br>
-    <input type="text" id="mail" th:field="*{mail}"/><br>
+        <label for="mail">Email:</label><br>
+        <input type="text" id="mail" th:field="*{mail}"/><br>
 
-    <label for="password">Password</label><br>
-    <input type="text" id="password" th:field="*{password}"/><br>
+        <label for="password">Password</label><br>
+        <input type="text" id="password" th:field="*{password}"/><br>
 
-    <label for="role">Role</label>
-    <select id="role" th:field="*{role}">
-        <option th:each="role : ${roles}"
-                th:value="${role}"
-                th:text="${role}">
-        </option>
-    </select><br>
+        <label for="role">Role</label>
+        <select id="role" th:field="*{role}">
+            <option th:each="role : ${roles}"
+                    th:value="${role}"
+                    th:text="${role}">
+            </option>
+        </select><br>
 
-    <button type="submit" th:onclick="alert ('User has been updated')">Save</button>
-</form>
+        <button type="submit" th:onclick="alert ('User has been updated')">Save</button>
+    </form>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>
