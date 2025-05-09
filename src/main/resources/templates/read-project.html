@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>read project</title>
+    <meta charset="UTF-8">
+    <title>read project</title>
 </head>
 <h1>Project information</h1>
 <body>
@@ -23,27 +23,28 @@
 
 <h2>Subprojects</h2>
 <ul>
-  <li th:each="subproject : ${project.subProjects}">
-    <a th:href="@{/read-subproject/{id}(id=${subproject.subProjectID})}"
-       th:text="${subproject.name}">Subproject Name</a><br>
-    Description: <span th:text="${subproject.description}"></span><br>
-    Start: <span th:text="${subproject.startDate}"></span><br>
-    End: <span th:text="${subproject.endDate}"></span><br>
-    Time Estimate: <span th:text="${subproject.timeEst}"></span>
-    <hr>
-  </li>
+    <li th:each="subproject : ${project.subProjects}">
+        <a th:href="@{/read-subproject/{id}(id=${subproject.subProjectID})}"
+           th:text="${subproject.name}">Subproject Name</a><br>
+        Description: <span th:text="${subproject.description}"></span><br>
+        Start: <span th:text="${subproject.startDate}"></span><br>
+        End: <span th:text="${subproject.endDate}"></span><br>
+        Time Estimate: <span th:text="${subproject.timeEst}"></span>
+        <hr>
+    </li>
 </ul>
 
 <a th:href="@{/edit-project/{projectID}(projectID=${project.projectID})}">
-  <button type="button">Edit Project</button>
+    <button type="button">Edit Project</button>
 </a>
 
 <a th:href="@{/create-subproject/{projectID}(projectID=${project.projectID})}">
-  <button type="button">Add Subproject</button>
+    <button type="button">Create Subproject</button>
 </a>
 
 <a th:href="@{/delete-project/{projectID}(projectID=${project.getProjectID})}" method="post">
-  <button type="submit" onclick="return confirm('Are you sure you want to delete this project?')">Delete project</button>
+    <button type="submit" onclick="return confirm('Are you sure you want to delete this project?')">Delete project
+    </button>
 </a>
 
 

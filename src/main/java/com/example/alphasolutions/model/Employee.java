@@ -21,7 +21,7 @@ public class Employee {
     }
 
     //Empty constructor to add emp
-    public Employee(){
+    public Employee() {
 
     }
 
@@ -42,6 +42,7 @@ public class Employee {
         return empID;
     }
 
+    //TODO if we need to set empID to a task
     public void setEmpID(int empID) {
         this.empID = empID;
     }
@@ -50,6 +51,7 @@ public class Employee {
         return firstName;
     }
 
+    //Maybe not needed
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -58,6 +60,7 @@ public class Employee {
         return lastName;
     }
 
+    //Maybe not needed
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -94,6 +97,7 @@ public class Employee {
     public void setRole(Role role) {
         this.role = role;
     }
+
     @Override
     public String toString() {
         return "Employee{" +
