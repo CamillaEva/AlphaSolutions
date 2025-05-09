@@ -231,7 +231,7 @@ public class Controller {
     public String deleteEmployee(@PathVariable int empId) {
         Employee employee = empService.readEmployeeById(empId);
         empService.deleteEmployee(employee);
-        return "redirect:/admin/read-employees";
+        return "redirect:/admin";
     }
 
     @PostMapping("/delete-project/{projectID}")
