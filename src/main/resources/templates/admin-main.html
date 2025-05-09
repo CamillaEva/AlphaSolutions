@@ -15,7 +15,7 @@
             <tbody>
             <tr th:each="emp : ${emp}">
                 <td>
-                    <a th:href="@{'/admin/read-employee/' + ${emp.getEmpID()}}"
+                    <a th:href="@{'/read-employee/' + ${emp.getEmpID()}}"
                        th:text="${emp.firstName + ' ' + emp.lastName}"></a>
                 </td>
                 <td th:text="${emp.getRole()}"></td>

@@ -5,6 +5,13 @@
     <a th:href="@{/login}">
         <img src="/image/AlphaSolutionsLogo.png">
     </a>
+
+
+
+    <div th:if="${session.emp != null && session.emp.role.name() == 'PROJECT_LEADER'}">
+        <a th:href="@{/read-employees}">Employees</a>
+    </div>
+
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
     </form>

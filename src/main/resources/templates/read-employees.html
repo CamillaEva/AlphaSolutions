@@ -1,33 +1,43 @@
-  <!DOCTYPE html>
-  <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <title>Employees</title>
-  </head>
-  <body>
-  <h1>Employees</h1>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Role</th>
-    </tr>
-    <tr th:each="emp : ${employees}">
-      <td>
-        <a th:href="@{/admin/read-employee/{empId}(empId=${emp.empID})}" th:text="${emp.firstName + ' ' + emp.lastName}">
-        </a>
-      </td>>
-      <td th:text="${emp.mail}"></td>
-      <td th:text="${emp.role}"></td>
-      <td>
-        <form th:action="@{/admin/read-employee/{empId}(empId=${emp.empID})}" th:method="get">
-          <button type="submit">Show employee</button>
-        </form>
-      </td>
-    </tr>
-  </table>
-  <a th:href="@{/admin}">
-    <button type="button">Home</button>
-  </a>
-  </body>
-  </html>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/main-page.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: site-header"></header>
+<div class="main-area">
+    <div class="user-container">
+        <h1>Employees</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+            <tr th:each="emp : ${employees}">
+                <td>
+                    <a th:href="@{/read-employee/{empId}(empId=${emp.empID})}"
+                       th:text="${emp.firstName + ' ' + emp.lastName}">
+                    </a>
+                </td>
+                >
+                <td th:text="${emp.mail}"></td>
+                <td th:text="${emp.role}"></td>
+                <td>
+                    <form th:action="@{/read-employee/{empId}(empId=${emp.empID})}" th:method="get">
+                        <button type="submit">Show employee</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <a th:href="@{/main-page/{empID}(empID=${session.emp.getEmpID()})}">
+        <button type="button">Back</button>
+    </a>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
+</body>
+</html>

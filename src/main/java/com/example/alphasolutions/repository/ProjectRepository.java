@@ -59,7 +59,8 @@ public class ProjectRepository {
 
     public Project getProjectByID(int projectID){
         String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST, SP.SUBPROJECTID AS SPID, SP.NAME AS SPName, SP.DESCRIPTION AS SPDescription " +
-                "FROM PROJECT P INNER JOIN SUBPROJECT SP ON P.PROJECTID WHERE P.PROJECTID = ?";
+                "FROM PROJECT P " +
+                "INNER JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
 
