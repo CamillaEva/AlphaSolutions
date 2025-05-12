@@ -52,7 +52,7 @@ public class SubProjectRepository {
 
     public SubProject getSubProjectById(int subProjectID) {
         String sql = "SELECT SP.SUBPROJECTID, SP.NAME, SP.DESCRIPTION, SP.STARTDATE, SP.ENDDATE, SP.TIMEEST, T.TASKID AS TID, T.NAME AS TName, T.DESCRIPTION AS TDESCRIPTION FROM SUBPROJECT SP " +
-                "INNER JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
+                "LEFT JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
         return  subProjectMapper.subProjectWithTasks(jdbcTemplate.queryForList(sql, subProjectID)).get(0);
     }
 
