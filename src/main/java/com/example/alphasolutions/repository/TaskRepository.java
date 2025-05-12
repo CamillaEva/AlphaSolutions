@@ -1,6 +1,7 @@
 package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Employee;
+import com.example.alphasolutions.model.SubProject;
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.model.TaskRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,7 +18,7 @@ import java.util.List;
 public class TaskRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public TaskRepository(JdbcTemplate jdbcTemplate){
+    public TaskRepository(JdbcTemplate jdbcTemplate) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(
                 System.getenv("DB_URL"),
                 System.getenv("DB_USERNAME"),
@@ -28,8 +29,8 @@ public class TaskRepository {
     }
 
     //_______________________________________________CREATE METHOD______________________________________________________
-    public int createTask(Task task){
-        String sql = "INSERT INTO TASK (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST) VALUES (?,?,?,?,?)";
+    public int createTask(Task task) {
+        String sql = "INSERT INTO TASK (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID) VALUES (?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -39,24 +40,31 @@ public class TaskRepository {
             ps.setDate(3, Date.valueOf(task.getStartDate()));
             ps.setDate(4, Date.valueOf(task.getEndDate()));
             ps.setInt(5, task.getTimeEst());
+            ps.setInt(6, task.getSubProjectID());
             return ps;
         }, keyHolder);
 
         return keyHolder.getKey().intValue();
     }
 
+    //TEST
+    public void addTask(Task task) {
+        String sql = "INSERT INTO task (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID) VALUES (?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getStartDate(), task.getEndDate(), task.getTimeEst(), task.getSubProjectID());
+    }
+
     //_______________________________________________READ METHOD________________________________________________________
-    public List<Task> readAllTask(){
+    public List<Task> readAllTask() {
         String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM TASK";
         return jdbcTemplate.query(sql, new TaskRowMapper());
     }
 
-    public Task readTaskByID(int taskID){
+    public Task readTaskByID(int taskID) {
         String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM TASK WHERE TASKID = ?";
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
-    public List<Task> readMyTasks(int empID){
+    public List<Task> readMyTasks(int empID) {
         String sql = "SELECT * FROM TASK T " +
                 "JOIN EMP_TASK ET ON T.TASKID = ET.TASKID " +
                 "WHERE ET.EMPID = ?";
@@ -64,21 +72,17 @@ public class TaskRepository {
     }
 
     //_______________________________________________UPDATE METHOD______________________________________________________
-    public void updateTask(Task task){
+    public void updateTask(Task task) {
         String sql = "UPDATE TASK SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE TASKID = ?";
-        jdbcTemplate.update(sql,task.getName(), task.getDescription(),task.getStartDate(), task.getEndDate(), task.getTimeEst(),task.getTaskID());
+        jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getStartDate(), task.getEndDate(), task.getTimeEst(), task.getTaskID());
     }
-
 
 
     //_______________________________________________DELETE METHOD______________________________________________________
-    public void deleteTask(Task task){
+    public void deleteTask(Task task) {
         String sql = "DELETE FROM TASK WHERE TASKID = ?";
-        jdbcTemplate.update(sql,task.getTaskID());
+        jdbcTemplate.update(sql, task.getTaskID());
     }
-
-
-
 
 
 }

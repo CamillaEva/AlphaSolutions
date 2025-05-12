@@ -12,52 +12,46 @@ public class SubProjectService {
 
     private final SubProjectRepository subProjectRepository;
 
-    public SubProjectService(SubProjectRepository subProjectRepository){
+    public SubProjectService(SubProjectRepository subProjectRepository) {
         this.subProjectRepository = subProjectRepository;
     }
 
 
     //___________________________CREATE______________________________________________
 
-    public void createSubProject(SubProject subProject){
+    public void createSubProject(SubProject subProject) {
         subProjectRepository.createSubProject(subProject);
-    }
+    } //Not being used.
 
-    public void addSubProject(SubProject subProject){
+    public void addSubProject(SubProject subProject) {
         subProjectRepository.addSubProject(subProject);
-    }
+    } //Change to createSubProject + change in controller
 
     //_____________________________READ________________________________________________
 
-    public List<SubProject> readAllSubProjects(){
+    public List<SubProject> readAllSubProjects() {
         return subProjectRepository.readAllSubProjects();
     }
 
-    public List<SubProject> getSubProjectsByProjectID(int projectID){
+    public List<SubProject> getSubProjectsByProjectID(int projectID) {
         return subProjectRepository.getSubProjectsByProjectID(projectID);
     }
 
-    public SubProject getSubProjectByID(int subProjectID){
+    public SubProject getSubProjectByID(int subProjectID) {
         return subProjectRepository.getSubProjectById(subProjectID);
     }
 
     //_______________________________UPDATE______________________________________________
 
-    public void updateSubProject(SubProject subProject){
+    public void updateSubProject(SubProject subProject) {
         subProjectRepository.updateSubProject(subProject);
     }
 
     //______________________________DELETE_____________________________________________
 
-    public void deleteSubProject(int id){
+    public void deleteSubProject(int id) {
         subProjectRepository.deleteSubProject(id);
     }
-
-
-
-
-
-
 
 
 }
