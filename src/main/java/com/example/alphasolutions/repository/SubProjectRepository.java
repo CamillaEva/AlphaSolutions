@@ -46,9 +46,6 @@ public class SubProjectRepository {
 
         return keyholder.getKey().intValue();
     }
-        //jdbcTemplate.update(sql, subProject.getName(), subProject.getDescription(), subProject.getStartDate(), subProject.getEndDate(), subProject.getTimeEst(), subProject.getProjectID());
-     //Change this method name to createSubProject and delete above + service
-
 
     //_______________________________________________READ_______________________________________________________________
     public List<SubProject> readAllSubProjects() {
@@ -58,8 +55,8 @@ public class SubProjectRepository {
 
     public SubProject readSubProjectById(int subProjectID) {
         String sql = "SELECT SP.SUBPROJECTID, SP.NAME, SP.DESCRIPTION, SP.STARTDATE, SP.ENDDATE, SP.TIMEEST, T.TASKID AS TID, T.NAME AS TName, T.DESCRIPTION AS TDESCRIPTION FROM SUBPROJECT SP " +
-                "INNER JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
-        return subProjectMapper.subProjectWithTasks(jdbcTemplate.queryForList(sql, subProjectID)).get(0);
+                "LEFT JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
+        return  subProjectMapper.subProjectWithTasks(jdbcTemplate.queryForList(sql, subProjectID)).get(0);
     }
 
     //TODO Only used in service

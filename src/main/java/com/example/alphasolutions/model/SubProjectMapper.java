@@ -29,16 +29,23 @@ public class SubProjectMapper {
             }
 
 
-            Task task = new Task();
-            task.setTaskID((int) rs.get("TID"));
-            task.setName((String) rs.get("TName"));
-            task.setDescription((String) rs.get("TDESCRIPTION"));
-            task.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
-            task.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
-            task.setTimeEst((Integer) rs.get("TIMEEST"));
+            if (rs.get("TID") != null) {
+                Task task = new Task();
 
-
-            subProject.createTask(task);
+                task.setTaskID((int) rs.get("TID"));
+                task.setName((String) rs.get("TName"));
+                task.setDescription((String) rs.get("TDESCRIPTION"));
+                if (rs.get("STARTDATE") != null) {
+                    task.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
+                }
+                if (rs.get("ENDDATE") != null) {
+                    task.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
+                }
+                if (rs.get("TIMEEST") != null) {
+                    task.setTimeEst((Integer) rs.get("TIMEEST"));
+                }
+                subProject.createTask(task);
+            }
 
             subProjects.put(subProject.getSubProjectID(), subProject);
 
