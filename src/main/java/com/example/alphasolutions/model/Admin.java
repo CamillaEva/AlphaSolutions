@@ -1,5 +1,6 @@
 package com.example.alphasolutions.model;
 
+/*
 public class Admin {
     private String name;
     private String mail;
@@ -43,3 +44,5 @@ public class Admin {
                 '}';
     }
 }
+
+ */

@@ -1,9 +1,9 @@
 package com.example.alphasolutions.service;
 
-import com.example.alphasolutions.model.Admin;
-import com.example.alphasolutions.repository.AdminRepository;
+
 import org.springframework.stereotype.Service;
 
+/*
 @Service
 public class AdminService {
     private final AdminRepository adminRepository;
@@ -21,3 +21,4 @@ public class AdminService {
         return false;
     }
 }
+ */
