@@ -30,7 +30,7 @@ public class SessionController {
 
     @GetMapping("/admin")
     public String adminMainPage(Model model) {
-        List<Employee> employee = empService.getAllEmployees();
+        List<Employee> employee = empService.readAllEmployees();
         model.addAttribute("emp", employee);
         return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
     }

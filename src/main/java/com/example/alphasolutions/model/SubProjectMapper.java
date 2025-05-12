@@ -44,7 +44,7 @@ public class SubProjectMapper {
                 if (rs.get("TIMEEST") != null) {
                     task.setTimeEst((Integer) rs.get("TIMEEST"));
                 }
-                subProject.addTask(task);
+                subProject.createTask(task);
             }
 
             subProjects.put(subProject.getSubProjectID(), subProject);

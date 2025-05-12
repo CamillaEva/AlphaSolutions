@@ -31,8 +31,7 @@ public class ProjectRepository {
         this.projectMapper = new ProjectMapper();
     }
 
-
-    //_______________________________________________CREATE METHOD______________________________________________________
+    //_______________________________________________CREATE_____________________________________________________________
     public int createProject(Project project) {
         String sql = "INSERT INTO PROJECT (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST) VALUES (?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -51,13 +50,13 @@ public class ProjectRepository {
     }
 
 
-    //_______________________________________________READ METHOD________________________________________________________
+    //_______________________________________________READ_______________________________________________________________
     public List<Project> readAllProjects() {
         String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST FROM PROJECT P ";
         return jdbcTemplate.query(sql, new ProjectRowMapper());
     }
 
-    public Project getProjectByID(int projectID){
+    public Project readProjectByID(int projectID){
         String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST, SP.SUBPROJECTID AS SPID, SP.NAME AS SPName, SP.DESCRIPTION AS SPDescription " +
                 "FROM PROJECT P " +
                 "LEFT JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
@@ -65,7 +64,7 @@ public class ProjectRepository {
     }
 
 
-    //______________________________________________UPDATE METHOD_______________________________________________________
+    //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
         String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE PROJECTID = ?";
         jdbcTemplate.update(
@@ -77,7 +76,7 @@ public class ProjectRepository {
                 project.getProjectID());
     }
 
-    //_______________________________________________DELETE METHOD______________________________________________________
+    //_______________________________________________DELETE_____________________________________________________________
     public void deleteProject(Project project) {
         String deleteSql = "DELETE FROM SUBPROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(deleteSql, project.getProjectID());

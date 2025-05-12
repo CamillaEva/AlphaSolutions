@@ -28,7 +28,7 @@ public class TaskRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //_______________________________________________CREATE METHOD______________________________________________________
+    //_______________________________________________CREATE_____________________________________________________________
     public int createTask(Task task) {
         String sql = "INSERT INTO TASK (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID) VALUES (?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -47,13 +47,7 @@ public class TaskRepository {
         return keyHolder.getKey().intValue();
     }
 
-    //TEST
-    public void addTask(Task task) {
-        String sql = "INSERT INTO task (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID) VALUES (?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getStartDate(), task.getEndDate(), task.getTimeEst(), task.getSubProjectID());
-    }
-
-    //_______________________________________________READ METHOD________________________________________________________
+    //_______________________________________________READ_______________________________________________________________
     public List<Task> readAllTask() {
         String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM TASK";
         return jdbcTemplate.query(sql, new TaskRowMapper());
@@ -71,14 +65,14 @@ public class TaskRepository {
         return jdbcTemplate.query(sql, new TaskRowMapper(), empID);
     }
 
-    //_______________________________________________UPDATE METHOD______________________________________________________
+    //_______________________________________________UPDATE_____________________________________________________________
     public void updateTask(Task task) {
         String sql = "UPDATE TASK SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE TASKID = ?";
         jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getStartDate(), task.getEndDate(), task.getTimeEst(), task.getTaskID());
     }
 
 
-    //_______________________________________________DELETE METHOD______________________________________________________
+    //_______________________________________________DELETE_____________________________________________________________
     public void deleteTask(Task task) {
         String sql = "DELETE FROM TASK WHERE TASKID = ?";
         jdbcTemplate.update(sql, task.getTaskID());

@@ -32,7 +32,7 @@ public class SubProject {
 //        this.status = status;
 //    }
 
-    public SubProject(){
+    public SubProject() {
 
     }
 
@@ -56,7 +56,7 @@ public class SubProject {
         this.timeEst = timeEst;
     }
 
-    public void addTask(Task task){
+    public void createTask(Task task) {
         tasks.add(task);
     }
 
@@ -84,6 +84,7 @@ public class SubProject {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
 
     public int getTaskID() {
         return taskID;
