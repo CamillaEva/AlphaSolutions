@@ -35,14 +35,14 @@ public class SubProjectMapper {
                 task.setTaskID((int) rs.get("TID"));
                 task.setName((String) rs.get("TName"));
                 task.setDescription((String) rs.get("TDESCRIPTION"));
-                if (rs.get("STARTDATE") != null) {
-                    task.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
+                if (rs.get("TSTARTDATE") != null) {
+                    task.setStartDate(((LocalDateTime) rs.get("TSTARTDATE")).toLocalDate());
                 }
-                if (rs.get("ENDDATE") != null) {
-                    task.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
+                if (rs.get("TENDDATE") != null) {
+                    task.setEndDate(((LocalDateTime) rs.get("TENDDATE")).toLocalDate());
                 }
-                if (rs.get("TIMEEST") != null) {
-                    task.setTimeEst((Integer) rs.get("TIMEEST"));
+                if (rs.get("TTIMEEST") != null) {
+                    task.setTimeEst((Integer) rs.get("TTIMEEST"));
                 }
                 subProject.createTask(task);
             }

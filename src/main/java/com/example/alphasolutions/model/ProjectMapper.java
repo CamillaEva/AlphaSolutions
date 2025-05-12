@@ -36,14 +36,14 @@ public class ProjectMapper {
                 subProject.setSubProjectID((int) rs.get("SPID"));
                 subProject.setName((String) rs.get("SPName"));
                 subProject.setDescription((String) rs.get("SPDESCRIPTION"));
-                if (rs.get("STARTDATE") != null) {
-                    subProject.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
+                if (rs.get("SPSTARTDATE") != null) {
+                    subProject.setStartDate(((LocalDateTime) rs.get("SPSTARTDATE")).toLocalDate());
                 }
-                if (rs.get("ENDDATE") != null) {
-                    subProject.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
+                if (rs.get("SPENDDATE") != null) {
+                    subProject.setEndDate(((LocalDateTime) rs.get("SPENDDATE")).toLocalDate());
                 }
-                if (rs.get("TIMEEST") != null) {
-                    subProject.setTimeEst((Integer) rs.get("TIMEEST"));
+                if (rs.get("SPTIMEEST") != null) {
+                    subProject.setTimeEst((Integer) rs.get("SPTIMEEST"));
                 }
                 project.createSubproject(subProject);
             }
