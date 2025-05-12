@@ -1,7 +1,6 @@
 package com.example.alphasolutions.model;
 
 
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class ProjectMapper {
 
 
             SubProject subProject = new SubProject();
-            subProject.setSubProjectID((int)rs.get("SPID"));
+            subProject.setSubProjectID((int) rs.get("SPID"));
             subProject.setName((String) rs.get("SPName"));
             subProject.setDescription((String) rs.get("SPDESCRIPTION"));
             subProject.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
@@ -40,8 +39,7 @@ public class ProjectMapper {
             subProject.setTimeEst((Integer) rs.get("TiMEEST"));
 
 
-
-            project.addSubproject(subProject);
+            project.createSubproject(subProject);
 
             projects.put(project.getProjectID(), project);
 

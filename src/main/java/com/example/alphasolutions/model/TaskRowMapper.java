@@ -5,9 +5,9 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TaskRowMapper implements RowMapper<Task>{
+public class TaskRowMapper implements RowMapper<Task> {
     @Override
-    public Task mapRow(ResultSet rs, int rowNum) throws SQLException{
+    public Task mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Task(
                 rs.getInt("TASKID"),
                 rs.getString("NAME"),

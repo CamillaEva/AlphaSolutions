@@ -17,38 +17,31 @@ public class SubProjectService {
     }
 
 
-    //___________________________CREATE______________________________________________
-
-    public void createSubProject(SubProject subProject) {
-        subProjectRepository.createSubProject(subProject);
-    } //Not being used.
-
-    public void addSubProject(SubProject subProject) {
-        subProjectRepository.addSubProject(subProject);
+    //_______________________________________________CREATE_____________________________________________________________
+    public int createSubProject(SubProject subProject) {
+        return subProjectRepository.createSubProject(subProject);
     } //Change to createSubProject + change in controller
 
-    //_____________________________READ________________________________________________
-
+    //_______________________________________________READ_______________________________________________________________
     public List<SubProject> readAllSubProjects() {
         return subProjectRepository.readAllSubProjects();
     }
 
+    //TODO Not used
     public List<SubProject> getSubProjectsByProjectID(int projectID) {
         return subProjectRepository.getSubProjectsByProjectID(projectID);
     }
 
-    public SubProject getSubProjectByID(int subProjectID) {
-        return subProjectRepository.getSubProjectById(subProjectID);
+    public SubProject readSubProjectByID(int subProjectID) {
+        return subProjectRepository.readSubProjectById(subProjectID);
     }
 
-    //_______________________________UPDATE______________________________________________
-
+    //_______________________________________________UPDATE_____________________________________________________________
     public void updateSubProject(SubProject subProject) {
         subProjectRepository.updateSubProject(subProject);
     }
 
-    //______________________________DELETE_____________________________________________
-
+    //_______________________________________________DELETE_____________________________________________________________
     public void deleteSubProject(int id) {
         subProjectRepository.deleteSubProject(id);
     }

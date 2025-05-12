@@ -19,7 +19,7 @@ public class Project {
     //private Status status; //opret enum klasse  //har egen constructor - nice-to-have
 
 
-    public Project(){
+    public Project() {
 
     }
 
@@ -32,8 +32,6 @@ public class Project {
         this.timeEst = timeEst;
 
     }
-
-
 
 
 // constructor, if we need to work with status on a project!
@@ -50,7 +48,7 @@ public class Project {
 //    }
 
 
-    public void addSubproject(SubProject subProject){
+    public void createSubproject(SubProject subProject) {
         subProjects.add(subProject);
     }
 

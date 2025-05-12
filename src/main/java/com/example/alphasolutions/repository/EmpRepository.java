@@ -28,7 +28,7 @@ public class EmpRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    //-------------------------------------CREATE----------------------------------------------
+    //_______________________________________________CREATE_____________________________________________________________
     public int createEmployee(Employee employee) {
         String sql = "INSERT INTO EMP (FIRSTNAME, LASTNAME, MAIL, PASSWORD, ROLE) VALUES (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -45,8 +45,8 @@ public class EmpRepository {
         return keyHolder.getKey().intValue();
     }
 
-    //--------------------------------------READ------------------------------------------------
-    public List<Employee> getAllEmployees() {
+    //_______________________________________________READ_______________________________________________________________
+    public List<Employee> readAllEmployees() {
         String sql = "SELECT EMPID, FIRSTNAME, LASTNAME, MAIL, PASSWORD, ROLE FROM emp";
         return jdbcTemplate.query(sql, new EmployeeRowMapper());
     }
@@ -65,15 +65,14 @@ public class EmpRepository {
         }
     }
 
-
-    //------------------------------------UPDATE-----------------------------------------------------------------
+    //_______________________________________________UPDATE_____________________________________________________________
     public void updateEmployee(Employee employee) {
         String sql = "UPDATE EMP SET FIRSTNAME = ?, LASTNAME = ?, MAIL = ?, PASSWORD = ?, ROLE = ? WHERE EMPID = ?";
         jdbcTemplate.update(sql, employee.getFirstName(), employee.getLastName(), employee.getMail(),
                 employee.getPassword(), employee.getRole().name(), employee.getEmpID());
     }
 
-    //------------------------------------DELETE-----------------------------------------------------------------
+    //_______________________________________________DELETE_____________________________________________________________
     public void deleteEmployee(Employee employee) {
         String sql = "DELETE FROM EMP WHERE EMPID = ?";
         jdbcTemplate.update(sql, employee.getEmpID());
