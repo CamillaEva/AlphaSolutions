@@ -15,6 +15,6 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
                 rs.getString("MAIL"),
                 rs.getString("PASSWORD"),
                 Role.valueOf(rs.getString("ROLE").toUpperCase()) // Konverter String til enum
-                );
+        );
     }
 }

@@ -1,6 +1,5 @@
 package com.example.alphasolutions.service;
 
-
 import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.repository.EmpRepository;
 import jakarta.servlet.http.HttpSession;
@@ -33,13 +32,14 @@ public class EmpService {
     }
 
     //----------------------------------------CREATE--------------------------------------------------------------
+    //_______________________________________________CREATE_____________________________________________________________
     public int createEmployee(Employee employee) {
         return empRepository.createEmployee(employee);
     }
 
-    //----------------------------------------READ--------------------------------------------------------------
-    public List<Employee> getAllEmployees() {
-        return empRepository.getAllEmployees();
+    //_______________________________________________READ_______________________________________________________________
+    public List<Employee> readAllEmployees() {
+        return empRepository.readAllEmployees();
     }
 
     public Employee readEmployeeById(int empId) {
@@ -50,12 +50,12 @@ public class EmpService {
         return empRepository.signIn(mail, password);
     }
 
-    //----------------------------------------UPDATE--------------------------------------------------------------
+    //_______________________________________________UPDATE_____________________________________________________________
     public void updateEmployee(Employee employee) {
         empRepository.updateEmployee(employee);
     }
 
-    //----------------------------------------DELETE--------------------------------------------------------------
+    //_______________________________________________DELETE_____________________________________________________________
     public void deleteEmployee(Employee employee) {
         empRepository.deleteEmployee(employee);
     }

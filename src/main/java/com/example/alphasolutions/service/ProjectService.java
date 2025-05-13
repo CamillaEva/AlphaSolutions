@@ -12,43 +12,34 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
 
-    public ProjectService(ProjectRepository projectRepository){
+    public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 
 
-    //_______________________CREATE_____________________________________________________________________________________
-
-    public int createProject(Project project){
+    //_______________________________________________CREATE_____________________________________________________________
+    public int createProject(Project project) {
         return projectRepository.createProject(project);
-
     }
 
-    //_______________________READ_______________________________________________________________________________________
-
-    public List<Project> readAllProjects(){
+    //_______________________________________________READ_______________________________________________________________
+    public List<Project> readAllProjects() {
         return projectRepository.readAllProjects();
     }
 
-    public Project getProjectByID(int projectID){
-        return projectRepository.getProjectByID(projectID);
+    public Project readProjectByID(int projectID) {
+        return projectRepository.readProjectByID(projectID);
     }
 
-    //_______________________UPDATE_____________________________________________________________________________________
-
-    public void updateProject(Project project){
+    //_______________________________________________UPDATE_____________________________________________________________
+    public void updateProject(Project project) {
         projectRepository.updateProject(project);
     }
 
-    //_______________________DELETE_____________________________________________________________________________________
-
-    public void deleteProject(Project project){
+    //_______________________________________________DELETE_____________________________________________________________
+    public void deleteProject(Project project) {
         projectRepository.deleteProject(project);
     }
-
-    //_______________________________________________________________________________
-
-
 
 
 }
