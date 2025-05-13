@@ -5,7 +5,8 @@
 </head>
 <body>
 <h1>Create subProject</h1>
-<form th:action="@{/create-subproject/{projectID}/add(projectID=${project.projectID})}" th:object="${subproject}" method="post">
+<form th:action="@{/create-subproject/{projectID}/add(projectID=${project.projectID})}" th:object="${subproject}"
+      method="post">
 
     <input type="hidden" th:field="*{projectID}" th:value="${project.projectID}"/>
 
@@ -21,10 +22,18 @@
     <label th:for="*{endDate}">End date:</label>
     <input type="date" th:field="*{endDate}"/>
 
-    <label th:for="*{timeEst}">Time Estimate:</label>
-    <input type="number" th:field="*{timeEst}" required/>
+
+    <!--<label th:for="*{timeEst}">Time Estimate:</label>
+    <input type="number" th:field="*{timeEst}" required/> -->
+
 
     <button type="submit">Save</button>
+
+
 </form>
+
+<a th:href="@{/read-project/{projectID}(projectID=${project.projectID})}">
+    <button type="button">CANCEL</button>
+</a>
 </body>
 </html>

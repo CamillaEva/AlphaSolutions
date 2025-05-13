@@ -18,8 +18,10 @@
 <label th:for="endDate"><strong>End date:</strong></label>
 <span th:text="${project.endDate}"></span><br>
 
-<label th:for="timeEst"><strong>Time Estimated:</strong></label>
-<span th:text="${project.timeEst}"></span><br>
+<!--<label th:for="timeEst"><strong>Time Estimated:</strong></label>
+<span th:text="${project.timeEst}"></span><br> -->
+
+<h3>time-Estimate from subprojects: <span th:text="${timeEstimate}"></span> hours</h3>
 
 <h2>Subprojects</h2>
 <ul>
@@ -47,6 +49,9 @@
     </button>
 </a>
 
+<a th:href="@{/read-projects}">
+    <button type="button">BACK</button>
+</a>
 
 </body>
 </html>

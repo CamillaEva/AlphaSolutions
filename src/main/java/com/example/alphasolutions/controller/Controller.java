@@ -132,10 +132,26 @@ public class Controller {
         return "read-projects";
     }
 
+//    @GetMapping("/read-project/{projectID}")
+//    public String getProjectByID(@PathVariable int projectID, Model model) {
+//        Project project = projectService.readProjectByID(projectID);
+//        model.addAttribute("project", project);
+//        return "read-project";
+//    }
+
     @GetMapping("/read-project/{projectID}")
-    public String getProjectByID(@PathVariable int projectID, Model model) {
+    public String readProjectByIDWithTime(@PathVariable("projectID") int projectID, Model model) {
         Project project = projectService.readProjectByID(projectID);
-        model.addAttribute("project", project);
+        int totalEstimate = projectService.getTimeEstFromSubProjects(projectID);
+
+        for (SubProject subProject : project.getSubProjects()) {
+            int est = subProjectService.getTimeEstFromTasks(subProject.getSubProjectID());
+            subProject.setTimeEst(est);
+
+
+            model.addAttribute("project", project);
+            model.addAttribute("timeEstimate", totalEstimate);
+        }
         return "read-project";
     }
 
@@ -219,7 +235,8 @@ public class Controller {
     }
 
     @PostMapping("/edit-subproject/{subProjectID}")
-    public String updateSubProject(@PathVariable int subProjectID, @ModelAttribute("subProject") SubProject subProject) {
+    public String updateSubProject(@PathVariable int subProjectID,
+                                   @ModelAttribute("subProject") SubProject subProject) {
         subProjectService.updateSubProject(subProject);
         return "redirect:/read-subproject/" + subProjectID;
     }

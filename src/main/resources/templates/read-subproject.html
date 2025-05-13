@@ -48,6 +48,10 @@
         subproject
     </button>
 </form>
+
+<a th:href="@{/read-project/{projectID}(projectID=${subProject.getProjectID()})}">
+    <button type="button">BACK</button>
+</a>
 </body>
 </html>
 

@@ -61,6 +61,14 @@ public class ProjectRepository {
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
 
+    public int getTimeEstFromSubProjects(int projectID){
+        Project project = readProjectByID(projectID);
+        if (project.getSubProjects() == null){
+            return 0;
+        }
+        return project.getSubProjects().stream().mapToInt(SubProject::getTimeEst).sum();
+
+    }
 
 
 
