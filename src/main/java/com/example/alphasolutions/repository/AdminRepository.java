@@ -1,6 +1,6 @@
 package com.example.alphasolutions.repository;
 
-import com.example.alphasolutions.model.Admin;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
