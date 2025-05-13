@@ -54,15 +54,12 @@ public class ProjectRepository {
         return jdbcTemplate.query(sql, new ProjectRowMapper());
     }
 
-    public Project readProjectByID(int projectID){
+    public Project readProjectByID(int projectID) {
         String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST, SP.SUBPROJECTID AS SPID, SP.NAME AS SPNAME, SP.DESCRIPTION AS SPDESCRIPTION, SP.STARTDATE AS SPSTARTDATE, SP.ENDDATE AS SPENDDATE, SP.TIMEEST AS SPTIMEEST " +
                 "FROM PROJECT P " +
                 "LEFT JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
-
-
-
 
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {

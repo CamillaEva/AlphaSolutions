@@ -133,124 +133,126 @@ public class Controller {
     }
 
     @GetMapping("/read-project/{projectID}")
-    public String getProjectByID(@PathVariable int projectID, Model model) {
+    public String readProjectByIDWithTime(@PathVariable("projectID") int projectID, Model model) {
         Project project = projectService.readProjectByID(projectID);
+        int totalEstimate = 0;
+
+        for (SubProject subProject : project.getSubProjects()) {
+            int est = subProjectService.getTimeEstFromTasks(subProject.getSubProjectID());
+            subProject.setTimeEst(est);
+            totalEstimate += est;
+        }
         model.addAttribute("project", project);
+        model.addAttribute("timeEstimate", totalEstimate);
         return "read-project";
     }
 
-    @GetMapping("/read-subprojects")
-    public String readAllSubProjects(Model model) {
-        List<SubProject> subProjects = subProjectService.readAllSubProjects();
-        model.addAttribute("subProject", subProjects);
-        return "read-subprojects";
+        @GetMapping("/read-subprojects")
+        public String readAllSubProjects (Model model){
+            List<SubProject> subProjects = subProjectService.readAllSubProjects();
+            model.addAttribute("subProject", subProjects);
+            return "read-subprojects";
+        }
+
+        @GetMapping("/read-subproject/{subProjectID}")
+        public String readSubProjectByIDWithTime ( @PathVariable("subProjectID") int subProjectID, Model model){
+            SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
+            int totalEstimate = subProjectService.getTimeEstFromTasks(subProjectID);
+
+            model.addAttribute("subProject", subProject);
+            model.addAttribute("timeEstimate", totalEstimate);
+            return "read-subproject";
+        }
+
+        //_______________________________________________UPDATE_____________________________________________________________
+        //Mapping to edit employees data
+        @GetMapping("/admin/edit-employee/{empId}")
+        public String editEmployee ( @PathVariable int empId, Model model){
+            Employee employee = empService.readEmployeeById(empId);
+            model.addAttribute("employee", employee);
+            model.addAttribute("roles", Role.values());
+            return "update-employee";
+        }
+
+        //Mapping to UPDATE employees data
+        @PostMapping("/admin/edit-employee/{empId}")
+        public String updateEmployee ( @PathVariable int empId, @ModelAttribute("employee") Employee employee){
+            // Konverter enum til en String
+            String roleAsString = employee.getRole().name(); // 'ADMIN', 'USER', etc.
+            // Sæt rollen som en String i Employee objektet
+            employee.setRole(Role.valueOf(roleAsString)); // Konverter tilbage til enum, hvis nødvendigt
+
+            empService.updateEmployee(employee);
+            return "redirect:/read-employee/" + empId;
+        }
+
+        @GetMapping("/pl/edit-task/{taskID}")
+        public String editTask ( @PathVariable int taskID, Model model){
+            Task task = taskService.readTaskByID(taskID);
+            model.addAttribute("task", task);
+            return "update-task";
+        }
+
+        @PostMapping("/pl/edit-task/{taskID}")
+        public String updateTask ( @PathVariable int taskID, @ModelAttribute("task") Task task){
+            taskService.updateTask(task);
+            return "redirect:/read-tasks/" + taskID;
+        }
+
+        @GetMapping("/edit-project/{projectID}")
+        public String editProject ( @PathVariable int projectID, Model model){
+            Project project = projectService.readProjectByID(projectID);
+            model.addAttribute("project", project);
+            return "update-project";
+        }
+
+        @PostMapping("/edit-project/{projectID}")
+        public String updateProject ( @PathVariable int projectID, @ModelAttribute("project") Project project){
+            projectService.updateProject(project);
+            return "redirect:/read-project/" + projectID;
+        }
+
+        @GetMapping("/edit-subproject/{subProjectID}")
+        public String editSubProject ( @PathVariable int subProjectID, Model model){
+            SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
+            model.addAttribute("subProject", subProject);
+            return "update-subproject";
+        }
+
+        @PostMapping("/edit-subproject/{subProjectID}")
+        public String updateSubProject ( @PathVariable int subProjectID,
+        @ModelAttribute("subProject") SubProject subProject){
+            subProjectService.updateSubProject(subProject);
+            return "redirect:/read-subproject/" + subProjectID;
+        }
+
+
+        //_______________________________________________DELETE_____________________________________________________________
+        @PostMapping("/pl/delete-task/{taskID}")
+        public String deleteTask ( @PathVariable int taskID){
+            Task task = taskService.readTaskByID(taskID);
+            taskService.deleteTask(task);
+            return "redirect:/pl/read-tasks";
+        }
+
+        @PostMapping("/admin/delete-employee/{empId}")
+        public String deleteEmployee ( @PathVariable int empId){
+            Employee employee = empService.readEmployeeById(empId);
+            empService.deleteEmployee(employee);
+            return "redirect:/admin";
+        }
+
+        @PostMapping("/delete-project/{projectID}")
+        public String deleteProject ( @PathVariable int projectID){
+            Project project = projectService.readProjectByID(projectID);
+            projectService.deleteProject(project);
+            return "redirect:/read-projects";
+        }
+
+        @PostMapping("/delete-subproject/{subProjectID}")
+        public String deleteSubProject ( @PathVariable int subProjectID){
+            SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
+            subProjectService.deleteSubProject(subProject.getSubProjectID());
+            return "redirect:/read-subprojects";
+        }
     }
-
-//    @GetMapping("/read-subproject/{subProjectID}")
-//    public String getSubProjectByID(@PathVariable int subProjectID, Model model) {
-//        SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
-//        model.addAttribute("subProject", subProject);
-//        return "read-subproject";
-//    }
-
-    @GetMapping("/read-subproject/{subProjectID}")
-    public String readSubProjectByIDWithTime(@PathVariable("subProjectID") int subProjectID, Model model) {
-        SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
-        int totalEstimate = subProjectService.getTimeEstFromTasks(subProjectID);
-
-        model.addAttribute("subProject", subProject);
-        model.addAttribute("timeEstimate", totalEstimate);
-        return "read-subproject";
-    }
-
-    //_______________________________________________UPDATE_____________________________________________________________
-    //Mapping to edit employees data
-    @GetMapping("/admin/edit-employee/{empId}")
-    public String editEmployee(@PathVariable int empId, Model model) {
-        Employee employee = empService.readEmployeeById(empId);
-        model.addAttribute("employee", employee);
-        model.addAttribute("roles", Role.values());
-        return "update-employee";
-    }
-
-    //Mapping to UPDATE employees data
-    @PostMapping("/admin/edit-employee/{empId}")
-    public String updateEmployee(@PathVariable int empId, @ModelAttribute("employee") Employee employee) {
-        // Konverter enum til en String
-        String roleAsString = employee.getRole().name(); // 'ADMIN', 'USER', etc.
-        // Sæt rollen som en String i Employee objektet
-        employee.setRole(Role.valueOf(roleAsString)); // Konverter tilbage til enum, hvis nødvendigt
-
-        empService.updateEmployee(employee);
-        return "redirect:/read-employee/" + empId;
-    }
-
-    @GetMapping("/pl/edit-task/{taskID}")
-    public String editTask(@PathVariable int taskID, Model model) {
-        Task task = taskService.readTaskByID(taskID);
-        model.addAttribute("task", task);
-        return "update-task";
-    }
-
-    @PostMapping("/pl/edit-task/{taskID}")
-    public String updateTask(@PathVariable int taskID, @ModelAttribute("task") Task task) {
-        taskService.updateTask(task);
-        return "redirect:/read-tasks/" + taskID;
-    }
-
-    @GetMapping("/edit-project/{projectID}")
-    public String editProject(@PathVariable int projectID, Model model) {
-        Project project = projectService.readProjectByID(projectID);
-        model.addAttribute("project", project);
-        return "update-project";
-    }
-
-    @PostMapping("/edit-project/{projectID}")
-    public String updateProject(@PathVariable int projectID, @ModelAttribute("project") Project project) {
-        projectService.updateProject(project);
-        return "redirect:/read-project/" + projectID;
-    }
-
-    @GetMapping("/edit-subproject/{subProjectID}")
-    public String editSubProject(@PathVariable int subProjectID, Model model) {
-        SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
-        model.addAttribute("subProject", subProject);
-        return "update-subproject";
-    }
-
-    @PostMapping("/edit-subproject/{subProjectID}")
-    public String updateSubProject(@PathVariable int subProjectID, @ModelAttribute("subProject") SubProject subProject) {
-        subProjectService.updateSubProject(subProject);
-        return "redirect:/read-subproject/" + subProjectID;
-    }
-
-
-    //_______________________________________________DELETE_____________________________________________________________
-    @PostMapping("/pl/delete-task/{taskID}")
-    public String deleteTask(@PathVariable int taskID) {
-        Task task = taskService.readTaskByID(taskID);
-        taskService.deleteTask(task);
-        return "redirect:/pl/read-tasks";
-    }
-
-    @PostMapping("/admin/delete-employee/{empId}")
-    public String deleteEmployee(@PathVariable int empId) {
-        Employee employee = empService.readEmployeeById(empId);
-        empService.deleteEmployee(employee);
-        return "redirect:/admin";
-    }
-
-    @PostMapping("/delete-project/{projectID}")
-    public String deleteProject(@PathVariable int projectID) {
-        Project project = projectService.readProjectByID(projectID);
-        projectService.deleteProject(project);
-        return "redirect:/read-projects";
-    }
-
-    @PostMapping("/delete-subproject/{subProjectID}")
-    public String deleteSubProject(@PathVariable int subProjectID) {
-        SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
-        subProjectService.deleteSubProject(subProject.getSubProjectID());
-        return "redirect:/read-subprojects";
-    }
-}
