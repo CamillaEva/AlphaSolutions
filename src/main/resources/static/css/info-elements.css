@@ -1,0 +1,21 @@
+.userinfo{
+    grid-area: main;
+    display: flex;
+    justify-content: flex-start; /* starts from the top*/
+    flex-direction: column; /*direction of elements */
+}
+
+.read-buttons{
+    display: flex; /*no other elements on the same line */
+    gap: 10px;
+}
+
+/*___________________________________PROJECT INFO____________________________________________ */
+.element-info {
+    padding: 30px;
+    margin: 20px auto;
+    font-family: "Bodoni MT";
+    font-size: 15px;
+    line-height: 1.6;
+    clear: both;
+}
