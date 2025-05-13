@@ -2,6 +2,8 @@ package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.EmployeeRowMapper;
+import com.example.alphasolutions.model.Role;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -28,7 +31,25 @@ public class EmpRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    //_______________________________________________CREATE_____________________________________________________________
+    //-------------------------------------ADMIN-----------------------------------------------
+    List<Employee> admins = new ArrayList<>(List.of(new Employee("Admin", "1234", Role.ADMIN)));
+
+    public Employee getAdmin(String mail) {
+        for (Employee employee : admins) {
+            if (employee.getMail().equals(mail))
+                return employee;
+        }
+        return null;
+    }
+
+    //-----------------------------------------LOGIN----------------------------------------------
+    public void attributeSetup(HttpSession session, Employee employee){
+        session.setAttribute("emp", employee);
+        session.setAttribute("role", employee.getRole());
+        session.setMaxInactiveInterval(30);
+    }
+
+    //-------------------------------------CREATE----------------------------------------------
     public int createEmployee(Employee employee) {
         String sql = "INSERT INTO EMP (FIRSTNAME, LASTNAME, MAIL, PASSWORD, ROLE) VALUES (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
