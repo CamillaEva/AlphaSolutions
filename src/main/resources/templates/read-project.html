@@ -18,8 +18,7 @@
 <label th:for="endDate"><strong>End date:</strong></label>
 <span th:text="${project.endDate}"></span><br>
 
-<label th:for="timeEst"><strong>Time Estimated:</strong></label>
-<span th:text="${project.timeEst}"></span><br>
+<h3>time-Estimate from subprojects: <span th:text="${timeEstimate}"></span> hours</h3>
 
 <h2>Subprojects</h2>
 <ul>
@@ -29,7 +28,7 @@
         Description: <span th:text="${subproject.description}"></span><br>
         Start: <span th:text="${subproject.startDate}"></span><br>
         End: <span th:text="${subproject.endDate}"></span><br>
-        Time Estimate: <span th:text="${subproject.timeEst}"></span>
+        Time Estimate: <span th:text="${subproject.timeEst}"></span> hours
         <hr>
     </li>
 </ul>
