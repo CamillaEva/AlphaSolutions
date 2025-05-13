@@ -1,8 +1,6 @@
 package com.example.alphasolutions.repository;
 
-import com.example.alphasolutions.model.Project;
-import com.example.alphasolutions.model.ProjectMapper;
-import com.example.alphasolutions.model.ProjectRowMapper;
+import com.example.alphasolutions.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -62,6 +60,8 @@ public class ProjectRepository {
                 "LEFT JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
+
+
 
 
     //_______________________________________________UPDATE_____________________________________________________________

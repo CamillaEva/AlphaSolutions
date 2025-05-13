@@ -146,10 +146,20 @@ public class Controller {
         return "read-subprojects";
     }
 
+//    @GetMapping("/read-subproject/{subProjectID}")
+//    public String getSubProjectByID(@PathVariable int subProjectID, Model model) {
+//        SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
+//        model.addAttribute("subProject", subProject);
+//        return "read-subproject";
+//    }
+
     @GetMapping("/read-subproject/{subProjectID}")
-    public String getSubProjectByID(@PathVariable int subProjectID, Model model) {
+    public String readSubProjectByIDWithTime(@PathVariable("subProjectID") int subProjectID, Model model) {
         SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
+        int totalEstimate = subProjectService.getTimeEstFromTasks(subProjectID);
+
         model.addAttribute("subProject", subProject);
+        model.addAttribute("timeEstimate", totalEstimate);
         return "read-subproject";
     }
 

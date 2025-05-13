@@ -59,6 +59,15 @@ public class SubProjectRepository {
         return  subProjectMapper.subProjectWithTasks(jdbcTemplate.queryForList(sql, subProjectID)).get(0);
     }
 
+    public int getTimeEstFromTasks(int subProjectID){
+        SubProject subProject = readSubProjectById(subProjectID);
+        if (subProject.getTasks() == null){
+            return 0;
+        }
+        return subProject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
+
+    }
+
     //TODO Only used in service
     public List<SubProject> getSubProjectsByProjectID(int projectID) {
         String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM SUBPROJECT WHERE PROJECTID = ?";
