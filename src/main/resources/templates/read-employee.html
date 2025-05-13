@@ -18,6 +18,7 @@
     <span th:text="${employee.role}"></span><br>
 
     <div class="read-buttons">
+        <div th:if="${session.emp.role.name() == 'ADMIN'}">
             <form th:action="@{/admin/edit-employee/{empId}(empId=${employee.empID})}">
                 <button type="submit">Edit employee</button>
             </form>
@@ -28,9 +29,15 @@
             </form>
 
             <form th:action="@{/admin}">
-                <!--TODO: fiks at edit/delete kun vises for admin samt at admins back kanp går til /admin mens projektlederen kun ser back knap til /main-page/{empID}(empID=${session.emp.empID})-->
                 <button type="submit">Back</button>
             </form>
+        </div>
+
+        <div th:if="${session.emp.role.name() == 'PROJECT_LEADER'}">
+            <form th:action="@{/read-employees}">
+                <button type="submit">Back</button>
+            </form>
+        </div>
     </div>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>

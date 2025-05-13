@@ -20,6 +20,12 @@ public class Employee {
         this.role = role;
     }
 
+    public Employee(String mail, String password, Role role){
+        this.mail = mail;
+        this.password = password;
+        this.role = role;
+    }
+
     //Empty constructor to add emp
     public Employee() {
 

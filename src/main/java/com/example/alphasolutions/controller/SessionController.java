@@ -1,8 +1,8 @@
 package com.example.alphasolutions.controller;
 
-import com.example.alphasolutions.model.Admin;
+
 import com.example.alphasolutions.model.Employee;
-import com.example.alphasolutions.service.AdminService;
+import com.example.alphasolutions.model.Role;
 import com.example.alphasolutions.service.EmpService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -15,11 +15,9 @@ import java.util.List;
 
 @Controller
 public class SessionController {
-    private AdminService adminService;
     private EmpService empService;
 
-    public SessionController(AdminService adminService, EmpService empService) {
-        this.adminService = adminService;
+    public SessionController(EmpService empService) {
         this.empService = empService;
     }
 
@@ -42,16 +40,21 @@ public class SessionController {
 
     @PostMapping("/login")
     public String login(@RequestParam("mail") String mail, @RequestParam("password") String password, HttpSession session, Model model) {
-        Employee employee = empService.signIn(mail, password);
-        if (adminService.adminLogin(mail,password)) {
-            session.setAttribute("admin", new Admin(mail, password));
-            session.setMaxInactiveInterval(30); //Session timout 30sec, does not redirect before a request is sent.
+        // checking if it's an admin user
+        if (empService.adminLogin(mail, password)) {
+            Employee admin = new Employee(mail, password, Role.ADMIN);
+           empService.attributeSetup(session,admin);
             return "redirect:/admin";
-        } else if (employee != null) {
-           session.setAttribute("emp", employee);
-           session.setAttribute("role", employee.getRole());
+        }
+
+        // if the mail and password doesn't match the admin account, then check for employees
+        Employee employee = empService.signIn(mail, password);
+
+        if (employee != null) {
+            empService.attributeSetup(session,employee);
             return "redirect:/main-page/" + employee.getEmpID();
         }
+
         model.addAttribute("wrongCredentials", true);
         return "login";
     }
