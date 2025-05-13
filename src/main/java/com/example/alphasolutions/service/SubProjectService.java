@@ -36,6 +36,10 @@ public class SubProjectService {
         return subProjectRepository.readSubProjectById(subProjectID);
     }
 
+    public int getTimeEstFromTasks(int subProjectID){
+        return subProjectRepository.getTimeEstFromTasks(subProjectID);
+    }
+
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateSubProject(SubProject subProject) {
         subProjectRepository.updateSubProject(subProject);
