@@ -1,3 +1,4 @@
+/*_______________________________________Box to formulars______________________________________________________________*/
 .form-box {
     background-color: #F0F4F6;
     padding: 20px;
@@ -11,6 +12,7 @@
     font-size: 20px;
 }
 
+/*_________________________________Box to elements fx. projects, subproject etc._____________________________________ */
 .boxes {
     padding: 30px;
     display: flex;
@@ -47,16 +49,58 @@
     color: #FF325A;
 }
 
+/*___________________________________IMAGE FOR BOX___________________________________________*/
 .plus-icon {
     height: 110px;
     width: 110px;
 }
 
+/*_______________________________________INPUT IN FORMULAR____________________________________________*/
 form input {
     font-family: "Bodoni MT";
     display: block;
 }
 
-button {
+/*______________________________________BUTTON IN BOX______________________________________________ */
+.box-button {
     display: inline-block; /*no other elements on the same line */
+}
+
+/*______________________________________OVERVIEW / SIDE ELEMENTS_______________________________________________*/
+.elements {
+    display: flex;
+    gap: 40px;
+    padding: 30px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.main-elements{
+    flex: 1;
+    max-width: fit-content;
+}
+
+.overview {
+    width: 250px;
+    padding: 20px;
+    font-family: "Bodoni MT";
+}
+
+.overview h1 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.mini-box {
+    background-color: #F0F4F6;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mini-box h2{
+    font-size: 12px;
 }
