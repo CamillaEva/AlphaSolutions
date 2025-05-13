@@ -13,7 +13,7 @@
 
 <div class="elements">
     <div class="main-elements">
-        <div class="project-info">
+        <div class="element-info">
             <h1 th:text="${project.name}"></h1><br>
 
             <label th:for="description"><strong>Description:</strong></label>
@@ -33,7 +33,7 @@
         <div class="boxes">
             <div class="box">
                 <h1>NEW SUBPROJECT</h1>
-                <a th:href="@{/create-subproject}">
+                <a th:href="@{/create-subproject/{projectID}}">
                     <img src="/image/plus-icon.png" class="plus-icon">
                 </a>
             </div>
