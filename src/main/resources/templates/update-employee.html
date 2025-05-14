@@ -35,6 +35,9 @@
         </select><br>
 
         <button type="submit" th:onclick="alert ('User has been updated')">Save</button>
+        <a th:href="@{/admin}">
+            <button type="button">Cancel</button>
+        </a>
     </form>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>

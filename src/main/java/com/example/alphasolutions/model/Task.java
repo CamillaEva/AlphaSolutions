@@ -25,6 +25,17 @@ public class Task {
         this.timeEst = timeEst;
     }
 
+    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subProjectID) {
+        this.taskID = taskID;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timeEst = timeEst;
+        this.subProjectID = subProjectID;
+    }
+
+
     //TODO Constructor when usedTime is being added
 //    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime) {
 //        this.taskID = taskID;

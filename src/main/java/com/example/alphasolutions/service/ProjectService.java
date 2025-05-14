@@ -31,6 +31,10 @@ public class ProjectService {
         return projectRepository.readProjectByID(projectID);
     }
 
+    public int getTimeEstFromSubProjects(int projectID){
+        return projectRepository.getTimeEstFromSubProjects(projectID);
+    }
+
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
         projectRepository.updateProject(project);

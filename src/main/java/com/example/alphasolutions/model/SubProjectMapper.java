@@ -25,6 +25,8 @@ public class SubProjectMapper {
                 subProject.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
                 subProject.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
                 subProject.setTimeEst((Integer) rs.get("TIMEEST"));
+                //prøver lige her:
+                subProject.setProjectID((Integer) rs.get("PROJECTID"));
                 subProject.setTasks(new ArrayList<>());
             }
 
@@ -33,6 +35,7 @@ public class SubProjectMapper {
                 Task task = new Task();
 
                 task.setTaskID((int) rs.get("TID"));
+                task.setSubProjectID((Integer) rs.get("TSUBPROJECTID"));
                 task.setName((String) rs.get("TName"));
                 task.setDescription((String) rs.get("TDESCRIPTION"));
                 if (rs.get("TSTARTDATE") != null) {
@@ -56,5 +59,7 @@ public class SubProjectMapper {
         return subProjects.values().stream().toList();
     }
 }
+
+
 
 

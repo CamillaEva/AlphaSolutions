@@ -25,10 +25,10 @@
             <label th:for="endDate"><strong>End date:</strong></label>
             <span th:text="${project.endDate}"></span><br>
 
-            <label th:for="timeEstimate"><strong>Time-estimate from subprojects: </strong></label>
-            <span><span th:text="${timeEstimate}"></span> hours</span>
-        </div>
+<!--<label th:for="timeEst"><strong>Time Estimated:</strong></label>
+<span th:text="${project.timeEst}"></span><br> -->
 
+<h3>time-Estimate from subprojects: <span th:text="${timeEstimate}"></span> hours</h3>
 
         <div class="boxes">
             <div class="box">
@@ -63,6 +63,9 @@
 
         <h1>Overview</h1>
 
+<a th:href="@{/read-projects}">
+    <button type="button">BACK</button>
+</a>
         <div class="mini-box">
             <h1>Time estimate: </h1>
             <p>INDSÆT METODE</p>

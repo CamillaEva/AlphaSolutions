@@ -25,13 +25,21 @@
         <label th:for="*{endDate}">end date:</label>
         <input type="date" th:field="*{endDate}"/><br>
 
-        <label th:for="*{timeEst}">time Estimate</label>
-        <input type="number" th:field="*{timeEst}" required/><br>
+ <!-- <label th:for="*{timeEst}">time Estimate</label>
+  <input type="number" th:field="*{timeEst}" required/><br>-->
 
 
         <button type="submit" class="box-button">save</button>
     </form>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>
+  <button type="submit">save</button>
+
+
+</form>
+
+<a th:href="@{/read-projects}">
+  <button type="button">CANCEL</button>
+</a>
 </body>
 </html>
