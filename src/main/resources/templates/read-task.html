@@ -37,6 +37,9 @@
                     task
                 </button>
             </a>
+            <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
+                <button type="button">Back</button>
+            </a>
         </div>
 
         <h1>Overview</h1>
@@ -64,8 +67,5 @@
     </div>
 </div>
 
-<a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
-    <button type="button">BACK</button>
-</a>
 </body>
 </html>
