@@ -104,3 +104,10 @@ form input {
 .mini-box h2{
     font-size: 12px;
 }
+
+.side-elements {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+}
