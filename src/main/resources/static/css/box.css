@@ -1,0 +1,106 @@
+/*_______________________________________Box to formulars______________________________________________________________*/
+.form-box {
+    background-color: #F0F4F6;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 100%;
+    margin: auto auto;
+    grid-area: main;
+}
+
+.form-box h1{
+    font-size: 20px;
+}
+
+/*_________________________________Box to elements fx. projects, subproject etc._____________________________________ */
+.boxes {
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #F0F4F6;
+    padding: 20px;
+    border-radius: 20px;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.box a,h1 {
+    font-size: 15px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-family: "Bodoni MT";
+}
+
+
+.box a:hover {
+    color: #FF325A;
+}
+
+/*___________________________________IMAGE FOR BOX___________________________________________*/
+.plus-icon {
+    height: 110px;
+    width: 110px;
+}
+
+/*_______________________________________INPUT IN FORMULAR____________________________________________*/
+form input {
+    font-family: "Bodoni MT";
+    display: block;
+}
+
+/*______________________________________BUTTON IN BOX______________________________________________ */
+.box-button {
+    display: inline-block; /*no other elements on the same line */
+}
+
+/*______________________________________OVERVIEW / SIDE ELEMENTS_______________________________________________*/
+.elements {
+    display: flex;
+    gap: 40px;
+    padding: 30px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.main-elements{
+    flex: 1;
+    max-width: fit-content;
+}
+
+.overview {
+    width: 250px;
+    padding: 20px;
+    font-family: "Bodoni MT";
+}
+
+.overview h1 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.mini-box {
+    background-color: #F0F4F6;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mini-box h2{
+    font-size: 12px;
+}

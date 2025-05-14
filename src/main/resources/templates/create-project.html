@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Create Project</title>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/box.css}">
 </head>
 <body>
-<h1>Create Project</h1>
-<form th:action="@{/create-project}" th:object="${project}" th:method="post">
+<header th:replace="fragments/header :: site-header"></header>
 
-  <label th:for="*{name}">project name:</label>
-  <input type="text" th:field="*{name}" autofocus required /><br>
+<div class="form-box">
+    <h1>Create Project</h1>
+    <form th:action="@{/create-project}" th:object="${project}" th:method="post">
 
-  <label th:for="*{description}">Description:</label>
-  <input type="text" th:field="*{description}" required/><br>
+        <label th:for="*{name}">project name:</label>
+        <input type="text" th:field="*{name}" autofocus required/><br>
 
-  <label th:for="*{startDate}">start date:</label>
-  <input type="date" th:field="*{startDate}" required /><br>
+        <label th:for="*{description}">Description:</label>
+        <input type="text" th:field="*{description}" required/><br>
 
-  <label th:for="*{endDate}">end date:</label>
-  <input type="date" th:field="*{endDate}" /><br>
+        <label th:for="*{startDate}">start date:</label>
+        <input type="date" th:field="*{startDate}" required/><br>
+
+        <label th:for="*{endDate}">end date:</label>
+        <input type="date" th:field="*{endDate}"/><br>
 
  <!-- <label th:for="*{timeEst}">time Estimate</label>
   <input type="number" th:field="*{timeEst}" required/><br>-->
 
 
+        <button type="submit" class="box-button">save</button>
+    </form>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
   <button type="submit">save</button>
 
 
