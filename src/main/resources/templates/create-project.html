@@ -30,16 +30,11 @@
 
 
         <button type="submit" class="box-button">save</button>
+        <a th:href="@{/read-projects}" class="box-button">
+            <button type="button">CANCEL</button>
+        </a>
     </form>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>
-  <button type="submit">save</button>
-
-
-</form>
-
-<a th:href="@{/read-projects}">
-  <button type="button">CANCEL</button>
-</a>
 </body>
 </html>

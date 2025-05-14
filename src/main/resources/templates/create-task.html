@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Create task</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/box.css}">
 </head>
-<h1>Create task</h1>
+
 <body>
+<header th:replace="fragments/header :: site-header"></header>
+
+<div class="form-box">
+    <h1>Create task</h1>
 <form th:action="@{/pl/create-task/{subProjectID}/add(subProjectID=${subProject.subProjectID})}" th:object="${task}"
       th:method="post">
     <input type="hidden" th:field="*{subProjectID}" th:value="subProject.subProjectID"/>
@@ -25,13 +31,14 @@
     <label th:for="*{timeEst}">Time estimated</label>
     <input type="number" th:field="*{timeEst}" required/><br>
 
-    <button type="submit">Save</button>
-
+    <button type="submit" class="box-button">Save</button>
+    <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subProject.subProjectID})}" class="box-button">
+        <button type="button">CANCEL</button>
+    </a>
 
 </form>
 
-<a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subProject.subProjectID})}">
-    <button type="button">CANCEL</button>
-</a>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>

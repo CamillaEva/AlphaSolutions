@@ -2,8 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create subProject</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/box.css}">
 </head>
 <body>
+<header th:replace="fragments/header :: site-header"></header>
+
+<div class="form-box">
 <h1>Create subProject</h1>
 <form th:action="@{/create-subproject/{projectID}/add(projectID=${project.projectID})}" th:object="${subproject}"
       method="post">
@@ -27,13 +32,14 @@
     <input type="number" th:field="*{timeEst}" required/> -->
 
 
-    <button type="submit">Save</button>
-
+    <button type="submit" class="box-button">Save</button>
+    <a th:href="@{/read-project/{projectID}(projectID=${project.projectID})}" class="box-button">
+        <button type="button">CANCEL</button>
+    </a>
 
 </form>
 
-<a th:href="@{/read-project/{projectID}(projectID=${project.projectID})}">
-    <button type="button">CANCEL</button>
-</a>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>
