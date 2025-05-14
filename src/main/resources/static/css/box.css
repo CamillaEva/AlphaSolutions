@@ -71,7 +71,7 @@ form input {
     display: flex;
     gap: 40px;
     padding: 30px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
 }
 
