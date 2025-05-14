@@ -33,7 +33,7 @@
             <div class="boxes">
                 <div class="box">
                     <h1>NEW SUBPROJECT</h1>
-                    <a th:href="@{/create-subproject/{projectID}}">
+                    <a th:href="@{/create-subproject/{projectID}(projectID=${projectID})}">
                         <img src="/image/plus-icon.png" class="plus-icon">
                     </a>
                 </div>
