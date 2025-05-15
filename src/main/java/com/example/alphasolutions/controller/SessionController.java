@@ -26,7 +26,7 @@ public class SessionController {
         this.projectService = projectService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String showLogin() {
         return "login";
     }
@@ -49,7 +49,7 @@ public class SessionController {
         return "main-page";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/")
     public String login(@RequestParam("mail") String mail, @RequestParam("password") String password, HttpSession session, Model model) {
         // checking if it's an admin user
         if (empService.adminLogin(mail, password)) {
