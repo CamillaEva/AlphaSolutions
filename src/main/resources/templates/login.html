@@ -10,7 +10,7 @@
 <body>
 <div class="login-container">
     <h1>Login</h1>
-    <form action="/login" method="post">
+    <form th:action="@{/}" method="post">
         <p th:if="${wrongCredentials}" class="error">Wrong mail or password. Try again</p>
         <p><label>Mail:</label>
             <input name="mail" type="text" autofocus></p> <!-- autofocus gør at man "starter" ved brugernavn input felt -->
