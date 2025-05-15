@@ -12,6 +12,7 @@
 <header th:replace="fragments/header ::site-header"></header>
 
 <div class="elements">
+    <div class="category-label">Project</div>
     <div class="main-elements">
         <div class="element-info">
             <h1 th:text="${project.name}"></h1><br>
@@ -28,10 +29,6 @@
             <label th:for="timeEst"><strong>Time-estimate from subprojects: </strong></label>
             <span><span th:text="${timeEstimate}"></span> hours</span>
 
-<!--<label th:for="timeEst"><strong>Time Estimated:</strong></label>
-<span th:text="${project.timeEst}"></span><br> -->
-
-<!-- <h3>time-Estimate from subprojects: <span th:text="${timeEstimate}"></span> hours</h3> -->
 
             <div class="boxes">
                 <div class="box">
@@ -49,7 +46,8 @@
                 </div>
             </div>
         </div>
-
+    </div>
+    <div class="side-elements">
         <div class="box-button">
             <a th:href="@{/edit-project/{projectID}(projectID=${project.projectID})}">
                 <button type="button">Edit Project</button>

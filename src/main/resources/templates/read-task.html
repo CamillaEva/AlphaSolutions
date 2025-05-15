@@ -11,37 +11,60 @@
 <header th:replace="fragments/header ::site-header"></header>
 
 <div class="elements">
-    <div class="element-info">
-        <h1 th:text="${task.name}"></h1><br>
+    <div class="category-label">Task</div>
+    <div class="main-elements">
+        <div class="element-info">
+            <h1 th:text="${task.name}"></h1><br>
 
-        <table>
-            <tr>
-                <th>Description</th>
-                <th>Start date</th>
-                <th>End date</th>
-            </tr>
-            <tr>
-                <td th:text="${task.description}"></td>
-                <td th:text="${task.startDate}"></td>
-                <td th:text="${task.endDate}"></td>
-            </tr>
-        </table>
-    </div>
-    <div class="box-button">
-        <a th:href="@{/pl/edit-task/{taskID}(taskID=${task.getTaskID()})}">
-            <button type="submit">Edit task</button>
-        </a>
-        <a th:href="@{/pl/delete-task/{taskID}(taskID=${task.getTaskID()})}">
-            <button type="submit" onclick="return confirm('Are you sure you want to delete the task?')">Delete
-                task
-            </button>
-        </a>
-        <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
-            <button type="button">Back</button>
-        </a>
-    </div>
+            <table>
+                <tr>
+                    <th>Description</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                </tr>
+                <tr>
+                    <td th:text="${task.description}"></td>
+                    <td th:text="${task.startDate}"></td>
+                    <td th:text="${task.endDate}"></td>
+                </tr>
+            </table>
+        </div>
 
-    <section th:replace="fragments/overview :: site-overview"></section>
+        <div class="under-elements">
+                <form th:action="@{/}" method="post">
+                    <label><strong>Used time</strong></label>
+                    <input name="used time" type="number">
+                    <button type="submit">Save</button>
+                </form>
+
+            <p><strong>Employees: </strong></p>
+            <ul>
+                <li>
+                    <p>hej</p>
+                    <p>med</p>
+                    <p>dig</p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="side-elements">
+        <div class="box-button">
+            <a th:href="@{/pl/edit-task/{taskID}(taskID=${task.getTaskID()})}">
+                <button type="submit">Edit task</button>
+            </a>
+            <a th:href="@{/pl/delete-task/{taskID}(taskID=${task.getTaskID()})}">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete the task?')">Delete
+                    task
+                </button>
+            </a>
+            <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
+                <button type="button">Back</button>
+            </a>
+        </div>
+
+        <section th:replace="fragments/overview :: site-overview"></section>
+    </div>
 </div>
 
 </body>

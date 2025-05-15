@@ -11,6 +11,7 @@
 <header th:replace="fragments/header ::site-header"></header>
 
 <div class="elements">
+    <div class="category-label">Subproject</div>
     <div class="main-elements">
         <div class="element-info">
             <h1 th:text="${subProject.name}"></h1><br>
@@ -48,23 +49,23 @@
         </div>
     </div>
 
-    <div class="box-button">
-        <form th:action="@{/edit-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}" method="get">
-            <button type="submit">Edit subproject</button>
-        </form>
-        <form th:action="@{/delete-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}"
-              method="post">
-            <button type="submit" onclick="return confirm('Are you sure you want to delete this subproject?')">Delete
-                subproject
-            </button>
-        </form>
+    <div class="side-elements">
+        <div class="box-button">
+            <a th:href="@{/edit-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}">
+                <button type="submit">Edit subproject</button>
+            </a>
+            <a th:href="@{/delete-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this subproject?')">
+                    Delete subproject
+                </button>
+            </a>
 
-        <a th:href="@{/read-project/{projectID}(projectID=${subProject.getProjectID()})}">
-            <button type="button">Back</button>
-        </a>
+            <a th:href="@{/read-project/{projectID}(projectID=${subProject.getProjectID()})}">
+                <button type="button">Back</button>
+            </a>
+        </div>
+        <section th:replace="fragments/overview :: site-overview"></section>
     </div>
-    <section th:replace="fragments/overview :: site-overview"></section>
-
 </div>
 
 <footer th:replace="fragments/footer :: site-footer"></footer>

@@ -19,3 +19,15 @@
     line-height: 1.6;
     clear: both;
 }
+
+/*_________________________________________CATEGORY______________________________________________*/
+.category-label {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: dimgrey;
+    border-bottom: 2px solid #FF325A;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}

@@ -71,7 +71,7 @@ form input {
     display: flex;
     gap: 40px;
     padding: 30px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
 }
 
@@ -103,4 +103,11 @@ form input {
 
 .mini-box h2{
     font-size: 12px;
+}
+
+.side-elements {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
 }
