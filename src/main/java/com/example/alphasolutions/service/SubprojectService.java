@@ -1,38 +1,38 @@
 package com.example.alphasolutions.service;
 
-import com.example.alphasolutions.model.SubProject;
-import com.example.alphasolutions.repository.SubProjectRepository;
+import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.repository.SubprojectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SubProjectService {
+public class SubprojectService {
 
 
-    private final SubProjectRepository subProjectRepository;
+    private final SubprojectRepository subProjectRepository;
 
-    public SubProjectService(SubProjectRepository subProjectRepository) {
+    public SubprojectService(SubprojectRepository subProjectRepository) {
         this.subProjectRepository = subProjectRepository;
     }
 
 
     //_______________________________________________CREATE_____________________________________________________________
-    public int createSubProject(SubProject subProject) {
+    public int createSubProject(Subproject subProject) {
         return subProjectRepository.createSubProject(subProject);
     } //Change to createSubProject + change in controller
 
     //_______________________________________________READ_______________________________________________________________
-    public List<SubProject> readAllSubProjects() {
+    public List<Subproject> readAllSubProjects() {
         return subProjectRepository.readAllSubProjects();
     }
 
     //TODO Not used
-    public List<SubProject> getSubProjectsByProjectID(int projectID) {
+    public List<Subproject> getSubProjectsByProjectID(int projectID) {
         return subProjectRepository.getSubProjectsByProjectID(projectID);
     }
 
-    public SubProject readSubProjectByID(int subProjectID) {
+    public Subproject readSubProjectByID(int subProjectID) {
         return subProjectRepository.readSubProjectById(subProjectID);
     }
 
@@ -41,7 +41,7 @@ public class SubProjectService {
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    public void updateSubProject(SubProject subProject) {
+    public void updateSubProject(Subproject subProject) {
         subProjectRepository.updateSubProject(subProject);
     }
 

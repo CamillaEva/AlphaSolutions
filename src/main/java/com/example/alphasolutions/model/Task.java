@@ -1,6 +1,7 @@
 package com.example.alphasolutions.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Task {
 
@@ -12,8 +13,9 @@ public class Task {
     private LocalDate startDate;
     private LocalDate endDate;
     private int timeEst;
-    private int usedTime; // er en ekstra ting, har ekstra constructor.
-//    private Status status; vil vi have status på?
+    private int usedTime;
+    private List<Employee> employees;
+
 
 
     public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
@@ -35,6 +37,17 @@ public class Task {
         this.subProjectID = subProjectID;
     }
 
+    //TODO: fiks om nogle af constructorene kan slås sammen?
+    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subProjectID, List<Employee> employees) {
+        this.taskID = taskID;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timeEst = timeEst;
+        this.subProjectID = subProjectID;
+        this.employees = employees;
+    }
 
     //TODO Constructor when usedTime is being added
 //    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime) {
@@ -117,4 +130,11 @@ public class Task {
         this.subProjectID = subProjectID;
     }
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }

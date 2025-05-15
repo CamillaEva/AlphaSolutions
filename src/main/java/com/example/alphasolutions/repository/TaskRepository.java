@@ -1,9 +1,8 @@
 package com.example.alphasolutions.repository;
 
-import com.example.alphasolutions.model.Employee;
-import com.example.alphasolutions.model.SubProject;
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.model.TaskRowMapper;
+import org.springframework.boot.autoconfigure.service.connection.ConnectionDetails;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -17,8 +16,9 @@ import java.util.List;
 @Repository
 public class TaskRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final ConnectionDetails connectionDetails;
 
-    public TaskRepository(JdbcTemplate jdbcTemplate) {
+    public TaskRepository(JdbcTemplate jdbcTemplate, ConnectionDetails connectionDetails) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(
                 System.getenv("DB_URL"),
                 System.getenv("DB_USERNAME"),
@@ -26,6 +26,14 @@ public class TaskRepository {
         );
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = jdbcTemplate;
+        this.connectionDetails = connectionDetails;
+    }
+
+    //______________________________________________ATTACH EMP__________________________________________________________
+    public void attachTaskToEmp (int taskID, int empID){
+        String sql = "INSERT INTO EMP_TASK SET EMPID = ? WHERE TASKID = ?";
+        jdbcTemplate.update(sql, taskID, empID);
+
     }
 
     //_______________________________________________CREATE_____________________________________________________________

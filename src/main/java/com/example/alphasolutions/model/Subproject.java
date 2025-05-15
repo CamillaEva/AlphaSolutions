@@ -3,7 +3,7 @@ package com.example.alphasolutions.model;
 import java.time.LocalDate;
 import java.util.List;
 
-public class SubProject {
+public class Subproject {
 
 
     private int subProjectID;
@@ -32,11 +32,11 @@ public class SubProject {
 //        this.status = status;
 //    }
 
-    public SubProject() {
+    public Subproject() {
 
     }
 
-    public SubProject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+    public Subproject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
         this.subProjectID = subProjectID;
         this.name = name;
         this.description = description;
@@ -45,7 +45,7 @@ public class SubProject {
         this.timeEst = timeEst;
     }
 
-    public SubProject(int subProjectID, int projectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+    public Subproject(int subProjectID, int projectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
         this.subProjectID = subProjectID;
         this.projectID = projectID;
         this.taskID = taskID;

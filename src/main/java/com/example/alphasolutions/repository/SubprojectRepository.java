@@ -12,12 +12,12 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
-public class SubProjectRepository {
+public class SubprojectRepository {
 
-    private SubProjectMapper subProjectMapper;
+    private SubprojectMapper subProjectMapper;
     private final JdbcTemplate jdbcTemplate;
 
-    public SubProjectRepository() {
+    public SubprojectRepository() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(
                 System.getenv("DB_URL"),
                 System.getenv("DB_USERNAME"),
@@ -25,11 +25,11 @@ public class SubProjectRepository {
         );
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.subProjectMapper = new SubProjectMapper();
+        this.subProjectMapper = new SubprojectMapper();
     }
 
     //_______________________________________________CREATE_____________________________________________________________
-    public int createSubProject(SubProject subProject) {
+    public int createSubProject(Subproject subProject) {
         String sql = "INSERT INTO subproject (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, PROJECTID) VALUES (?,?,?,?,?,?)";
         KeyHolder keyholder = new GeneratedKeyHolder();
 
@@ -48,19 +48,19 @@ public class SubProjectRepository {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    public List<SubProject> readAllSubProjects() {
+    public List<Subproject> readAllSubProjects() {
         String sql = "SELECT SUBPROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM SUBPROJECT";
-        return jdbcTemplate.query(sql, new SubProjectRowMapper());
+        return jdbcTemplate.query(sql, new SubprojectRowMapper());
     }
 
-    public SubProject readSubProjectById(int subProjectID) {
+    public Subproject readSubProjectById(int subProjectID) {
         String sql = "SELECT SP.SUBPROJECTID, SP.PROJECTID, SP.NAME, SP.DESCRIPTION, SP.STARTDATE, SP.ENDDATE, SP.TIMEEST, T.TASKID AS TID, T.NAME AS TNAME, T.DESCRIPTION AS TDESCRIPTION, T.STARTDATE AS TSTARTDATE, T.ENDDATE AS TENDDATE, T.TIMEEST AS TTIMEEST, T.SUBPROJECTID AS TSUBPROJECTID FROM SUBPROJECT SP " +
                 "LEFT JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
         return  subProjectMapper.subProjectWithTasks(jdbcTemplate.queryForList(sql, subProjectID)).get(0);
     }
 
     public int getTimeEstFromTasks(int subProjectID){
-        SubProject subProject = readSubProjectById(subProjectID);
+        Subproject subProject = readSubProjectById(subProjectID);
         if (subProject.getTasks() == null){
             return 0;
         }
@@ -69,13 +69,13 @@ public class SubProjectRepository {
     }
 
     //TODO Only used in service
-    public List<SubProject> getSubProjectsByProjectID(int projectID) {
+    public List<Subproject> getSubProjectsByProjectID(int projectID) {
         String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM SUBPROJECT WHERE PROJECTID = ?";
-        return jdbcTemplate.query(sql, new SubProjectRowMapper(), projectID);
+        return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    public void updateSubProject(SubProject subProject) {
+    public void updateSubProject(Subproject subProject) {
         String sql = "UPDATE SUBPROJECT SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE SUBPROJECTID = ?";
         jdbcTemplate.update(sql, subProject.getName(), subProject.getDescription(), subProject.getStartDate(), subProject.getEndDate(), subProject.getTimeEst(), subProject.getSubProjectID());
 
