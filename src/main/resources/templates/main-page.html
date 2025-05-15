@@ -5,6 +5,8 @@
     <title>Main page</title>
     <link rel="stylesheet" th:href="@{/css/main-page.css}">
     <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/info-elements.css}">
+    <link rel="stylesheet" th:href="@{/css/box.css}">
 </head>
 <body>
 <header th:replace="fragments/header :: site-header"></header>
@@ -12,9 +14,26 @@
 
 <div th:if="${session.emp.role.name() == 'PROJECT_LEADER'}">
     <p>You're a project leader</p>
-</div>
+    <div class="boxes">
+        <div class="box">
+            <h1>NEW PROJECT</h1>
+            <a th:href="@{/create-project}">
+                <img src="/image/plus-icon.png" class="plus-icon">
+            </a>
+        </div>
+
+        <div th:each="project : ${projects}" class="box">
+            <a th:href="@{/read-project/{projectID}(projectID=${project.getProjectID()})}"
+               th:text="${project.name}"></a>
+            <p th:text="${project.description}"></p>
+        </div>
+
+    </div>
+
 <div th:if="${session.emp.role.name() == 'EMPLOYEE'}"> <!--T er type, da role er enum og ikke string -->
     <p>EMPLOYEEEE</p>
+
+    <section th:replace="fragments/overview :: site-overview"></section>
 </div>
 </body>
 </html>
