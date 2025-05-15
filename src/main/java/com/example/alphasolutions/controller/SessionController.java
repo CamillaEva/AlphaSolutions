@@ -21,7 +21,7 @@ public class SessionController {
         this.empService = empService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String showLogin() {
         return "login";
     }
