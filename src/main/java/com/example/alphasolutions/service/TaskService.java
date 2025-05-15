@@ -1,7 +1,5 @@
 package com.example.alphasolutions.service;
 
-import com.example.alphasolutions.model.Employee;
-import com.example.alphasolutions.model.SubProject;
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,12 @@ public class TaskService {
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
+
+    //___________________________________________ATTACH EMP________________________________________________________________
+    public void attachTaskToEmp (int taskID, int empID){
+        taskRepository.attachTaskToEmp(taskID, empID);
+    }
+
 
     //_______________________________________________CREATE_____________________________________________________________
     public int createTask(Task task) {
