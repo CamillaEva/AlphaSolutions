@@ -1,5 +1,7 @@
 package com.example.alphasolutions.model;
 
+import java.util.List;
+
 public class Employee {
 
     private int empID;
@@ -9,6 +11,7 @@ public class Employee {
     private String password;
     //private Skill skill;  //har egen constructor - nice-to-have
     private Role role;
+    private List<Task> tasks;
 
 
     public Employee(int empID, String firstName, String lastName, String mail, String password, Role role) {
@@ -31,18 +34,15 @@ public class Employee {
 
     }
 
-    //Constructor with SKILL included
-    /*public Employee(int empID, String firstName, String lastName, String mail, String password, Skill skill, Role role) {
+    public Employee(int empID, String firstName, String lastName, String mail, String password, Role role, List<Task> tasks) {
         this.empID = empID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.mail = mail;
         this.password = password;
-        this.skill = skill;
         this.role = role;
+        this.tasks = tasks;
     }
-     */
-
 
     public int getEmpID() {
         return empID;
@@ -104,6 +104,15 @@ public class Employee {
         this.role = role;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    //TODO: er toString overhovedet nødvendigt???
     @Override
     public String toString() {
         return "Employee{" +

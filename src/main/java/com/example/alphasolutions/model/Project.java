@@ -1,15 +1,12 @@
 package com.example.alphasolutions.model;
 
-import org.springframework.cglib.core.Local;
-
-import java.sql.Array;
 import java.time.LocalDate;
 import java.util.List;
 
 public class Project {
 
     private int projectID;
-    private List<SubProject> subProjects;
+    private List<Subproject> subprojects;
     private String name;
     private String description;
     private LocalDate startDate;
@@ -48,8 +45,8 @@ public class Project {
 //    }
 
 
-    public void createSubproject(SubProject subProject) {
-        subProjects.add(subProject);
+    public void createSubproject(Subproject subProject) {
+        subprojects.add(subProject);
     }
 
     public int getProjectID() {
@@ -60,12 +57,12 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public List<SubProject> getSubProjects() {
-        return subProjects;
+    public List<Subproject> getSubProjects() {
+        return subprojects;
     }
 
-    public void setSubProjects(List<SubProject> subProjects) {
-        this.subProjects = subProjects;
+    public void setSubProjects(List<Subproject> subprojects) {
+        this.subprojects = subprojects;
     }
 
     public String getName() {
