@@ -2,12 +2,15 @@ package com.example.alphasolutions.controller;
 
 
 import com.example.alphasolutions.model.Employee;
+import com.example.alphasolutions.model.Project;
 import com.example.alphasolutions.model.Role;
 import com.example.alphasolutions.service.EmpService;
+import com.example.alphasolutions.service.ProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,10 +18,12 @@ import java.util.List;
 
 @Controller
 public class SessionController {
+    private final ProjectService projectService;
     private EmpService empService;
 
-    public SessionController(EmpService empService) {
+    public SessionController(EmpService empService, ProjectService projectService) {
         this.empService = empService;
+        this.projectService = projectService;
     }
 
     @GetMapping("/")
@@ -34,7 +39,13 @@ public class SessionController {
     }
 
     @GetMapping("/main-page/{empID}")
-    public String showMainPage(){
+    public String showMainPage(HttpSession session, Model model) {
+        Employee emp = (Employee) session.getAttribute("emp");
+
+        //if (emp.getRole() == Role.PROJECT_LEADER) {
+            List<Project> projects = projectService.readAllProjects();
+            model.addAttribute("projects", projects);
+       // }
         return "main-page";
     }
 
