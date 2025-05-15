@@ -42,10 +42,10 @@ public class SessionController {
     public String showMainPage(HttpSession session, Model model) {
         Employee emp = (Employee) session.getAttribute("emp");
 
-        if (emp.getRole() == Role.PROJECT_LEADER) {
+        //if (emp.getRole() == Role.PROJECT_LEADER) {
             List<Project> projects = projectService.readAllProjects();
             model.addAttribute("projects", projects);
-        }
+       // }
         return "main-page";
     }
 
