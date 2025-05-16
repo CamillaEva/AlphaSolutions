@@ -21,21 +21,24 @@
                     <th>Description</th>
                     <th>Start date</th>
                     <th>End date</th>
+                    <th>Time Estimate</th>
                 </tr>
                 <tr>
                     <td th:text="${task.description}"></td>
                     <td th:text="${task.startDate}"></td>
                     <td th:text="${task.endDate}"></td>
+                    <td th:text="${task.timeEst}">
+                    </td>
                 </tr>
             </table>
         </div>
 
         <div class="under-elements">
-                <form th:action="@{/}" method="post">
-                    <label><strong>Used time</strong></label>
-                    <input name="used time" type="number">
-                    <button type="submit">Save</button>
-                </form>
+            <form th:action="@{/}" method="post">
+                <label><strong>Used time</strong></label>
+                <input name="used time" type="number">
+                <button type="submit">Save</button>
+            </form>
 
             <p><strong>Employees: </strong></p>
             <ul>
@@ -63,7 +66,7 @@
             </a>
         </div>
 
-        <section th:replace="fragments/overview :: site-overview"></section>
+        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate})"></section>
     </div>
 </div>
 
