@@ -3,6 +3,7 @@ package com.example.alphasolutions.controller;
 import com.example.alphasolutions.model.Project;
 import com.example.alphasolutions.model.Subproject;
 import com.example.alphasolutions.model.Task;
+import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,12 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
     private final SubprojectService subprojectService;
+    private final ProjectService projectService;
 
-    public TaskController(TaskService taskService, SubprojectService subprojectService) {
+    public TaskController(TaskService taskService, SubprojectService subprojectService, ProjectService projectService) {
         this.taskService = taskService;
         this.subprojectService = subprojectService;
+        this.projectService = projectService;
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -51,7 +54,16 @@ public class TaskController {
     @GetMapping("/read-tasks/{taskID}")
     public String readTaskByID(@PathVariable int taskID, Model model) {
         Task task = taskService.readTaskByID(taskID);
+        Subproject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
+        Project project = projectService.readProjectByID(subproject.getProjectID());
+
+        int totalTimeEstimate = 0;
+        for (Subproject sp : project.getSubProjects()) {
+            int est = subprojectService.getTimeEstFromTasks(sp.getSubProjectID());
+            totalTimeEstimate += est;
+        }
         model.addAttribute("task", task);
+        model.addAttribute("totalTimeEstimate", totalTimeEstimate);
         return "read-task";
     }
 
@@ -64,21 +76,21 @@ public class TaskController {
 
     //_______________________________________________UPDATE_____________________________________________________________
     @GetMapping("/pl/edit-task/{taskID}")
-    public String editTask ( @PathVariable int taskID, Model model){
+    public String editTask(@PathVariable int taskID, Model model) {
         Task task = taskService.readTaskByID(taskID);
         model.addAttribute("task", task);
         return "update-task";
     }
 
     @PostMapping("/pl/edit-task/{taskID}")
-    public String updateTask ( @PathVariable int taskID, @ModelAttribute("task") Task task){
+    public String updateTask(@PathVariable int taskID, @ModelAttribute("task") Task task) {
         taskService.updateTask(task);
         return "redirect:/read-tasks/" + taskID;
     }
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/pl/delete-task/{taskID}")
-    public String deleteTask ( @PathVariable int taskID){
+    public String deleteTask(@PathVariable int taskID) {
         Task task = taskService.readTaskByID(taskID);
         taskService.deleteTask(task);
         return "redirect:/pl/read-tasks";

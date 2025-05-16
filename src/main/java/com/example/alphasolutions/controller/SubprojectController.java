@@ -50,10 +50,18 @@ public class SubprojectController {
     @GetMapping("/read-subproject/{subProjectID}")
     public String readSubProjectByIDWithTime(@PathVariable("subProjectID") int subProjectID, Model model) {
         Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
-        int totalEstimate = subProjectService.getTimeEstFromTasks(subProjectID);
+        int timeEstimate = subProjectService.getTimeEstFromTasks(subProjectID);
+
+        Project project = projectService.readProjectByID(subProject.getProjectID());
+        int totalTimeEstimate = 0;
+        for (Subproject sp : project.getSubProjects()) {
+            int est = subProjectService.getTimeEstFromTasks(sp.getSubProjectID());
+            totalTimeEstimate += est;
+        }
 
         model.addAttribute("subProject", subProject);
-        model.addAttribute("timeEstimate", totalEstimate);
+        model.addAttribute("timeEstimate", timeEstimate);
+        model.addAttribute("totalTimeEstimate", totalTimeEstimate);
         return "read-subproject";
     }
 
@@ -74,7 +82,7 @@ public class SubprojectController {
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-subproject/{subProjectID}")
-    public String deleteSubProject ( @PathVariable int subProjectID){
+    public String deleteSubProject(@PathVariable int subProjectID) {
         Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
         subProjectService.deleteSubProject(subProject.getSubProjectID());
         return "redirect:/read-subprojects";
