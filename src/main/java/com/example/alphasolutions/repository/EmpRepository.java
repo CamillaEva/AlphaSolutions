@@ -47,7 +47,7 @@ public class EmpRepository {
     public void attributeSetup(HttpSession session, Employee employee){
         session.setAttribute("emp", employee);
         session.setAttribute("role", employee.getRole());
-        session.setMaxInactiveInterval(30);
+        session.setMaxInactiveInterval(300);
     }
 
     //-------------------------------------CREATE----------------------------------------------
