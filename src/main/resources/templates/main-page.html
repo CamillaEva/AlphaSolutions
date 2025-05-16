@@ -28,20 +28,16 @@
                     </div>
 
                     <div th:each="project : ${projects}" class="box">
-                        <a th:href="@{/read-project/{projectID}(projectID=${project.getProjectID()})}"
+                        <a th:href="@{/read-project/{projectID}(projectID=${project.projectID})}"
                            th:text="${project.name}"></a>
                         <p th:text="${project.description}"></p>
                     </div>
                 </div>
-
-                <div th:if="${session.emp.role.name() == 'EMPLOYEE'}"> <!--T er type, da role er enum og ikke string -->
-                    <p>EMPLOYEEEE</p>
-                </div>
+            </div>
+            <div th:if="${session.emp.role.name() == 'EMPLOYEE'}"> <!--T er type, da role er enum og ikke string -->
+                <p>EMPLOYEEEE</p>
             </div>
         </div>
-    </div>
-    <div class="side-elements">
-        <section th:replace="fragments/overview :: site-overview"></section>
     </div>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>

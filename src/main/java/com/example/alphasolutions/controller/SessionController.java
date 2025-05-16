@@ -40,7 +40,8 @@ public class SessionController {
 
     @GetMapping("/main-page/{empID}")
     public String showMainPage(HttpSession session, Model model) {
-        Employee emp = (Employee) session.getAttribute("emp");
+        //TODO Skal der tjekkes for role i HTML, Controller eller begge?
+        //Employee emp = (Employee) session.getAttribute("emp");
 
         //if (emp.getRole() == Role.PROJECT_LEADER) {
             List<Project> projects = projectService.readAllProjects();
