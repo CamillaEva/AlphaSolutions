@@ -26,9 +26,6 @@
             <label th:for="endDate"><strong>End date:</strong></label>
             <span th:text="${project.endDate}"></span><br>
 
-            <label th:for="timeEst"><strong>Time-estimate from subprojects: </strong></label>
-            <span><span th:text="${timeEstimate}"></span> hours</span>
-
 
             <div class="boxes">
                 <div class="box">
@@ -65,7 +62,7 @@
             </a>
         </div>
 
-        <section th:replace="fragments/overview :: site-overview"></section>
+        <section th:replace="fragments/overview :: site-overview(${timeEstimate})"></section>
     </div>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>
