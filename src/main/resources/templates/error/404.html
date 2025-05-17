@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{/css/general.css}">
+
 <head>
   <meta charset="UTF-8">
   <title>Error</title>
+  <link rel="stylesheet" th:href="@{/css/general.css}">
+  <link rel="stylesheet" th:href="@{/css/info-elements.css}">
 </head>
-<header th:replace="fragments/header :: site-header"></header>
+
 <body>
+<header th:replace="fragments/header :: site-header"></header>
+<div class="error">
 <h2>Sorry! The requsted site could not be found. Check the URL for any errors.
   <br>
   <br>
-  <a th:href="@{'/'}">Back to login</a>
 </h2>
-</body>
+  <a th:href="@{'/'}">
+    <button type="button">Back to login</button>
+  </a>
+</div>
+
 <footer th:replace="fragments/footer :: site-footer"></footer>
+</body>
 </html>

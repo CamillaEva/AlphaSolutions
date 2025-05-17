@@ -57,7 +57,7 @@
                 </button>
             </a>
 
-            <a th:href="@{/read-projects}">
+            <a th:href="@{/main-page/{empID}(empID=${session.emp.empID})}">
                 <button type="button">Back</button>
             </a>
         </div>

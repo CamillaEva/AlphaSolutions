@@ -2,24 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Error</title>
+    <title>no access</title>
     <link rel="stylesheet" th:href="@{/css/general.css}">
     <link rel="stylesheet" th:href="@{/css/info-elements.css}">
 </head>
-
 <body>
 <header th:replace="fragments/header :: site-header"></header>
-
 <div class="error">
-    <h2>Sorry an error 500 has occurred. Session may expired, try login again!
-        <br>
-        <br>
-    </h2>
-
+    <h1>You do not have access to this</h1>
+    <br>
     <a th:href="@{'/'}">
         <button type="button">Back to login</button>
     </a>
 </div>
+
 <footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>

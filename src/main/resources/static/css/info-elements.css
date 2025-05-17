@@ -57,3 +57,12 @@
     border-bottom: 1px solid #ccc;
     text-align: left;
 }
+
+/*_________________________________________ERROR PAGE__________________________________________________*/
+.error{
+    grid-area: main;
+    display: flex;
+    justify-content: flex-start; /* starts from the top*/
+    flex-direction: column; /*direction of elements */
+}
+

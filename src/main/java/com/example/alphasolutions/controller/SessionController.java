@@ -32,22 +32,33 @@ public class SessionController {
     }
 
     @GetMapping("/admin")
-    public String adminMainPage(Model model) {
-        List<Employee> employee = empService.readAllEmployees();
-        model.addAttribute("emp", employee);
-        return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
+    public String adminMainPage(Model model, HttpSession session) {
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if (sessionRole == Role.ADMIN) {
+            List<Employee> employee = empService.readAllEmployees();
+            model.addAttribute("emp", employee);
+            return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
+        }
+        return "error/no-access";
     }
 
     @GetMapping("/main-page/{empID}")
-    public String showMainPage(HttpSession session, Model model) {
-        //TODO Skal der tjekkes for role i HTML, Controller eller begge?
-        //Employee emp = (Employee) session.getAttribute("emp");
+    public String showMainPage(@PathVariable int empID, HttpSession session, Model model) {
+        List<Project> projects = projectService.readAllProjects();
+        model.addAttribute("projects", projects);
 
-        //if (emp.getRole() == Role.PROJECT_LEADER) {
-            List<Project> projects = projectService.readAllProjects();
-            model.addAttribute("projects", projects);
-       // }
-        return "main-page";
+        Employee sessionEmp = (Employee) session.getAttribute("emp");
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if (sessionEmp == null || sessionEmp.getEmpID() != empID) {
+            return "redirect:/";
+        }
+
+        if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
+            return "main-page";
+        }
+        return "error/no-access";
     }
 
     @PostMapping("/")
@@ -55,7 +66,7 @@ public class SessionController {
         // checking if it's an admin user
         if (empService.adminLogin(mail, password)) {
             Employee admin = new Employee(mail, password, Role.ADMIN);
-           empService.attributeSetup(session,admin);
+            empService.attributeSetup(session, admin);
             return "redirect:/admin";
         }
 
@@ -63,7 +74,7 @@ public class SessionController {
         Employee employee = empService.signIn(mail, password);
 
         if (employee != null) {
-            empService.attributeSetup(session,employee);
+            empService.attributeSetup(session, employee);
             return "redirect:/main-page/" + employee.getEmpID();
         }
 

@@ -87,15 +87,6 @@ public class Employee {
         this.password = password;
     }
 
-    /*public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-     */
-
     public Role getRole() {
         return role;
     }
