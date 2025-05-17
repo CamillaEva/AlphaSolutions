@@ -6,6 +6,7 @@ import com.example.alphasolutions.model.Role;
 import com.example.alphasolutions.model.Subproject;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,16 +28,25 @@ public class ProjectController {
 
     //_______________________________________________CREATE_____________________________________________________________
     @GetMapping("/create-project")
-    public String createProject(Model model) {
-        model.addAttribute("project", new Project());
-        return "create-project";
+    public String createProject(HttpSession session,Model model) {
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if(sessionRole == Role.PROJECT_LEADER) {
+            model.addAttribute("project", new Project());
+            return "create-project";
+        }
+        return "error/no-access";
     }
 
     //TODO: skal alle andre post hedde save eller skal denne ændres, så alle er ens?
     @PostMapping("/create-project")
-    public String saveProject(@ModelAttribute("project") Project project) {
-        projectService.createProject(project);
-        return "redirect:/read-projects";
+    public String saveProject(@ModelAttribute("project") Project project, HttpSession session) {
+        Role sessionRole = (Role) session.getAttribute("role");
+        if (sessionRole == Role.PROJECT_LEADER) {
+            projectService.createProject(project);
+            return "redirect:/read-projects";
+        }
+        return "error/no-access";
     }
 
     //_______________________________________________READ_______________________________________________________________
@@ -49,39 +59,64 @@ public class ProjectController {
     }
 
     @GetMapping("/read-project/{projectID}")
-    public String readProjectByIDWithTime(@PathVariable("projectID") int projectID, Model model) {
-        Project project = projectService.readProjectByID(projectID);
-        int totalEstimate = 0;
+    public String readProjectByIDWithTime(@PathVariable("projectID") int projectID,
+                                          HttpSession session, Model model) {
 
-        for (Subproject subProject : project.getSubProjects()) {
-            int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
-            subProject.setTimeEst(est);
-            totalEstimate += est;
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if(sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
+            Project project = projectService.readProjectByID(projectID);
+            int totalEstimate = 0;
+
+            for (Subproject subProject : project.getSubProjects()) {
+                int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
+                subProject.setTimeEst(est);
+                totalEstimate += est;
+            }
+            model.addAttribute("project", project);
+            model.addAttribute("timeEstimate", totalEstimate);
+            return "read-project";
         }
-        model.addAttribute("project", project);
-        model.addAttribute("timeEstimate", totalEstimate);
-        return "read-project";
+        return "error/no-access";
     }
     //_______________________________________________UPDATE_____________________________________________________________
     @GetMapping("/edit-project/{projectID}")
-    public String editProject ( @PathVariable int projectID, Model model){
-        Project project = projectService.readProjectByID(projectID);
-        model.addAttribute("project", project);
-        return "update-project";
+    public String editProject ( @PathVariable int projectID, HttpSession session,
+                                Model model){
+
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if(sessionRole == Role.PROJECT_LEADER) {
+            Project project = projectService.readProjectByID(projectID);
+            model.addAttribute("project", project);
+            return "update-project";
+        }
+        return "error/no-access";
     }
 
     @PostMapping("/edit-project/{projectID}")
-    public String updateProject ( @PathVariable int projectID, @ModelAttribute("project") Project project){
-        projectService.updateProject(project);
-        return "redirect:/read-project/" + projectID;
+    public String updateProject ( @PathVariable int projectID, @ModelAttribute("project") Project project,
+                                  HttpSession session) {
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if (sessionRole == Role.PROJECT_LEADER) {
+            projectService.updateProject(project);
+            return "redirect:/read-project/" + projectID;
+        }
+        return "error/no-access";
     }
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-project/{projectID}")
-    public String deleteProject ( @PathVariable int projectID){
-        Project project = projectService.readProjectByID(projectID);
-        projectService.deleteProject(project);
-        return "redirect:/read-projects";
+    public String deleteProject ( @PathVariable int projectID, HttpSession session){
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if(sessionRole == Role.PROJECT_LEADER) {
+            Project project = projectService.readProjectByID(projectID);
+            projectService.deleteProject(project);
+            return "redirect:/read-projects";
+        }
+        return "error/no-access";
     }
 
 }

@@ -30,7 +30,7 @@
 
 
         <button type="submit" class="box-button">save</button>
-        <a th:href="@{/read-projects}" class="box-button">
+        <a th:href="@{/main-page/{empID}(empID=${session.emp.empID})}" class="box-button">
             <button type="button">CANCEL</button>
         </a>
     </form>
