@@ -30,11 +30,11 @@ public class TaskRepository {
     }
 
     //______________________________________________ATTACH EMP__________________________________________________________
-    public void attachTaskToEmp (int taskID, int empID){
-        String sql = "INSERT INTO EMP_TASK SET EMPID = ? WHERE TASKID = ?";
-        jdbcTemplate.update(sql, taskID, empID);
-
+    public void attachEmpToTask (int taskID, int empID){
+        String sql = "INSERT INTO EMP_TASK (EMPID, TASKID) VALUES (?,?)";
+        jdbcTemplate.update(sql, empID, taskID);
     }
+
 
     //_______________________________________________CREATE_____________________________________________________________
     public int createTask(Task task) {

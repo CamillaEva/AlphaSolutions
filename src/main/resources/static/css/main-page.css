@@ -5,30 +5,6 @@
     align-items: start;
 }
 
-.user-container{
-    width: 100%;
-    margin-left: 100px; /*TODO: skal ændres så mere automatiseret */
-    margin-top: 0;
-}
-
-.user-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-family: "Bodoni MT";
-    font-size: 30px;
-}
-
-.user-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.user-table th, .user-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    text-align: left;
-}
-
 .admin-button {
     display: flex;
     flex-direction: column; /* stacked vertically */
@@ -49,3 +25,4 @@ a:hover{
 
 
 /* ---------------------- EMPLOYEE -------------------------*/
+
