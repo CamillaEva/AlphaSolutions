@@ -1,17 +1,16 @@
 package com.example.alphasolutions.controller;
 
+import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.Project;
 import com.example.alphasolutions.model.Subproject;
 import com.example.alphasolutions.model.Task;
+import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,11 +19,14 @@ public class TaskController {
     private final TaskService taskService;
     private final SubprojectService subprojectService;
     private final ProjectService projectService;
+    private final EmpService empService;
 
-    public TaskController(TaskService taskService, SubprojectService subprojectService, ProjectService projectService) {
+    public TaskController(TaskService taskService, SubprojectService subprojectService,
+                          ProjectService projectService, EmpService empService) {
         this.taskService = taskService;
         this.subprojectService = subprojectService;
         this.projectService = projectService;
+        this.empService = empService;
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -89,12 +91,26 @@ public class TaskController {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    @PostMapping("/pl/delete-task/{taskID}")
-    public String deleteTask(@PathVariable int taskID) {
-        Task task = taskService.readTaskByID(taskID);
-        taskService.deleteTask(task);
-        return "redirect:/pl/read-tasks";
+    //_____________________________________________ATTACH_______________________________________________________________
+    @GetMapping("/read-tasks/{taskID}/attach-emp")
+    public String attachEmpToTask (@PathVariable int taskID, Model model){
+        List<Employee> employees = empService.readAllEmployees();
+        model.addAttribute("taskID", taskID);
+        model.addAttribute("employees", employees);
+        return "attach-emp";
     }
+
+    @PostMapping("/read-tasks/{taskID}/attach-emp")
+    public String attachEmpToTask (@PathVariable int taskID, @RequestParam("empSelected") List<Integer> selectedEmpIDs){
+
+        if(selectedEmpIDs != null) {
+            for(int empID : selectedEmpIDs){
+                taskService.attachEmpToTask(taskID,empID);
+            }
+        }
+        return "redirect:/read-tasks/" + taskID;
+    }
+
 
 
 }

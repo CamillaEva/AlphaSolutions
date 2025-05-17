@@ -15,8 +15,8 @@ public class TaskService {
     }
 
     //___________________________________________ATTACH EMP________________________________________________________________
-    public void attachTaskToEmp (int taskID, int empID){
-        taskRepository.attachTaskToEmp(taskID, empID);
+    public void attachEmpToTask (int taskID, int empID){
+        taskRepository.attachEmpToTask(taskID, empID);
     }
 
 

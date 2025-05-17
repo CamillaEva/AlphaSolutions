@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>attach emp</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/main-page.css}">
+    <link rel="stylesheet" th:href="@{/css/info-elements.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: site-header"></header>
+<div class="main-area">
+    <div class="user-container">
+        <h1><strong>Attach employees: </strong></h1>
+        <form th:action="@{'/read-tasks/' + ${taskID} + '/attach-emp'}" method="post">
+            <div th:each="employee : ${employees}">
+                <input type="checkbox"
+                       th:id="'emp_' + ${employee.empID}"
+                       th:name="empSelected"
+                       th:value="${employee.empID}"/>
+                <label th:for="'emp_' + ${employee.empID}"
+                       th:text="${employee.firstName + ' ' + employee.lastName}"></label>
+            </div>
+
+            <button type="submit" class="box-button">Save</button>
+            <a th:href="@{/read-tasks/{taskID} (taskID=${taskID})}" class="box-button">
+                <button type="button">Back</button>
+            </a>
+        </form>
+
+    </div>
+</div>
+<footer th:replace="fragments/footer :: site-footer"></footer>
+</body>
+</html>
