@@ -2,7 +2,7 @@
 <html lang="en">
 <link rel="stylesheet" th:href="@{/css/general.css}">
 <header th:fragment="site-header">
-    <a th:href="@{/login}">
+    <a th:href="@{/}">
         <img src="/image/AlphaSolutionsLogo.png">
     </a>
 
@@ -12,8 +12,8 @@
         <a th:href="@{/read-employees}">Employees</a>
     </div>
 
-    <form th:action="@{/logout}" method="post">
+    <a th:href="@{/logout}">
         <button type="submit">Logout</button>
-    </form>
+    </a>
 </header>
 </html>
