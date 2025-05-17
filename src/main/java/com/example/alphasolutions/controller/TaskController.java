@@ -46,7 +46,7 @@ public class TaskController {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    @GetMapping("/pl/read-tasks")
+    @GetMapping("/read-tasks")
     public String readAllTasks(Model model) {
         List<Task> tasks = taskService.readAllTasks();
         model.addAttribute("tasks", tasks);
@@ -91,6 +91,13 @@ public class TaskController {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
+    @PostMapping("/delete-task/{taskID}")
+    public String deleteSubProject(@PathVariable int taskID) {
+        Task task = taskService.readTaskByID(taskID);
+        taskService.deleteTask(task);
+        return "redirect:/read-subproject/" + task.getSubProjectID();
+    }
+
     //_____________________________________________ATTACH_______________________________________________________________
     @GetMapping("/read-tasks/{taskID}/attach-emp")
     public String attachEmpToTask (@PathVariable int taskID, Model model){
