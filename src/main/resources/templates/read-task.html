@@ -64,6 +64,9 @@
             <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
                 <button type="button">Back</button>
             </a>
+            <a th:href="@{/read-tasks/{taskID}/attach-emp (taskID=${task.taskID})}">
+                <button type="submit">Attach</button>
+            </a>
         </div>
 
         <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate})"></section>
