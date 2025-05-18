@@ -1,8 +1,10 @@
 package com.example.alphasolutions.controller;
 
+import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.Project;
 import com.example.alphasolutions.model.Role;
 import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import jakarta.servlet.http.HttpSession;
@@ -13,16 +15,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class SubprojectController {
     private final SubprojectService subProjectService;
     private final ProjectService projectService;
+    private final EmpService empService;
 
-    public SubprojectController(SubprojectService subProjectService, ProjectService projectService) {
+    public SubprojectController(SubprojectService subProjectService, ProjectService projectService,
+                                EmpService empService) {
         this.subProjectService = subProjectService;
         this.projectService = projectService;
+        this.empService = empService;
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -46,7 +52,10 @@ public class SubprojectController {
         Role sessionRole = (Role) session.getAttribute("role");
         if(sessionRole == Role.PROJECT_LEADER) {
             subProject.setProjectID(projectID);
-            subProjectService.createSubProject(subProject);
+           int newSubprojectID = subProjectService.createSubProject(subProject);
+
+            projectService.assignSubprojectToProject(newSubprojectID, projectID);
+
             return "redirect:/read-project/" + projectID;
         }
         return "error/no-access";
@@ -68,6 +77,23 @@ public class SubprojectController {
                 int est = subProjectService.getTimeEstFromTasks(sp.getSubProjectID());
                 totalTimeEstimate += est;
             }
+
+            List<Integer> assignedEmpIDsSubproject = subProjectService.showAssignedEmpSubproject(subProjectID);
+            List<Employee> assignedEmployeesSubproject = new ArrayList<>();
+
+            List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(subProject.getProjectID());
+            List<Employee> assignedEmployeesProject = new ArrayList<>();
+
+            for (int empID : assignedEmpIDsSubproject){
+                assignedEmployeesSubproject.add(empService.readEmployeeById(empID));
+            }
+
+            for(int empID : assignedEmpIDsProject){
+                assignedEmployeesProject.add(empService.readEmployeeById(empID));
+            }
+
+            model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
+            model.addAttribute("assignedEmployeesSubproject", assignedEmployeesSubproject);
             model.addAttribute("subProject", subProject);
             model.addAttribute("timeEstimate", timeEstimate);
             model.addAttribute("totalTimeEstimate", totalTimeEstimate);
@@ -116,4 +142,7 @@ public class SubprojectController {
         }
         return "error/no-access";
     }
+
+    //___________________________________________ASSIGN EMP________________________________________________________________
+
 }

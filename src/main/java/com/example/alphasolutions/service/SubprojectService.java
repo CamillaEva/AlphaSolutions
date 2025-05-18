@@ -11,10 +11,22 @@ public class SubprojectService {
 
 
     private final SubprojectRepository subProjectRepository;
+    private final SubprojectRepository subprojectRepository;
 
-    public SubprojectService(SubprojectRepository subProjectRepository) {
+    public SubprojectService(SubprojectRepository subProjectRepository, SubprojectRepository subprojectRepository) {
         this.subProjectRepository = subProjectRepository;
+        this.subprojectRepository = subprojectRepository;
     }
+
+    //___________________________________________ASSIGN EMP________________________________________________________________
+    public void assignTaskToSubproject(int taskID, int subprojectID){
+        subprojectRepository.assignTaskToSubproject(taskID, subprojectID);
+    }
+
+    public List<Integer> showAssignedEmpSubproject(int subprojectID){
+        return subProjectRepository.showAssignedEmpSubproject(subprojectID);
+    }
+
 
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -23,10 +35,6 @@ public class SubprojectService {
     } //Change to createSubProject + change in controller
 
     //_______________________________________________READ_______________________________________________________________
-    public List<Subproject> readAllSubProjects() {
-        return subProjectRepository.readAllSubProjects();
-    }
-
     //TODO Not used
     public List<Subproject> getSubProjectsByProjectID(int projectID) {
         return subProjectRepository.getSubProjectsByProjectID(projectID);

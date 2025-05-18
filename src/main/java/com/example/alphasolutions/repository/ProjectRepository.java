@@ -29,6 +29,20 @@ public class ProjectRepository {
         this.projectMapper = new ProjectMapper();
     }
 
+    //______________________________________________ASSIGN EMP__________________________________________________________
+    public void assignSubprojectToProject(int subprojectID, int projectID){
+        String sql = "INSERT INTO PROJECT_SUBPROJECTS (SUBPROJECTID, PROJECTID) VALUES (?,?)";
+        jdbcTemplate.update(sql, subprojectID, projectID);
+    }
+
+    public List<Integer> showAssignedEmpProject(int projectID){
+        String sql = "SELECT DISTINCT E.EMPID FROM EMP E JOIN EMP_TASK TE ON E.EMPID = TE.EMPID" +
+                " JOIN SUBPROJECT_TASKS ST ON TE.TASKID = ST.TASKID JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = " +
+                "PS.SUBPROJECTID WHERE PS.PROJECTID = ?";
+
+        return jdbcTemplate.queryForList(sql, Integer.class, projectID);
+    }
+
     //_______________________________________________CREATE_____________________________________________________________
     public int createProject(Project project) {
         String sql = "INSERT INTO PROJECT (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST) VALUES (?,?,?,?,?)";

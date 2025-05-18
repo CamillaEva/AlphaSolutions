@@ -4,6 +4,7 @@ import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.Project;
 import com.example.alphasolutions.model.Role;
 import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import jakarta.servlet.http.HttpSession;
@@ -14,16 +15,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class ProjectController {
     private final ProjectService projectService;
     private final SubprojectService subprojectService;
+    private final EmpService empService;
 
-    public ProjectController(ProjectService projectService, SubprojectService subprojectService) {
+    public ProjectController(ProjectService projectService, SubprojectService subprojectService,
+                             EmpService empService) {
         this.projectService = projectService;
         this.subprojectService = subprojectService;
+        this.empService = empService;
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -73,6 +78,15 @@ public class ProjectController {
                 subProject.setTimeEst(est);
                 totalEstimate += est;
             }
+
+            List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
+            List<Employee> assignedEmployeesProject = new ArrayList<>();
+
+            for(int empID : assignedEmpIDsProject){
+                assignedEmployeesProject.add(empService.readEmployeeById(empID));
+            }
+
+            model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
             model.addAttribute("project", project);
             model.addAttribute("timeEstimate", totalEstimate);
             return "read-project";

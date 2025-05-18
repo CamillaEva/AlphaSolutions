@@ -28,6 +28,22 @@ public class SubprojectRepository {
         this.subProjectMapper = new SubprojectMapper();
     }
 
+    //______________________________________________ASSIGN EMP__________________________________________________________
+    public void assignTaskToSubproject(int taskID, int subprojectID){
+        String sql = "INSERT INTO SUBPROJECT_TASKS (TASKID, SUBPROJECTID) VALUES (?,?)";
+        jdbcTemplate.update(sql, taskID, subprojectID);
+    }
+
+    public List<Integer> showAssignedEmpSubproject(int subprojectID){
+    //DISTINCT shows assign emp once not multiple times
+        String sql = "SELECT DISTINCT E.EMPID FROM EMP E JOIN EMP_TASK TE ON E.EMPID = TE.EMPID" +
+            " JOIN SUBPROJECT_TASKS ST ON TE.TASKID = ST.TASKID WHERE ST.SUBPROJECTID = ?";
+
+        //Integer.class refers to the class object of the integer
+        //queryForList expect to return an Integer (empID)
+       return jdbcTemplate.queryForList(sql, Integer.class, subprojectID);
+    }
+
     //_______________________________________________CREATE_____________________________________________________________
     public int createSubProject(Subproject subProject) {
         String sql = "INSERT INTO subproject (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, PROJECTID) VALUES (?,?,?,?,?,?)";
@@ -48,11 +64,6 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    public List<Subproject> readAllSubProjects() {
-        String sql = "SELECT SUBPROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM SUBPROJECT";
-        return jdbcTemplate.query(sql, new SubprojectRowMapper());
-    }
-
     public Subproject readSubProjectById(int subProjectID) {
         String sql = "SELECT SP.SUBPROJECTID, SP.PROJECTID, SP.NAME, SP.DESCRIPTION, SP.STARTDATE, SP.ENDDATE, SP.TIMEEST, T.TASKID AS TID, T.NAME AS TNAME, T.DESCRIPTION AS TDESCRIPTION, T.STARTDATE AS TSTARTDATE, T.ENDDATE AS TENDDATE, T.TIMEEST AS TTIMEEST, T.SUBPROJECTID AS TSUBPROJECTID FROM SUBPROJECT SP " +
                 "LEFT JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";

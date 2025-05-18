@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,7 +50,11 @@ public class TaskController {
 
         if (sessionRole == Role.PROJECT_LEADER) {
             task.setSubProjectID(subProjectID);
-            taskService.createTask(task);
+            int newTaskID = taskService.createTask(task);
+
+            //puts new task in subproject_tasks in the database
+            subprojectService.assignTaskToSubproject(newTaskID, subProjectID);
+
             return "redirect:/read-subproject/" + subProjectID;
         }
         return "error/no-access";
@@ -72,6 +77,23 @@ public class TaskController {
                 int est = subprojectService.getTimeEstFromTasks(sp.getSubProjectID());
                 totalTimeEstimate += est;
             }
+
+            List<Integer> assignedEmpIDsTask = taskService.showAssignedEmpTask(taskID);
+            List<Employee> assignedEmployeesTask = new ArrayList<>();
+
+            for (int empID : assignedEmpIDsTask){
+                assignedEmployeesTask.add(empService.readEmployeeById(empID));
+            }
+
+            List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(project.getProjectID());
+            List<Employee> assignedEmployeesProject = new ArrayList<>();
+
+            for(int empID : assignedEmpIDsProject){
+                assignedEmployeesProject.add(empService.readEmployeeById(empID));
+            }
+
+            model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
+            model.addAttribute("assignedEmployeesTask", assignedEmployeesTask);
             model.addAttribute("task", task);
             model.addAttribute("totalTimeEstimate", totalTimeEstimate);
             return "read-task";
@@ -130,9 +152,9 @@ public class TaskController {
         return "error/no-access";
     }
 
-    //_____________________________________________ATTACH_______________________________________________________________
+    //_____________________________________________ASSIGN_______________________________________________________________
     @GetMapping("/read-tasks/{taskID}/attach-emp")
-    public String attachEmpToTask(@PathVariable int taskID, Model model, HttpSession session) {
+    public String assignEmpToTask(@PathVariable int taskID, Model model, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
@@ -145,14 +167,14 @@ public class TaskController {
     }
 
     @PostMapping("/read-tasks/{taskID}/attach-emp")
-    public String attachEmpToTask(@PathVariable int taskID, @RequestParam("empSelected") List<Integer> selectedEmpIDs,
+    public String assignEmpToTask(@PathVariable int taskID, @RequestParam("empSelected") List<Integer> selectedEmpIDs,
                                   HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
             if (selectedEmpIDs != null) {
                 for (int empID : selectedEmpIDs) {
-                    taskService.attachEmpToTask(taskID, empID);
+                    taskService.assignEmpToTask(taskID, empID);
                 }
             }
             return "redirect:/read-tasks/" + taskID;

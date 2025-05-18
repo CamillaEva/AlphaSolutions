@@ -16,6 +16,15 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
+    //______________________________________________ASSIGN EMP__________________________________________________________
+    public void assignSubprojectToProject(int subprojectID, int projectID){
+      projectRepository.assignSubprojectToProject(subprojectID, projectID);
+    }
+
+    public List<Integer> showAssignedEmpProject(int projectID){
+       return projectRepository.showAssignedEmpProject(projectID);
+    }
+
 
     //_______________________________________________CREATE_____________________________________________________________
     public int createProject(Project project) {
