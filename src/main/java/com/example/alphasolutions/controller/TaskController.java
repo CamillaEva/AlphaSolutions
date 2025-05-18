@@ -153,20 +153,23 @@ public class TaskController {
     }
 
     //_____________________________________________ASSIGN_______________________________________________________________
-    @GetMapping("/read-tasks/{taskID}/attach-emp")
+    @GetMapping("/read-tasks/{taskID}/assign-emp")
     public String assignEmpToTask(@PathVariable int taskID, Model model, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
             List<Employee> employees = empService.readAllEmployees();
+            List<Integer> alreadyAssigned = taskService.showAssignedEmpTask(taskID);
+
+            model.addAttribute("alreadyAssigned", alreadyAssigned);
             model.addAttribute("taskID", taskID);
             model.addAttribute("employees", employees);
-            return "attach-emp";
+            return "assign-emp";
         }
         return "error/no-access";
     }
 
-    @PostMapping("/read-tasks/{taskID}/attach-emp")
+    @PostMapping("/read-tasks/{taskID}/assign-emp")
     public String assignEmpToTask(@PathVariable int taskID, @RequestParam("empSelected") List<Integer> selectedEmpIDs,
                                   HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
