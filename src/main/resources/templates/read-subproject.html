@@ -60,16 +60,26 @@
                 </button>
             </a>
 
-            <a th:href="@{/read-project/{projectID}(projectID=${subProject.getProjectID()})}">
+            <a th:href="@{/read-project/{projectID}(projectID=${subProject.projectID})}">
                 <button type="button">Back</button>
             </a>
         </div>
-        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject})"></section>
+        <section
+                th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject})"></section>
+
+        <div class="assignedEmps">
+            <div class="mini-box">
+                <h1>Assigned Employees for Subproject: </h1>
+                <ul class="element-info">
+                    <li th:each="emp : ${assignedEmployeesSubproject}">
+                        <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
-    <li th:each="emp : ${assignedEmployeesSubproject}">
-    <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
-    </li>
 
 </div>
 

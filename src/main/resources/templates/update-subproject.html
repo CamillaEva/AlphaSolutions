@@ -30,13 +30,10 @@
         <label for="timeEst">Time estimated:</label>
         <input type="text" id="timeEst" th:field="*{timeEst}"/><br>
 
-  <button type="submit">Save</button>
-
-</form>
-<a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subProject.getSubProjectID()})}">
-  <button type="button">CANCEL</button>
-</a>
         <button type="submit">Save</button>
+        <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subProject.getSubProjectID()})}">
+            <button type="button">CANCEL</button>
+        </a>
     </form>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>
