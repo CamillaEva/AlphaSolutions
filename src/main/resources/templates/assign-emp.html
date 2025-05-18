@@ -12,12 +12,13 @@
 <div class="main-area">
     <div class="user-container">
         <h1><strong>Attach employees: </strong></h1>
-        <form th:action="@{'/read-tasks/' + ${taskID} + '/attach-emp'}" method="post">
+        <form th:action="@{'/read-tasks/' + ${taskID} + '/assign-emp'}" method="post">
             <div th:each="employee : ${employees}">
                 <input type="checkbox"
                        th:id="'emp_' + ${employee.empID}"
                        th:name="empSelected"
-                       th:value="${employee.empID}"/>
+                       th:value="${employee.empID}"
+                        th:checked="${alreadyAssigned.contains(employee.empID)}"/>
                 <label th:for="'emp_' + ${employee.empID}"
                        th:text="${employee.firstName + ' ' + employee.lastName}"></label>
             </div>
