@@ -14,9 +14,13 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    //___________________________________________ATTACH EMP________________________________________________________________
-    public void attachEmpToTask (int taskID, int empID){
-        taskRepository.attachEmpToTask(taskID, empID);
+    //___________________________________________ASSIGN EMP________________________________________________________________
+    public void assignEmpToTask(int taskID, int empID){
+        taskRepository.assignEmpToTask(taskID, empID);
+    }
+
+    public List<Integer> showAssignedEmpTask(int taskID){
+        return taskRepository.showAssignedEmpTask(taskID);
     }
 
 

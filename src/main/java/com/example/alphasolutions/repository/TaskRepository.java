@@ -29,10 +29,15 @@ public class TaskRepository {
         this.connectionDetails = connectionDetails;
     }
 
-    //______________________________________________ATTACH EMP__________________________________________________________
-    public void attachEmpToTask (int taskID, int empID){
+    //______________________________________________ASSIGN EMP__________________________________________________________
+    public void assignEmpToTask(int taskID, int empID){
         String sql = "INSERT INTO EMP_TASK (EMPID, TASKID) VALUES (?,?)";
         jdbcTemplate.update(sql, empID, taskID);
+    }
+
+    public List<Integer> showAssignedEmpTask(int taskID){
+        String sql = "SELECT DISTINCT EMPID FROM EMP_TASK WHERE TASKID = ?";
+        return jdbcTemplate.queryForList(sql, Integer.class, taskID);
     }
 
 

@@ -40,12 +40,10 @@
                 <button type="submit">Save</button>
             </form>
 
-            <p><strong>Employees: </strong></p>
+            <p><strong>Assigned employees: </strong></p>
             <ul>
-                <li>
-                    <p>hej</p>
-                    <p>med</p>
-                    <p>dig</p>
+                <li th:each="emp : ${assignedEmployeesTask}">
+                    <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
                 </li>
             </ul>
         </div>
@@ -65,13 +63,13 @@
                 <button type="button">Back</button>
             </a>
             <a th:href="@{/read-tasks/{taskID}/attach-emp (taskID=${task.taskID})}">
-                <button type="submit">Attach</button>
+                <button type="submit">Assign</button>
             </a>
         </div>
 
-        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate})"></section>
+        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject})"></section>
     </div>
 </div>
-
+<div th:replace="fragments/footer ::site-footer"></div>
 </body>
 </html>

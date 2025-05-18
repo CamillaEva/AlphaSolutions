@@ -64,8 +64,13 @@
                 <button type="button">Back</button>
             </a>
         </div>
-        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate})"></section>
+        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject})"></section>
     </div>
+
+    <li th:each="emp : ${assignedEmployeesSubproject}">
+    <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
+    </li>
+
 </div>
 
 <footer th:replace="fragments/footer :: site-footer"></footer>
