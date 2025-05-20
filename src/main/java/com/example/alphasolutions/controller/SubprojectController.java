@@ -1,12 +1,10 @@
 package com.example.alphasolutions.controller;
 
-import com.example.alphasolutions.model.Employee;
-import com.example.alphasolutions.model.Project;
-import com.example.alphasolutions.model.Role;
-import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
+import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +21,14 @@ public class SubprojectController {
     private final SubprojectService subProjectService;
     private final ProjectService projectService;
     private final EmpService empService;
+    private final TaskService taskService;
 
     public SubprojectController(SubprojectService subProjectService, ProjectService projectService,
-                                EmpService empService) {
+                                EmpService empService, TaskService taskService) {
         this.subProjectService = subProjectService;
         this.projectService = projectService;
         this.empService = empService;
+        this.taskService = taskService;
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -137,12 +137,15 @@ public class SubprojectController {
 
         if(sessionRole == Role.PROJECT_LEADER) {
             Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
-            subProjectService.deleteSubProject(subProject.getSubProjectID());
-            return "redirect:/read-subprojects";
+            for (Task t : subProject.getTasks()){
+                taskService.deleteTask(t);
+            }
+            subProjectService.deleteSubProject(subProject);
+            return "redirect:/read-project/" + subProject.getProjectID();
         }
         return "error/no-access";
     }
 
-    //___________________________________________ASSIGN EMP________________________________________________________________
+
 
 }

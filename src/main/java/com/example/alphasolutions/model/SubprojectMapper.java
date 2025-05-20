@@ -25,7 +25,6 @@ public class SubprojectMapper {
                 subProject.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
                 subProject.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
                 subProject.setTimeEst((Integer) rs.get("TIMEEST"));
-                //prøver lige her:
                 subProject.setProjectID((Integer) rs.get("PROJECTID"));
                 subProject.setTasks(new ArrayList<>());
             }

@@ -93,9 +93,12 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteSubProject(int id) {
+    public void deleteSubProject(Subproject subproject) {
+        String sql1 = "DELETE FROM PROJECT_SUBPROJECTS WHERE SUBPROJECTID = ?";
         String sql = "DELETE FROM SUBPROJECT WHERE SUBPROJECTID = ?";
-        jdbcTemplate.update(sql, id);
+
+        jdbcTemplate.update(sql1, subproject.getSubProjectID());
+        jdbcTemplate.update(sql, subproject.getSubProjectID());
     }
 
 

@@ -87,8 +87,10 @@ public class TaskRepository {
 
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteTask(Task task) {
+        String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
         String sql1 = "DELETE FROM SUBPROJECT_TASKS WHERE TASKID = ?";
         String sql2 = "DELETE FROM TASK WHERE TASKID = ?";
+        jdbcTemplate.update(sql, task.getTaskID());
         jdbcTemplate.update(sql1, task.getTaskID());
         jdbcTemplate.update(sql2, task.getTaskID());
     }
