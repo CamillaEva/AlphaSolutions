@@ -54,8 +54,8 @@ public class SubprojectService {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteSubProject(int id) {
-        subProjectRepository.deleteSubProject(id);
+    public void deleteSubProject(Subproject subproject) {
+        subProjectRepository.deleteSubProject(subproject);
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.alphasolutions.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Subproject {
@@ -33,7 +34,7 @@ public class Subproject {
 //    }
 
     public Subproject() {
-
+        tasks = new ArrayList<>();
     }
 
     public Subproject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
