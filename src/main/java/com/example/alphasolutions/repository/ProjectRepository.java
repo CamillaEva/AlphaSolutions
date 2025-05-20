@@ -88,12 +88,32 @@ public class ProjectRepository {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteProject(Project project) {
-        String sql1 = "DELETE FROM SUBPROJECT WHERE PROJECTID = ?";
-        jdbcTemplate.update(sql1, project.getProjectID());
 
-        String sql = "DELETE FROM PROJECT WHERE PROJECTID = ?";
-        jdbcTemplate.update(sql, project.getProjectID());
+
+    public void deleteProject(Project project) {
+        for (Subproject s : project.getSubProjects()){
+            List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ", (rs, rowNum)-> rs.getInt("TASKID"),
+                    s.getSubProjectID());
+            for (Integer taskID : taskIDs){
+                String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
+                String sql1 = "DELETE FROM SUBPROJECT_TASKS WHERE TASKID = ?";
+                String sql2 = "DELETE FROM TASK WHERE TASKID = ?";
+                jdbcTemplate.update(sql,  taskID);
+                jdbcTemplate.update(sql1, taskID);
+                jdbcTemplate.update(sql2, taskID);
+            }
+            String sql3 = "DELETE FROM PROJECT_SUBPROJECTS WHERE SUBPROJECTID = ?";
+            String sql4 = "DELETE FROM SUBPROJECT WHERE SUBPROJECTID = ?";
+
+            jdbcTemplate.update(sql3, s.getSubProjectID());
+            jdbcTemplate.update(sql4, s.getSubProjectID());
+        }
+        String sql5 = "DELETE FROM SUBPROJECT WHERE PROJECTID = ?";
+        jdbcTemplate.update(sql5, project.getProjectID());
+
+        String sql6 = "DELETE FROM PROJECT WHERE PROJECTID = ?";
+        jdbcTemplate.update(sql6, project.getProjectID());
     }
+
 
 }

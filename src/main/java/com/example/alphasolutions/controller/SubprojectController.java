@@ -50,9 +50,9 @@ public class SubprojectController {
     public String createSubProject(@PathVariable("projectID") int projectID, @ModelAttribute Subproject subProject,
                                    HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             subProject.setProjectID(projectID);
-           int newSubprojectID = subProjectService.createSubProject(subProject);
+            int newSubprojectID = subProjectService.createSubProject(subProject);
 
             projectService.assignSubprojectToProject(newSubprojectID, projectID);
 
@@ -84,11 +84,11 @@ public class SubprojectController {
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(subProject.getProjectID());
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for (int empID : assignedEmpIDsSubproject){
+            for (int empID : assignedEmpIDsSubproject) {
                 assignedEmployeesSubproject.add(empService.readEmployeeById(empID));
             }
 
-            for(int empID : assignedEmpIDsProject){
+            for (int empID : assignedEmpIDsProject) {
                 assignedEmployeesProject.add(empService.readEmployeeById(empID));
             }
 
@@ -109,7 +109,7 @@ public class SubprojectController {
 
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
             model.addAttribute("subProject", subProject);
             return "update-subproject";
@@ -123,7 +123,7 @@ public class SubprojectController {
                                    HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             subProjectService.updateSubProject(subProject);
             return "redirect:/read-subproject/" + subProjectID;
         }
@@ -131,21 +131,21 @@ public class SubprojectController {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
+
     @PostMapping("/delete-subproject/{subProjectID}")
     public String deleteSubProject(@PathVariable int subProjectID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
-            for (Task t : subProject.getTasks()){
-                taskService.deleteTask(t);
-            }
             subProjectService.deleteSubProject(subProject);
             return "redirect:/read-project/" + subProject.getProjectID();
         }
         return "error/no-access";
+
     }
 
-
-
 }
+
+
+
