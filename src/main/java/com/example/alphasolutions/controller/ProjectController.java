@@ -33,10 +33,10 @@ public class ProjectController {
 
     //_______________________________________________CREATE_____________________________________________________________
     @GetMapping("/create-project")
-    public String createProject(HttpSession session,Model model) {
+    public String createProject(HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             model.addAttribute("project", new Project());
             return "create-project";
         }
@@ -69,7 +69,7 @@ public class ProjectController {
 
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
+        if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Project project = projectService.readProjectByID(projectID);
             int totalEstimate = 0;
 
@@ -82,7 +82,7 @@ public class ProjectController {
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for(int empID : assignedEmpIDsProject){
+            for (int empID : assignedEmpIDsProject) {
                 assignedEmployeesProject.add(empService.readEmployeeById(empID));
             }
 
@@ -93,14 +93,15 @@ public class ProjectController {
         }
         return "error/no-access";
     }
+
     //_______________________________________________UPDATE_____________________________________________________________
     @GetMapping("/edit-project/{projectID}")
-    public String editProject ( @PathVariable int projectID, HttpSession session,
-                                Model model){
+    public String editProject(@PathVariable int projectID, HttpSession session,
+                              Model model) {
 
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             Project project = projectService.readProjectByID(projectID);
             model.addAttribute("project", project);
             return "update-project";
@@ -109,8 +110,8 @@ public class ProjectController {
     }
 
     @PostMapping("/edit-project/{projectID}")
-    public String updateProject ( @PathVariable int projectID, @ModelAttribute("project") Project project,
-                                  HttpSession session) {
+    public String updateProject(@PathVariable int projectID, @ModelAttribute("project") Project project,
+                                HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
@@ -121,19 +122,14 @@ public class ProjectController {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
+
+
     @PostMapping("/delete-project/{projectID}")
-    public String deleteProject ( @PathVariable int projectID, HttpSession session){
+    public String deleteProject(@PathVariable int projectID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             Project project = projectService.readProjectByID(projectID);
-            for (Subproject s : project.getSubProjects()){
-                Subproject sub = subprojectService.readSubProjectByID(s.getSubProjectID());
-                for (Task t: sub.getTasks()){
-                    taskService.deleteTask(t);
-                }
-                subprojectService.deleteSubProject(s);
-            }
             projectService.deleteProject(project);
             return "redirect:/main-page/" + session.getAttribute("id");
         }
@@ -141,3 +137,5 @@ public class ProjectController {
     }
 
 }
+
+
