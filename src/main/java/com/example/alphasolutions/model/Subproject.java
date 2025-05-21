@@ -1,6 +1,7 @@
 package com.example.alphasolutions.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Subproject {
@@ -8,32 +9,18 @@ public class Subproject {
 
     private int subProjectID;
     private int projectID;
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
     private int taskID;
     private String name;
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int timeEst;
-    private int usedTime;  //har egen constructor - nice-to-have
-//    private Status status; //har egen constructor - nice-to-have
+    private int timeEst = 0;
+    private int usedTime = 0;
 
-
-    //constructor for if we need status in out project
-//    public SubProject(int subProjectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime, Status status) {
-//        this.subProjectID = subProjectID;
-//        this.taskID = taskID;
-//        this.name = name;
-//        this.description = description;
-//        this.startDate = startDate;
-//        this.endDate = endDate;
-//        this.timeEst = timeEst;
-//        this.usedTime = usedTime;
-//        this.status = status;
-//    }
 
     public Subproject() {
-
+        tasks = new ArrayList<>();
     }
 
     public Subproject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
@@ -151,12 +138,4 @@ public class Subproject {
     public void setUsedTime(int usedTime) {
         this.usedTime = usedTime;
     }
-
-//    public Status getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(Status status) {
-//        this.status = status;
-//    }
 }

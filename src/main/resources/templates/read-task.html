@@ -22,20 +22,22 @@
                     <th>Start date</th>
                     <th>End date</th>
                     <th>Time Estimate</th>
+                    <th>Used Time</th>
                 </tr>
                 <tr>
                     <td th:text="${task.description}"></td>
                     <td th:text="${task.startDate}"></td>
                     <td th:text="${task.endDate}"></td>
-                    <td th:text="${task.timeEst}">
-                    </td>
+                    <td th:text="${task.timeEst}"></td>
+                    <td th:text="${task.usedTime}"></td>
                 </tr>
             </table>
         </div>
+
         <div class="under-elements">
-            <form th:action="@{/}" method="post">
-                <label><strong>Used time</strong></label>
-                <input name="used time" type="number">
+            <form th:action="@{/emp/edit-task/{taskID}(taskID=${task.getTaskID()})}" th:object="${task}" method="post">
+                <label for="usedTime">Used time</label>
+                <input type="number" id="usedTime" th:field="*{usedTime}"><br>
                 <button type="submit">Save</button>
             </form>
 
@@ -76,10 +78,9 @@
                 </a>
             </div>
         </div>
-    </div>
 
-    <section
-            th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject})"></section>
+        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+    </div>
 </div>
 <div th:replace="fragments/footer ::site-footer"></div>
 </body>

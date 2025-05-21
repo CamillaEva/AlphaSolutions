@@ -62,12 +62,12 @@ public class TaskRepository {
 
     //_______________________________________________READ_______________________________________________________________
     public List<Task> readAllTask() {
-        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM TASK";
+        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID, USEDTIME FROM TASK";
         return jdbcTemplate.query(sql, new TaskRowMapper());
     }
 
     public Task readTaskByID(int taskID) {
-        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID FROM TASK WHERE TASKID = ?";
+        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID, USEDTIME FROM TASK WHERE TASKID = ?";
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
@@ -78,20 +78,46 @@ public class TaskRepository {
         return jdbcTemplate.query(sql, new TaskRowMapper(), empID, subprojectID);
     }
 
+    public int readTotalTimeEstimateForProject(int projectID) {
+        String sql = "SELECT COALESCE(SUM(T.TIMEEST), 0) AS TOTAL_ESTIMATE " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT_TASKS ST ON T.TASKID = ST.TASKID " +
+                "JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = PS.SUBPROJECTID " +
+                "WHERE PS.PROJECTID = ?";
+        Integer totalTimeEstimate = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
+        return totalTimeEstimate != null ? totalTimeEstimate : 0;
+    }
+
+    public int readTotalUsedTimeForProject(int projectID) {
+        String sql = "SELECT COALESCE(SUM(T.USEDTIME), 0) AS TOTAL_USEDTIME " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT_TASKS ST ON T.TASKID = ST.TASKID " +
+                "JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = PS.SUBPROJECTID " +
+                "WHERE PS.PROJECTID = ?";
+
+        Integer totalUsedTime = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
+        return totalUsedTime != null ? totalUsedTime : 0;
+    }
+
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateTask(Task task) {
         String sql = "UPDATE TASK SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE TASKID = ?";
         jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getStartDate(), task.getEndDate(), task.getTimeEst(), task.getTaskID());
     }
 
+    public void updateUsedTime(Task task) {
+        String sql = "UPDATE TASK SET USEDTIME = USEDTIME + ? WHERE TASKID = ?";
+        jdbcTemplate.update(sql, task.getUsedTime(), task.getTaskID());
+    }
 
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteTask(Task task) {
+        String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
         String sql1 = "DELETE FROM SUBPROJECT_TASKS WHERE TASKID = ?";
         String sql2 = "DELETE FROM TASK WHERE TASKID = ?";
+        jdbcTemplate.update(sql, task.getTaskID());
         jdbcTemplate.update(sql1, task.getTaskID());
         jdbcTemplate.update(sql2, task.getTaskID());
     }
-
 
 }

@@ -28,6 +28,7 @@ public class SubprojectService {
     }
 
 
+
     //_______________________________________________CREATE_____________________________________________________________
     public int createSubProject(Subproject subProject) {
         return subProjectRepository.createSubProject(subProject);
@@ -50,14 +51,23 @@ public class SubprojectService {
         return subProjectRepository.readSubProjectsByProjectID(projectID);
     }
 
+    //TEST
+    public int readTotalTimeEstimateForProject(int projectID) {
+        return subProjectRepository.readTotalTimeEstimateForProject(projectID);
+    }
+
+    public int readTotalUsedTimeForProject(int projectID) {
+        return subProjectRepository.readTotalUsedTimeForProject(projectID);
+    }
+
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateSubProject(Subproject subProject) {
         subProjectRepository.updateSubProject(subProject);
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteSubProject(int id) {
-        subProjectRepository.deleteSubProject(id);
+    public void deleteSubProject(Subproject subproject) {
+        subProjectRepository.deleteSubProject(subproject);
     }
 
 

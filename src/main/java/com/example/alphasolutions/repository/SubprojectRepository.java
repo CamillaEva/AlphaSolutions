@@ -84,13 +84,31 @@ public class SubprojectRepository {
             return 0;
         }
         return subProject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
-
     }
 
     public List<Subproject> readSubProjectsByProjectID(int projectID) {
         String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST " +
                 "FROM SUBPROJECT WHERE PROJECTID = ?";
         return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID);
+    }
+
+    public int readTotalTimeEstimateForProject(int projectID) {
+        String sql = "SELECT COALESCE(SUM(T.TIMEEST), 0) AS TOTAL_ESTIMATE " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT_TASKS ST ON T.TASKID = ST.TASKID " +
+                "JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = PS.SUBPROJECTID " +
+                "WHERE PS.PROJECTID = ?";
+        Integer totalTimeEstimate = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
+        return totalTimeEstimate != null ? totalTimeEstimate : 0;
+    }
+
+    public int readTotalUsedTimeForProject(int projectId) {
+        String sql = "SELECT COALESCE(SUM(T.USEDTIME), 0) AS TOTAL_USEDTIME " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT S ON T.SUBPROJECTID = S.SUBPROJECTID " +
+                "WHERE S.PROJECTID = ?";
+        Integer totalUsedTime = jdbcTemplate.queryForObject(sql, Integer.class, projectId);
+        return totalUsedTime != null ? totalUsedTime : 0;
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
@@ -101,9 +119,21 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteSubProject(int id) {
-        String sql = "DELETE FROM SUBPROJECT WHERE SUBPROJECTID = ?";
-        jdbcTemplate.update(sql, id);
+
+    public void deleteSubProject(Subproject subProject) {
+        for (Task t : subProject.getTasks()){
+            String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
+            String sql1 = "DELETE FROM SUBPROJECT_TASKS WHERE TASKID = ?";
+            String sql2 = "DELETE FROM TASK WHERE TASKID = ?";
+            jdbcTemplate.update(sql,  t.getTaskID());
+            jdbcTemplate.update(sql1, t.getTaskID());
+            jdbcTemplate.update(sql2, t.getTaskID());
+        }
+        String sql3 = "DELETE FROM PROJECT_SUBPROJECTS WHERE SUBPROJECTID = ?";
+        String sql4 = "DELETE FROM SUBPROJECT WHERE SUBPROJECTID = ?";
+
+        jdbcTemplate.update(sql3, subProject.getSubProjectID());
+        jdbcTemplate.update(sql4, subProject.getSubProjectID());
     }
 
 
