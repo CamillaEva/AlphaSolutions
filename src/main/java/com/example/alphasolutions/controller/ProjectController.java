@@ -1,9 +1,6 @@
 package com.example.alphasolutions.controller;
 
-import com.example.alphasolutions.model.Employee;
-import com.example.alphasolutions.model.Project;
-import com.example.alphasolutions.model.Role;
-import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
@@ -33,10 +30,10 @@ public class ProjectController {
 
     //_______________________________________________CREATE_____________________________________________________________
     @GetMapping("/create-project")
-    public String createProject(HttpSession session,Model model) {
+    public String createProject(HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             model.addAttribute("project", new Project());
             return "create-project";
         }
@@ -69,38 +66,42 @@ public class ProjectController {
 
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
+        if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Project project = projectService.readProjectByID(projectID);
-            int totalEstimate = 0;
 
             for (Subproject subProject : project.getSubProjects()) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
-                totalEstimate += est;
             }
+
+            int totalEstimate = projectService.readTotalTimeEstimateForProject(projectID);
+            //Method to get totalTimeUsed for tasks in a project
+            int totalTimeUsed = projectService.readTotalUsedTimeForProject(projectID);
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for(int empID : assignedEmpIDsProject){
+            for (int empID : assignedEmpIDsProject) {
                 assignedEmployeesProject.add(empService.readEmployeeById(empID));
             }
 
             model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
             model.addAttribute("project", project);
             model.addAttribute("timeEstimate", totalEstimate);
+            model.addAttribute("totalTimeUsed", totalTimeUsed);
             return "read-project";
         }
         return "error/no-access";
     }
+
     //_______________________________________________UPDATE_____________________________________________________________
     @GetMapping("/edit-project/{projectID}")
-    public String editProject ( @PathVariable int projectID, HttpSession session,
-                                Model model){
+    public String editProject(@PathVariable int projectID, HttpSession session,
+                              Model model) {
 
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             Project project = projectService.readProjectByID(projectID);
             model.addAttribute("project", project);
             return "update-project";
@@ -109,8 +110,8 @@ public class ProjectController {
     }
 
     @PostMapping("/edit-project/{projectID}")
-    public String updateProject ( @PathVariable int projectID, @ModelAttribute("project") Project project,
-                                  HttpSession session) {
+    public String updateProject(@PathVariable int projectID, @ModelAttribute("project") Project project,
+                                HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
@@ -122,10 +123,10 @@ public class ProjectController {
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-project/{projectID}")
-    public String deleteProject ( @PathVariable int projectID, HttpSession session){
+    public String deleteProject(@PathVariable int projectID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             Project project = projectService.readProjectByID(projectID);
             projectService.deleteProject(project);
             return "redirect:/read-projects";

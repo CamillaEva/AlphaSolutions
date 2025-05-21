@@ -19,14 +19,13 @@ public class SubprojectService {
     }
 
     //___________________________________________ASSIGN EMP________________________________________________________________
-    public void assignTaskToSubproject(int taskID, int subprojectID){
+    public void assignTaskToSubproject(int taskID, int subprojectID) {
         subprojectRepository.assignTaskToSubproject(taskID, subprojectID);
     }
 
-    public List<Integer> showAssignedEmpSubproject(int subprojectID){
+    public List<Integer> showAssignedEmpSubproject(int subprojectID) {
         return subProjectRepository.showAssignedEmpSubproject(subprojectID);
     }
-
 
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -44,8 +43,17 @@ public class SubprojectService {
         return subProjectRepository.readSubProjectById(subProjectID);
     }
 
-    public int getTimeEstFromTasks(int subProjectID){
+    public int getTimeEstFromTasks(int subProjectID) {
         return subProjectRepository.getTimeEstFromTasks(subProjectID);
+    }
+
+    //TEST
+    public int readTotalTimeEstimateForProject(int projectID) {
+        return subProjectRepository.readTotalTimeEstimateForProject(projectID);
+    }
+
+    public int readTotalUsedTimeForProject(int projectID) {
+        return subProjectRepository.readTotalUsedTimeForProject(projectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________

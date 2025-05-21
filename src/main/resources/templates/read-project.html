@@ -39,7 +39,7 @@
                     <a th:href="@{/read-subproject/{id}(id=${subproject.subProjectID})}"
                        th:text="${subproject.name}">Subproject Name</a><br>
                     <span th:text="${subproject.description}"></span><br>
-                    Time Estimate: <span th:text="${subproject.timeEst}"></span> hours
+                    Time Estimate: <span th:text="${subproject.getTimeEst()}"></span> hours
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
             </a>
         </div>
 
-        <section th:replace="fragments/overview :: site-overview(${timeEstimate}, ${assignedEmployeesProject})"></section>
+        <section th:replace="fragments/overview :: site-overview(${timeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
     </div>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>
