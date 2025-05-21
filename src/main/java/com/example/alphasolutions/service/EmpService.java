@@ -16,22 +16,11 @@ public class EmpService {
         this.empRepository = empRepository;
     }
 
-    //-----------------------------------ADMIN-----------------------------------------------------
-    public boolean adminLogin(String mail, String password) {
-        Employee employee = empRepository.getAdmin(mail);
-        if (employee != null) {
-            // Admin found - check credentials
-            return employee.getPassword().equals(password);
-        }
-        return false;
-    }
-
     //---------------------------------------LOGIN---------------------------------------------------
     public void attributeSetup(HttpSession session, Employee employee){
         empRepository.attributeSetup(session, employee);
     }
 
-    //----------------------------------------CREATE--------------------------------------------------------------
     //_______________________________________________CREATE_____________________________________________________________
     public int createEmployee(Employee employee) {
         return empRepository.createEmployee(employee);

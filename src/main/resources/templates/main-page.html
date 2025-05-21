@@ -10,14 +10,13 @@
 </head>
 <body>
 <header th:replace="fragments/header :: site-header"></header>
-
 <div class="elements">
     <div class="category-label">Projects</div>
     <div class="main-elements">
         <div class="element-info">
-            <h1> Hello <a th:text="${session.emp.getFirstName()}"></a></h1>
+            <h1> Hello <a th:text="${sessionEmp.firstName}"></a></h1>
 
-            <div th:if="${session.emp.role.name() == 'PROJECT_LEADER'}">
+            <div th:if="${sessionEmp.role.name() == 'PROJECT_LEADER'}">
                 <p><strong>Your projects</strong></p>
                 <div class="boxes">
                     <div class="box">
@@ -34,13 +33,38 @@
                     </div>
                 </div>
             </div>
-            <div th:if="${session.emp.role.name() == 'EMPLOYEE'}">
+            <div th:if="${sessionEmp.role.name() == 'EMPLOYEE'}">
                 <p><strong>Your projects</strong></p>
                 <div class="boxes">
                     <div th:each="project : ${myProjects}" class="box">
                         <a th:href="@{/{empID}/read-my-project/{projectID} (empID = ${sessionEmp.empID}, projectID = ${project.projectID})}"
                            th:text="${project.name}"></a>
                         <p th:text="${project.description}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${sessionEmp.role.name() == 'ADMIN'}">
+                <div class="main-area">
+                    <div class="user-container">
+                        <h1>Users</h1>
+                        <table class="user-table">
+                            <tbody>
+                            <tr th:each="emp : ${employees}">
+                                <td>
+                                    <a th:href="@{'/read-employee/' + ${emp.empID}}"
+                                       th:text="${emp.firstName + ' ' + emp.lastName}"></a>
+                                </td>
+                                <td th:text="${emp.role}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="admin-button">
+                        <a th:href="@{/create-employee}">
+                            <button type="button">Create user</button>
+                        </a>
                     </div>
                 </div>
             </div>
