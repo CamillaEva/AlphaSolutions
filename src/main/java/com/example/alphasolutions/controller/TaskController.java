@@ -6,6 +6,7 @@ import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -72,23 +73,22 @@ public class TaskController {
             Subproject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
             Project project = projectService.readProjectByID(subproject.getProjectID());
 
-            int totalTimeEstimate = 0;
-            for (Subproject sp : project.getSubProjects()) {
-                int est = subprojectService.getTimeEstFromTasks(sp.getSubProjectID());
-                totalTimeEstimate += est;
-            }
+
+            int totalTimeEstimate = taskService.readTotalTimeEstimateForProject(project.getProjectID());
+            //Method to get totalTimeUsed for tasks in a project
+            int totalTimeUsed = taskService.readTotalUsedTimeForProject(project.getProjectID());
 
             List<Integer> assignedEmpIDsTask = taskService.showAssignedEmpTask(taskID);
             List<Employee> assignedEmployeesTask = new ArrayList<>();
 
-            for (int empID : assignedEmpIDsTask){
+            for (int empID : assignedEmpIDsTask) {
                 assignedEmployeesTask.add(empService.readEmployeeById(empID));
             }
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(project.getProjectID());
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for(int empID : assignedEmpIDsProject){
+            for (int empID : assignedEmpIDsProject) {
                 assignedEmployeesProject.add(empService.readEmployeeById(empID));
             }
 
@@ -96,6 +96,7 @@ public class TaskController {
             model.addAttribute("assignedEmployeesTask", assignedEmployeesTask);
             model.addAttribute("task", task);
             model.addAttribute("totalTimeEstimate", totalTimeEstimate);
+            model.addAttribute("totalTimeUsed", totalTimeUsed);
             return "read-task";
         }
         return "error/no-access";
@@ -138,6 +139,13 @@ public class TaskController {
         }
         return "error/no-access";
     }
+
+    @PostMapping("/emp/edit-task/{taskID}")
+    public String updateUsedTime(@PathVariable int taskID, @ModelAttribute("task") Task task) {
+        taskService.updateUsedTime(task);
+        return "redirect:/read-tasks/" + taskID;
+    }
+
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-task/{taskID}")

@@ -11,9 +11,8 @@ public class Project {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int timeEst;
-    private int usedTime; //har egen constructor - nice-to-have
-    //private Status status; //opret enum klasse  //har egen constructor - nice-to-have
+    private int timeEst = 0;
+    private int usedTime = 0;
 
 
     public Project() {
@@ -29,21 +28,6 @@ public class Project {
         this.timeEst = timeEst;
 
     }
-
-
-// constructor, if we need to work with status on a project!
-//    public Project(int projectID, int subprojectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime, Status status) {
-//        this.projectID = projectID;
-//        this.subprojectID = subprojectID;
-//        this.name = name;
-//        this.description = description;
-//        this.startDate = startDate;
-//        this.endDate = endDate;
-//        this.timeEst = timeEst;
-//        this.usedTime = usedTime;
-//        this.status = status;
-//    }
-
 
     public void createSubproject(Subproject subProject) {
         subprojects.add(subProject);
@@ -112,14 +96,4 @@ public class Project {
     public void setUsedTime(int usedTime) {
         this.usedTime = usedTime;
     }
-
-//    public Status getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(Status status) {
-//        this.status = status;
-//    }
-
-
 }

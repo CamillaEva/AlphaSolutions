@@ -30,12 +30,12 @@ public class ProjectRepository {
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
-    public void assignSubprojectToProject(int subprojectID, int projectID){
+    public void assignSubprojectToProject(int subprojectID, int projectID) {
         String sql = "INSERT INTO PROJECT_SUBPROJECTS (SUBPROJECTID, PROJECTID) VALUES (?,?)";
         jdbcTemplate.update(sql, subprojectID, projectID);
     }
 
-    public List<Integer> showAssignedEmpProject(int projectID){
+    public List<Integer> showAssignedEmpProject(int projectID) {
         String sql = "SELECT DISTINCT E.EMPID FROM EMP E JOIN EMP_TASK TE ON E.EMPID = TE.EMPID" +
                 " JOIN SUBPROJECT_TASKS ST ON TE.TASKID = ST.TASKID JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = " +
                 "PS.SUBPROJECTID WHERE PS.PROJECTID = ?";
@@ -73,6 +73,27 @@ public class ProjectRepository {
                 "FROM PROJECT P " +
                 "LEFT JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
+    }
+
+    public int readTotalTimeEstimateForProject(int projectID) {
+        String sql = "SELECT COALESCE(SUM(T.TIMEEST), 0) " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT S ON T.SUBPROJECTID = S.SUBPROJECTID " +  // Tilføjet mellemrum her
+                "WHERE S.PROJECTID = ?";
+
+        Integer totalTimeEstimate = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
+        return totalTimeEstimate != null ? totalTimeEstimate : 0;
+    }
+
+    public int readTotalUsedTimeForProject(int projectId) {
+        String sql = "SELECT COALESCE(SUM(T.USEDTIME), 0) AS TOTAL_USEDTIME " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT_TASKS ST ON T.TASKID = ST.TASKID " +
+                "JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = PS.SUBPROJECTID " +
+                "WHERE PS.PROJECTID = ?";
+
+        Integer totalUsedTime = jdbcTemplate.queryForObject(sql, Integer.class, projectId);
+        return totalUsedTime != null ? totalUsedTime : 0;
     }
 
     //_______________________________________________UPDATE_____________________________________________________________

@@ -17,12 +17,12 @@ public class ProjectService {
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
-    public void assignSubprojectToProject(int subprojectID, int projectID){
-      projectRepository.assignSubprojectToProject(subprojectID, projectID);
+    public void assignSubprojectToProject(int subprojectID, int projectID) {
+        projectRepository.assignSubprojectToProject(subprojectID, projectID);
     }
 
-    public List<Integer> showAssignedEmpProject(int projectID){
-       return projectRepository.showAssignedEmpProject(projectID);
+    public List<Integer> showAssignedEmpProject(int projectID) {
+        return projectRepository.showAssignedEmpProject(projectID);
     }
 
 
@@ -38,6 +38,14 @@ public class ProjectService {
 
     public Project readProjectByID(int projectID) {
         return projectRepository.readProjectByID(projectID);
+    }
+
+    public int readTotalTimeEstimateForProject(int projectID) {
+        return projectRepository.readTotalTimeEstimateForProject(projectID);
+    }
+
+    public int readTotalUsedTimeForProject(int projectID) {
+        return projectRepository.readTotalUsedTimeForProject(projectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________

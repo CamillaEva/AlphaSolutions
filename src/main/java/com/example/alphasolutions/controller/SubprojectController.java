@@ -72,11 +72,10 @@ public class SubprojectController {
             int timeEstimate = subProjectService.getTimeEstFromTasks(subProjectID);
 
             Project project = projectService.readProjectByID(subProject.getProjectID());
-            int totalTimeEstimate = 0;
-            for (Subproject sp : project.getSubProjects()) {
-                int est = subProjectService.getTimeEstFromTasks(sp.getSubProjectID());
-                totalTimeEstimate += est;
-            }
+//            }
+            int totalTimeEstimate = subProjectService.readTotalTimeEstimateForProject(project.getProjectID());
+            //Method to get totalTimeUsed for tasks in a project
+            int totalTimeUsed = subProjectService.readTotalUsedTimeForProject(project.getProjectID());
 
             List<Integer> assignedEmpIDsSubproject = subProjectService.showAssignedEmpSubproject(subProjectID);
             List<Employee> assignedEmployeesSubproject = new ArrayList<>();
@@ -97,6 +96,7 @@ public class SubprojectController {
             model.addAttribute("subProject", subProject);
             model.addAttribute("timeEstimate", timeEstimate);
             model.addAttribute("totalTimeEstimate", totalTimeEstimate);
+            model.addAttribute("totalTimeUsed", totalTimeUsed);
             return "read-subproject";
         }
         return "error/no-access";

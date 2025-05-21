@@ -71,13 +71,15 @@ public class ProjectController {
 
         if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Project project = projectService.readProjectByID(projectID);
-            int totalEstimate = 0;
 
             for (Subproject subProject : project.getSubProjects()) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
-                totalEstimate += est;
             }
+
+            int totalEstimate = projectService.readTotalTimeEstimateForProject(projectID);
+            //Method to get totalTimeUsed for tasks in a project
+            int totalTimeUsed = projectService.readTotalUsedTimeForProject(projectID);
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
             List<Employee> assignedEmployeesProject = new ArrayList<>();
@@ -89,6 +91,7 @@ public class ProjectController {
             model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
             model.addAttribute("project", project);
             model.addAttribute("timeEstimate", totalEstimate);
+            model.addAttribute("totalTimeUsed", totalTimeUsed);
             return "read-project";
         }
         return "error/no-access";

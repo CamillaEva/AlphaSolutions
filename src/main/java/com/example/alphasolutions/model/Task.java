@@ -12,8 +12,8 @@ public class Task {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int timeEst;
-    private int usedTime;
+    private int timeEst = 0;
+    private int usedTime = 0;
     private List<Employee> employees;
 
 
@@ -50,15 +50,16 @@ public class Task {
     }
 
     //TODO Constructor when usedTime is being added
-//    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int usedTime) {
-//        this.taskID = taskID;
-//        this.name = name;
-//        this.description = description;
-//        this.startDate = startDate;
-//        this.endDate = endDate;
-//        this.timeEst = timeEst;
-//        this.usedTime = usedTime;
-//    }
+    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subProjectID, int usedTime) {
+        this.taskID = taskID;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timeEst = timeEst;
+        this.subProjectID = subProjectID;
+        this.usedTime = usedTime;
+    }
 
     public Task() {
 

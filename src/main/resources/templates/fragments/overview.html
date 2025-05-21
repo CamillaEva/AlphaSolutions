@@ -3,7 +3,7 @@
     <link rel="stylesheet" th:href="@{/css/general.css}">
     <link rel="stylesheet" th:href="@{/css/box.css}">
 
-<section th:fragment="site-overview(timeEstimate,assignedEmployeesProject)">
+<section th:fragment="site-overview(timeEstimate,assignedEmployeesProject, totalTimeUsed)">
 <div class="overview">
     <h1>Overview of project</h1>
     <div class="mini-box">
@@ -13,12 +13,12 @@
 
     <div class="mini-box">
         <h1>Time used: </h1>
-        <p>INDSÆT METODE</p>
+        <p th:text="${totalTimeUsed}"></p>
     </div>
 
     <div class="mini-box">
         <h1>Time left: </h1>
-        <p>INDSÆT METODE</p>
+        <p></p>
     </div>
 
     <div class="mini-box">
