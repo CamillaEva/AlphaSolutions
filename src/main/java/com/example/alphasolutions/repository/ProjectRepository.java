@@ -78,7 +78,7 @@ public class ProjectRepository {
     }
 
     public List<Project> readMyProjects(int empID) {
-        String sql = "SELECT * FROM PROJECT P JOIN PROJECT_SUBPROJECTS PS ON P.PROJECTID = PS.PROJECTID" +
+        String sql = "SELECT DISTINCT * FROM PROJECT P JOIN PROJECT_SUBPROJECTS PS ON P.PROJECTID = PS.PROJECTID" +
                 " JOIN SUBPROJECT_TASKS ST ON PS.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
                 "WHERE EMPID = ?";
         return jdbcTemplate.query(sql, new ProjectRowMapper(), empID);
