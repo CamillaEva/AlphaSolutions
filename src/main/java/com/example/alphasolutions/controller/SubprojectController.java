@@ -131,18 +131,21 @@ public class SubprojectController {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
+
     @PostMapping("/delete-subproject/{subProjectID}")
     public String deleteSubProject(@PathVariable int subProjectID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
             Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
-            subProjectService.deleteSubProject(subProject.getSubProjectID());
-            return "redirect:/read-subprojects";
+            subProjectService.deleteSubProject(subProject);
+            return "redirect:/read-project/" + subProject.getProjectID();
         }
         return "error/no-access";
+
     }
 
-    //___________________________________________ASSIGN EMP________________________________________________________________
-
 }
+
+
+

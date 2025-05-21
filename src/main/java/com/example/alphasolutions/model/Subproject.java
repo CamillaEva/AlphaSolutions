@@ -20,7 +20,7 @@ public class Subproject {
 
 
     public Subproject() {
-
+        tasks = new ArrayList<>();
     }
 
     public Subproject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {

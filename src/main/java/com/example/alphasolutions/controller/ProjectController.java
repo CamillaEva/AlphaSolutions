@@ -4,6 +4,7 @@ import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
+import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +21,14 @@ public class ProjectController {
     private final ProjectService projectService;
     private final SubprojectService subprojectService;
     private final EmpService empService;
+    private final TaskService taskService;
 
     public ProjectController(ProjectService projectService, SubprojectService subprojectService,
-                             EmpService empService) {
+                             EmpService empService, TaskService taskService) {
         this.projectService = projectService;
         this.subprojectService = subprojectService;
         this.empService = empService;
+        this.taskService = taskService;
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -122,6 +125,8 @@ public class ProjectController {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
+
+
     @PostMapping("/delete-project/{projectID}")
     public String deleteProject(@PathVariable int projectID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
@@ -129,9 +134,11 @@ public class ProjectController {
         if (sessionRole == Role.PROJECT_LEADER) {
             Project project = projectService.readProjectByID(projectID);
             projectService.deleteProject(project);
-            return "redirect:/read-projects";
+            return "redirect:/main-page/" + session.getAttribute("id");
         }
         return "error/no-access";
     }
 
 }
+
+
