@@ -45,6 +45,16 @@ public class Subproject {
         this.timeEst = timeEst;
     }
 
+    public Subproject(int subProjectID, int projectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+        this.subProjectID = subProjectID;
+        this.projectID = projectID;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timeEst = timeEst;
+    }
+
     public Subproject(int subProjectID, int projectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
         this.subProjectID = subProjectID;
         this.projectID = projectID;

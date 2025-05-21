@@ -18,7 +18,7 @@
             <h1> Hello <a th:text="${session.emp.getFirstName()}"></a></h1>
 
             <div th:if="${session.emp.role.name() == 'PROJECT_LEADER'}">
-                <p>You're a project leader</p>
+                <p><strong>Your projects</strong></p>
                 <div class="boxes">
                     <div class="box">
                         <h1>NEW PROJECT</h1>
@@ -27,15 +27,22 @@
                         </a>
                     </div>
 
-                    <div th:each="project : ${projects}" class="box">
-                        <a th:href="@{/read-project/{projectID}(projectID=${project.projectID})}"
+                    <div th:each="project : ${allProjects}" class="box">
+                        <a th:href="@{/read-project/{projectID} (projectID = ${project.projectID})}"
                            th:text="${project.name}"></a>
                         <p th:text="${project.description}"></p>
                     </div>
                 </div>
             </div>
-            <div th:if="${session.emp.role.name() == 'EMPLOYEE'}"> <!--T er type, da role er enum og ikke string -->
-                <p>EMPLOYEEEE</p>
+            <div th:if="${session.emp.role.name() == 'EMPLOYEE'}">
+                <p><strong>Your projects</strong></p>
+                <div class="boxes">
+                    <div th:each="project : ${myProjects}" class="box">
+                        <a th:href="@{/{empID}/read-my-project/{projectID} (empID = ${sessionEmp.empID}, projectID = ${project.projectID})}"
+                           th:text="${project.name}"></a>
+                        <p th:text="${project.description}"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

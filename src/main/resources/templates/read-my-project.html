@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>read project</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/box.css}">
+    <link rel="stylesheet" th:href="@{/css/info-elements.css}">
+</head>
+
+<body>
+<header th:replace="fragments/header ::site-header"></header>
+
+<div class="elements">
+    <div class="category-label">Project</div>
+    <div class="main-elements">
+        <div class="element-info">
+
+            <div th:if="${sessionEmp.role.name() == 'EMPLOYEE'}">
+                <h1 th:text="${myProject.name}"></h1><br>
+
+                <label th:for="description"><strong>Description:</strong></label>
+                <span th:text="${myProject.description}"></span><br>
+
+                <label th:for="startDate"><strong>Start date:</strong></label>
+                <span th:text="${myProject.startDate}"></span><br>
+
+                <label th:for="endDate"><strong>End date:</strong></label>
+                <span th:text="${myProject.endDate}"></span><br>
+
+                <div class="boxes">
+                    <div th:each="subproject : ${mySubprojects}" class="box">
+                        <a th:href="@{/{empID}/read-subproject/{subprojectID}/my-tasks (empID =${empID}, subprojectID = ${subproject.subProjectID})}"
+                           th:text="${subproject.name}">Subproject Name</a><br>
+                        <span th:text="${subproject.description}"></span><br>
+                        Time Estimate: <span th:text="${subproject.timeEst}"></span> hours
+                    </div>
+                </div>
+
+                <div class="side-elements">
+                    <div class="box-button">
+                        <a th:href="@{/main-page/{empID}(empID=${session.emp.empID})}">
+                            <button type="button">Back</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

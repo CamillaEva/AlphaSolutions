@@ -16,6 +16,7 @@ import java.util.List;
 public class ProjectRepository {
 
     private ProjectMapper projectMapper;
+    private SubprojectMapper subprojectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public ProjectRepository() {
@@ -27,6 +28,7 @@ public class ProjectRepository {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
+        this.subprojectMapper = new SubprojectMapper();
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
@@ -75,6 +77,12 @@ public class ProjectRepository {
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
 
+    public List<Project> readMyProjects(int empID) {
+        String sql = "SELECT * FROM PROJECT P JOIN PROJECT_SUBPROJECTS PS ON P.PROJECTID = PS.PROJECTID" +
+                " JOIN SUBPROJECT_TASKS ST ON PS.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
+                "WHERE EMPID = ?";
+        return jdbcTemplate.query(sql, new ProjectRowMapper(), empID);
+    }
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
         String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE PROJECTID = ?";

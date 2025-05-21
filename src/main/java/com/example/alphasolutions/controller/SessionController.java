@@ -44,18 +44,17 @@ public class SessionController {
     }
 
     @GetMapping("/main-page/{empID}")
-    public String showMainPage(@PathVariable int empID, HttpSession session, Model model) {
-        List<Project> projects = projectService.readAllProjects();
-        model.addAttribute("projects", projects);
-
-        Employee sessionEmp = (Employee) session.getAttribute("emp");
+    public String readMyProjects(@PathVariable int empID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
+        Employee sessionEmp = (Employee) session.getAttribute("emp");
 
-        if (sessionEmp == null || sessionEmp.getEmpID() != empID) {
-            return "redirect:/";
-        }
+        if ((sessionEmp.getEmpID() == empID && sessionRole == Role.EMPLOYEE) || sessionRole == Role.PROJECT_LEADER) {
+            List<Project> myProjects = projectService.readMyProjects(empID);
+            List<Project> allProjects = projectService.readAllProjects();
 
-        if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
+            model.addAttribute("allProjects", allProjects);
+            model.addAttribute("myProjects", myProjects);
+            model.addAttribute("sessionEmp", sessionEmp);
             return "main-page";
         }
         return "error/no-access";

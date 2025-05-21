@@ -1,9 +1,6 @@
 package com.example.alphasolutions.controller;
 
-import com.example.alphasolutions.model.Employee;
-import com.example.alphasolutions.model.Project;
-import com.example.alphasolutions.model.Role;
-import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
@@ -43,13 +40,15 @@ public class ProjectController {
         return "error/no-access";
     }
 
-    //TODO: skal alle andre post hedde save eller skal denne ændres, så alle er ens?
     @PostMapping("/create-project")
     public String saveProject(@ModelAttribute("project") Project project, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
+        Employee sessionEmp = (Employee) session.getAttribute("emp");
+
         if (sessionRole == Role.PROJECT_LEADER) {
             projectService.createProject(project);
-            return "redirect:/read-projects";
+
+            return "redirect:/main-page/" + sessionEmp.getEmpID() + "read-my-project";
         }
         return "error/no-access";
     }
@@ -63,17 +62,17 @@ public class ProjectController {
         return "read-projects";
     }
 
-    @GetMapping("/read-project/{projectID}")
-    public String readProjectByIDWithTime(@PathVariable("projectID") int projectID,
-                                          HttpSession session, Model model) {
-
+    @GetMapping("/{empID}/read-my-project/{projectID}")
+    public String readMyProject (@PathVariable int empID, @PathVariable int projectID, HttpSession session, Model model){
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
-            Project project = projectService.readProjectByID(projectID);
+        if(sessionRole == Role.EMPLOYEE) {
+            List<Subproject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
+            Project myProject = projectService.readProjectByID(projectID);
+            Employee sessionEmp = empService.readEmployeeById(empID);
             int totalEstimate = 0;
 
-            for (Subproject subProject : project.getSubProjects()) {
+            for (Subproject subProject : mySubprojects) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
                 totalEstimate += est;
@@ -82,17 +81,54 @@ public class ProjectController {
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for(int empID : assignedEmpIDsProject){
-                assignedEmployeesProject.add(empService.readEmployeeById(empID));
+            for(int employeeID : assignedEmpIDsProject){
+                assignedEmployeesProject.add(empService.readEmployeeById(employeeID));
             }
 
             model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
-            model.addAttribute("project", project);
             model.addAttribute("timeEstimate", totalEstimate);
+            model.addAttribute("myProject", myProject);
+            model.addAttribute("sessionEmp", sessionEmp);
+            model.addAttribute("mySubprojects", mySubprojects);
+        return "read-my-project";
+        }
+    return "error/no-access";
+    }
+
+    @GetMapping("/read-project/{projectID}")
+    public String readProjectByID (@PathVariable int projectID, HttpSession session, Model model){
+        Role sessionRole = (Role) session.getAttribute("role");
+        Employee sessionEmp = (Employee) session.getAttribute("emp");
+
+        if(sessionRole == Role.PROJECT_LEADER) {
+            List<Subproject> allSubprojects = subprojectService.getSubProjectsByProjectID(projectID);
+            Project projectByID = projectService.readProjectByID(projectID);
+            int totalEstimate = 0;
+
+            for (Subproject subProject : allSubprojects) {
+                int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
+                subProject.setTimeEst(est);
+                totalEstimate += est;
+            }
+
+            List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
+            List<Employee> assignedEmployeesProject = new ArrayList<>();
+
+            for(int employeeID : assignedEmpIDsProject){
+                assignedEmployeesProject.add(empService.readEmployeeById(employeeID));
+            }
+
+            model.addAttribute("sessionEmp", sessionEmp);
+            model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
+            model.addAttribute("timeEstimate", totalEstimate);
+            model.addAttribute("allSubprojects", allSubprojects);
+            model.addAttribute("projectByID", projectByID);
             return "read-project";
         }
         return "error/no-access";
+
     }
+
     //_______________________________________________UPDATE_____________________________________________________________
     @GetMapping("/edit-project/{projectID}")
     public String editProject ( @PathVariable int projectID, HttpSession session,

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>read subproject</title>
+    <link rel="stylesheet" th:href="@{/css/general.css}">
+    <link rel="stylesheet" th:href="@{/css/box.css}">
+    <link rel="stylesheet" th:href="@{/css/info-elements.css}">
+</head>
+<body>
+<header th:replace="fragments/header ::site-header"></header>
+
+<div class="elements">
+    <div class="category-label">Subproject</div>
+    <div class="main-elements">
+        <div class="element-info">
+            <h1 th:text="${mySubproject.name}"></h1><br>
+
+            <label th:for="description"><strong>Description:</strong></label>
+            <span th:text="${mySubproject.description}"></span><br>
+
+            <label th:for="startDate"><strong>Start date:</strong></label>
+            <span th:text="${mySubproject.startDate}"></span><br>
+
+            <label th:for="endDate"><strong>End date:</strong></label>
+            <span th:text="${mySubproject.endDate}"></span><br>
+
+            <label th:for="timeEst"><strong>Time-estimate from tasks: </strong></label>
+            <span><span th:text="${timeEstimate}"></span> hours</span>
+        </div>
+
+
+        <div class="boxes">
+            <div th:each="task : ${myTasks}" class="box">
+                <a th:href="@{/read-tasks/{taskID}(taskID=${task.taskID})}"
+                   th:text="${task.name}">task Name</a><br>
+                <span th:text="${task.description}"></span><br>
+                Time Estimate: <span th:text="${task.timeEst}"></span>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <div class="side-elements">
+        <div class="box-button">
+            <a th:href="@{/{empID}/read-my-project/{projectID} (empID = ${empID}, projectID = ${mySubproject.projectID})}">
+                <button type="button">Back</button>
+            </a>
+        </div>
+        <section
+                th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject})"></section>
+
+        <div class="assignedEmps">
+            <div class="mini-box">
+                <h1>Assigned Employees for Subproject: </h1>
+                <ul class="element-info">
+                    <li th:each="emp : ${assignedEmployeesSubproject}">
+                        <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer th:replace="fragments/footer :: site-footer"></footer>
+</body>
+</html>
+

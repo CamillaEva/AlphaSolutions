@@ -30,12 +30,12 @@ public class TaskRepository {
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
-    public void assignEmpToTask(int taskID, int empID){
+    public void assignEmpToTask(int taskID, int empID) {
         String sql = "INSERT INTO EMP_TASK (EMPID, TASKID) VALUES (?,?)";
         jdbcTemplate.update(sql, empID, taskID);
     }
 
-    public List<Integer> showAssignedEmpTask(int taskID){
+    public List<Integer> showAssignedEmpTask(int taskID) {
         String sql = "SELECT DISTINCT EMPID FROM EMP_TASK WHERE TASKID = ?";
         return jdbcTemplate.queryForList(sql, Integer.class, taskID);
     }
@@ -71,11 +71,11 @@ public class TaskRepository {
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
-    public List<Task> readMyTasks(int empID) {
+    public List<Task> readMyTasks(int empID, int subprojectID) {
         String sql = "SELECT * FROM TASK T " +
                 "JOIN EMP_TASK ET ON T.TASKID = ET.TASKID " +
-                "WHERE ET.EMPID = ?";
-        return jdbcTemplate.query(sql, new TaskRowMapper(), empID);
+                "WHERE ET.EMPID = ? AND T.SUBPROJECTID = ?";
+        return jdbcTemplate.query(sql, new TaskRowMapper(), empID, subprojectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
