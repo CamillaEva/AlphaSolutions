@@ -12,7 +12,7 @@
 
 <div class="form-box">
     <h1>Create task</h1>
-<form th:action="@{/pl/create-task/{subProjectID}/add(subProjectID=${subProject.subProjectID})}" th:object="${task}"
+<form th:action="@{/create-task/{subProjectID}/add(subProjectID=${subProject.subProjectID})}" th:object="${task}"
       th:method="post">
     <input type="hidden" th:field="*{subProjectID}" th:value="subProject.subProjectID"/>
 

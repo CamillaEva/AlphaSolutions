@@ -112,9 +112,8 @@ public class SubprojectController {
             Subproject mySubproject = subprojectService.readSubProjectByID(subprojectID);
             int timeEstimate = subprojectService.getTimeEstFromTasks(subprojectID);
             List<Task> myTasks = taskService.readMyTasks(empID, subprojectID);
-
             Project project = projectService.readProjectByID(mySubproject.getProjectID());
-//            }
+
             int totalTimeEstimate = subprojectService.readTotalTimeEstimateForProject(project.getProjectID());
             //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = subprojectService.readTotalUsedTimeForProject(project.getProjectID());

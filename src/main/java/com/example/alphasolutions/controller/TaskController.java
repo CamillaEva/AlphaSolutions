@@ -30,7 +30,7 @@ public class TaskController {
     }
 
     //_______________________________________________CREATE_____________________________________________________________
-    @GetMapping("/pl/create-task/{subProjectID}")
+    @GetMapping("/create-task/{subProjectID}")
     public String createTask(@PathVariable("subProjectID") int subProjectID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
@@ -44,7 +44,7 @@ public class TaskController {
 
     }
 
-    @PostMapping("/pl/create-task/{subProjectID}/add")
+    @PostMapping("/create-task/{subProjectID}/add")
     public String saveTask(@PathVariable("subProjectID") int subProjectID, @ModelAttribute Task task,
                            HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
@@ -71,8 +71,6 @@ public class TaskController {
         if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Task task = taskService.readTaskByID(taskID);
             Subproject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
-
-            //TODO slet
             Project project = projectService.readProjectByID(subproject.getProjectID());
 
 
