@@ -18,7 +18,6 @@ import java.util.List;
 
 @Controller
 public class SubprojectController {
-    private final SubprojectService subProjectService;
     private final ProjectService projectService;
     private final EmpService empService;
     private final SubprojectService subprojectService;
@@ -53,7 +52,7 @@ public class SubprojectController {
         Role sessionRole = (Role) session.getAttribute("role");
         if (sessionRole == Role.PROJECT_LEADER) {
             subProject.setProjectID(projectID);
-            int newSubprojectID = subProjectService.createSubProject(subProject);
+            int newSubprojectID = subprojectService.createSubProject(subProject);
 
             projectService.assignSubprojectToProject(newSubprojectID, projectID);
 
@@ -69,16 +68,16 @@ public class SubprojectController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
-            int timeEstimate = subProjectService.getTimeEstFromTasks(subProjectID);
+            Subproject subProject = subprojectService.readSubProjectByID(subProjectID);
+            int timeEstimate = subprojectService.getTimeEstFromTasks(subProjectID);
 
             Project project = projectService.readProjectByID(subProject.getProjectID());
 //            }
-            int totalTimeEstimate = subProjectService.readTotalTimeEstimateForProject(project.getProjectID());
+            int totalTimeEstimate = subprojectService.readTotalTimeEstimateForProject(project.getProjectID());
             //Method to get totalTimeUsed for tasks in a project
-            int totalTimeUsed = subProjectService.readTotalUsedTimeForProject(project.getProjectID());
+            int totalTimeUsed = subprojectService.readTotalUsedTimeForProject(project.getProjectID());
 
-            List<Integer> assignedEmpIDsSubproject = subProjectService.showAssignedEmpSubproject(subProjectID);
+            List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subProjectID);
             List<Employee> assignedEmployeesSubproject = new ArrayList<>();
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(subProject.getProjectID());
@@ -111,19 +110,16 @@ public class SubprojectController {
 
         if (sessionEmp.getEmpID() == empID && sessionRole == Role.EMPLOYEE) {
             Subproject mySubproject = subprojectService.readSubProjectByID(subprojectID);
-            int timeEstimate = subProjectService.getTimeEstFromTasks(subprojectID);
+            int timeEstimate = subprojectService.getTimeEstFromTasks(subprojectID);
             List<Task> myTasks = taskService.readMyTasks(empID, subprojectID);
 
-            //TODO SKAL SLETTES
-            List<Subproject> subprojects = subprojectService.readMySubprojects(empID, mySubproject.getProjectID());
+            Project project = projectService.readProjectByID(mySubproject.getProjectID());
+//            }
+            int totalTimeEstimate = subprojectService.readTotalTimeEstimateForProject(project.getProjectID());
+            //Method to get totalTimeUsed for tasks in a project
+            int totalTimeUsed = subprojectService.readTotalUsedTimeForProject(project.getProjectID());
 
-            int totalTimeEstimate = 0;
-            for (Subproject sp : subprojects) {
-                int est = subProjectService.getTimeEstFromTasks(sp.getSubProjectID());
-                totalTimeEstimate += est;
-            }
-
-            List<Integer> assignedEmpIDsSubproject = subProjectService.showAssignedEmpSubproject(subprojectID);
+            List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subprojectID);
             List<Employee> assignedEmployeesSubproject = new ArrayList<>();
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(mySubproject.getProjectID());
@@ -141,7 +137,7 @@ public class SubprojectController {
             model.addAttribute("assignedEmployeesSubproject", assignedEmployeesSubproject);
             model.addAttribute("timeEstimate", timeEstimate);
             model.addAttribute("totalTimeEstimate", totalTimeEstimate);
-
+            model.addAttribute("totalTimeUsed", totalTimeUsed);
             model.addAttribute("mySubproject", mySubproject);
             model.addAttribute("myTasks", myTasks);
             return "read-my-subproject";
@@ -157,7 +153,7 @@ public class SubprojectController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
+            Subproject subProject = subprojectService.readSubProjectByID(subProjectID);
             model.addAttribute("subProject", subProject);
             return "update-subproject";
         }
@@ -171,7 +167,7 @@ public class SubprojectController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            subProjectService.updateSubProject(subProject);
+            subprojectService.updateSubProject(subProject);
             return "redirect:/read-subproject/" + subProjectID;
         }
         return "error/no-access";
@@ -183,8 +179,8 @@ public class SubprojectController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            Subproject subProject = subProjectService.readSubProjectByID(subProjectID);
-            subProjectService.deleteSubProject(subProject);
+            Subproject subProject = subprojectService.readSubProjectByID(subProjectID);
+            subprojectService.deleteSubProject(subProject);
             return "redirect:/read-project/" + subProject.getProjectID();
         }
         return "error/no-access";

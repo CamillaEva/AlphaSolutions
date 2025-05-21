@@ -51,7 +51,7 @@ public class ProjectController {
         if (sessionRole == Role.PROJECT_LEADER) {
             projectService.createProject(project);
 
-            return "redirect:/main-page/" + sessionEmp.getEmpID() + "read-my-project";
+            return "redirect:/main-page/" + sessionEmp.getEmpID();
         }
         return "error/no-access";
     }
