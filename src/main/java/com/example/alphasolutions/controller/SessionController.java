@@ -65,7 +65,9 @@ public class SessionController {
     }
 
     @PostMapping("/")
-    public String login(@RequestParam("mail") String mail, @RequestParam("password") String password, HttpSession session, Model model) {
+    public String login(@RequestParam("mailInitials") String mailInitials, @RequestParam("password") String password, HttpSession session, Model model) {
+        String mail = mailInitials + "@alphasolutions.com";
+
         // if the mail and password doesn't match the admin account, then check for employees
         Employee employee = empService.signIn(mail, password);
 

@@ -6,10 +6,7 @@ import com.example.alphasolutions.service.EmpService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,12 +34,13 @@ public class EmpController {
     }
 
     @PostMapping("/create-employee")
-    public String saveEmployee(@ModelAttribute("emp") Employee employee,
+    public String saveEmployee(@RequestParam String mailInitials, @ModelAttribute("emp") Employee employee,
                                HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
         int sessionID = (int) session.getAttribute("id");
 
         if(sessionRole == Role.ADMIN) {
+            employee.setMail(mailInitials + "@alphasolutions.com");
             empService.createEmployee(employee);
             return "redirect:/main-page/" + sessionID;
         }

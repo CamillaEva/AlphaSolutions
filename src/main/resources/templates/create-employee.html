@@ -17,10 +17,15 @@
         <label th:for="*{lastName}">Last Name</label>
         <input type="text" th:field="*{lastName}" required/><br>
 
+        <label for="mailInitials">Mail:</label>
+        <input type="text" id="mailInitials" name="mailInitials" placeholder="Inset initials" required/>
+        <span>@alphasolutions.com</span><br><br>
+
+        <!--
         <label th:for="*{mail}">Mail</label>
         <input type="email" th:field="*{mail}" required pattern=".+@alphasolutions\.com"
                placeholder="Name@alphasolutions.com"/><br>
-
+-->
         <label th:for="*{password}">Password</label>
         <input type="text" th:field="*{password}" required/><br>
 
