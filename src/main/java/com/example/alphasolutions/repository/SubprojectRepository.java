@@ -87,7 +87,7 @@ public class SubprojectRepository {
 
     }
 
-    public List<Subproject> getSubProjectsByProjectID(int projectID) {
+    public List<Subproject> readSubProjectsByProjectID(int projectID) {
         String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST " +
                 "FROM SUBPROJECT WHERE PROJECTID = ?";
         return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID);

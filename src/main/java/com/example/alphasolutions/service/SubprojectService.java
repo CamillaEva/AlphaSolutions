@@ -47,7 +47,7 @@ public class SubprojectService {
     }
 
     public List<Subproject> getSubProjectsByProjectID(int projectID) {
-        return subProjectRepository.getSubProjectsByProjectID(projectID);
+        return subProjectRepository.readSubProjectsByProjectID(projectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
