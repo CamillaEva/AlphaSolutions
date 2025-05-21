@@ -68,6 +68,9 @@
                     <button type="submit">Assign</button>
                 </a>
             </div>
+            <section
+                    th:replace="fragments/overview :: site-overview(${timeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+
         </div>
     </div>
     <div th:if="${session.role.name() == 'EMPLOYEE'}">
@@ -77,9 +80,10 @@
                     <button type="button">Back</button>
                 </a>
             </div>
-        </div>
+            <section
+                    th:replace="fragments/overview :: site-overview(${timeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
 
-        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+        </div>
     </div>
 </div>
 <div th:replace="fragments/footer ::site-footer"></div>

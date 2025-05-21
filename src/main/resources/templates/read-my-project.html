@@ -36,16 +36,18 @@
                         Time Estimate: <span th:text="${subproject.getTimeEst()}"></span> hours
                     </div>
                 </div>
-
-                <div class="side-elements">
-                    <div class="box-button">
-                        <a th:href="@{/main-page/{empID}(empID=${session.emp.empID})}">
-                            <button type="button">Back</button>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+    <div class="side-elements">
+        <div class="box-button">
+            <a th:href="@{/main-page/{empID}(empID=${session.emp.empID})}">
+                <button type="button">Back</button>
+            </a>
+        </div>
+        <section
+                th:replace="fragments/overview :: site-overview(${timeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+
     </div>
 </div>
 </body>
