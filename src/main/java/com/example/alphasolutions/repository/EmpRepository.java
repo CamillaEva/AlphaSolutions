@@ -22,10 +22,8 @@ import java.util.List;
 public class EmpRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private DataSource dataSource;
 
     public EmpRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

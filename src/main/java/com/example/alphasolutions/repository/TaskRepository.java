@@ -17,10 +17,8 @@ import java.util.List;
 @Repository
 public class TaskRepository {
     private final JdbcTemplate jdbcTemplate;
-    //private DataSource dataSource;
 
     public TaskRepository(DataSource dataSource) {
-        //this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

@@ -17,10 +17,8 @@ public class SubprojectRepository {
 
     private SubprojectMapper subProjectMapper;
     private final JdbcTemplate jdbcTemplate;
-    private DataSource dataSource;
 
     public SubprojectRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.subProjectMapper = new SubprojectMapper();
     }
