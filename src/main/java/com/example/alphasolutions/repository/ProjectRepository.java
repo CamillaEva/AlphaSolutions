@@ -2,13 +2,11 @@ package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -18,25 +16,12 @@ import java.util.List;
 public class ProjectRepository {
 
     private ProjectMapper projectMapper;
-    private SubprojectMapper subprojectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public ProjectRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
-        this.subprojectMapper = new SubprojectMapper();
     }
-
-//    public ProjectRepository() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-//                System.getenv("DB_URL"),
-//                System.getenv("DB_USERNAME"),
-//                System.getenv("DB_PASSWORD")
-//        );
-//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        this.jdbcTemplate = new JdbcTemplate(dataSource);
-//        this.projectMapper = new ProjectMapper();
-//    }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
     public void assignSubprojectToProject(int subprojectID, int projectID) {
@@ -54,7 +39,7 @@ public class ProjectRepository {
 
     //_______________________________________________CREATE_____________________________________________________________
     public int createProject(Project project) {
-        String sql = "INSERT INTO PROJECT (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO PROJECT (NAME, DESCRIPTION, STARTDATE, ENDDATE) VALUES (?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -63,7 +48,6 @@ public class ProjectRepository {
             ps.setString(2, project.getDescription());
             ps.setDate(3, Date.valueOf(project.getStartDate()));
             ps.setDate(4, Date.valueOf(project.getEndDate()));
-            ps.setInt(5, project.getTimeEst());
             return ps;
         }, keyHolder);
 
@@ -73,12 +57,12 @@ public class ProjectRepository {
 
     //_______________________________________________READ_______________________________________________________________
     public List<Project> readAllProjects() {
-        String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST FROM PROJECT P ";
+        String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE FROM PROJECT P";
         return jdbcTemplate.query(sql, new ProjectRowMapper());
     }
 
     public Project readProjectByID(int projectID) {
-        String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST, SP.SUBPROJECTID AS SPID, SP.NAME AS SPNAME, SP.DESCRIPTION AS SPDESCRIPTION, SP.STARTDATE AS SPSTARTDATE, SP.ENDDATE AS SPENDDATE, SP.TIMEEST AS SPTIMEEST " +
+        String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, SP.SUBPROJECTID AS SPID, SP.NAME AS SPNAME, SP.DESCRIPTION AS SPDESCRIPTION, SP.STARTDATE AS SPSTARTDATE, SP.ENDDATE AS SPENDDATE/*, SP.TIMEEST AS SPTIMEEST*/ " +
                 "FROM PROJECT P " +
                 "LEFT JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
@@ -87,7 +71,7 @@ public class ProjectRepository {
     public int readTotalTimeEstimateForProject(int projectID) {
         String sql = "SELECT COALESCE(SUM(T.TIMEEST), 0) " +
                 "FROM TASK T " +
-                "JOIN SUBPROJECT S ON T.SUBPROJECTID = S.SUBPROJECTID " +  // Tilføjet mellemrum her
+                "JOIN SUBPROJECT S ON T.SUBPROJECTID = S.SUBPROJECTID " +
                 "WHERE S.PROJECTID = ?";
 
         Integer totalTimeEstimate = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
@@ -111,29 +95,29 @@ public class ProjectRepository {
                 "WHERE EMPID = ?";
         return jdbcTemplate.query(sql, new ProjectRowMapper(), empID);
     }
+
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
-        String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE PROJECTID = ?";
+        String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ? WHERE PROJECTID = ?";
         jdbcTemplate.update(
                 sql, project.getName(),
                 project.getDescription(),
                 project.getStartDate(),
                 project.getEndDate(),
-                project.getTimeEst(),
                 project.getProjectID());
     }
 
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteProject(Project project) {
-        for (Subproject s : project.getSubProjects()){
+        for (Subproject s : project.getSubProjects()) {
             List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ",
-                    (rs, rowNum)-> rs.getInt("TASKID"),
+                    (rs, rowNum) -> rs.getInt("TASKID"),
                     s.getSubProjectID());
-            for (Integer taskID : taskIDs){
+            for (Integer taskID : taskIDs) {
                 String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
                 String sql1 = "DELETE FROM SUBPROJECT_TASKS WHERE TASKID = ?";
                 String sql2 = "DELETE FROM TASK WHERE TASKID = ?";
-                jdbcTemplate.update(sql,  taskID);
+                jdbcTemplate.update(sql, taskID);
                 jdbcTemplate.update(sql1, taskID);
                 jdbcTemplate.update(sql2, taskID);
             }
