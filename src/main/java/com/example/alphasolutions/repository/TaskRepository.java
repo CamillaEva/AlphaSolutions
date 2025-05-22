@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class TaskRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final ConnectionDetails connectionDetails;
+    private final ConnectionDetails connectionDetails; //TODO: skal den her ikke fjernes??
 
     public TaskRepository(JdbcTemplate jdbcTemplate, ConnectionDetails connectionDetails) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(
