@@ -15,11 +15,11 @@ public class TaskService {
     }
 
     //___________________________________________ASSIGN EMP________________________________________________________________
-    public void assignEmpToTask(int taskID, int empID){
+    public void assignEmpToTask(int taskID, int empID) {
         taskRepository.assignEmpToTask(taskID, empID);
     }
 
-    public List<Integer> showAssignedEmpTask(int taskID){
+    public List<Integer> showAssignedEmpTask(int taskID) {
         return taskRepository.showAssignedEmpTask(taskID);
     }
 
@@ -38,8 +38,16 @@ public class TaskService {
         return taskRepository.readTaskByID(taskID);
     }
 
-    public List<Task> readMyTasks(int empID) {
-        return taskRepository.readMyTasks(empID);
+    public List<Task> readMyTasks(int empID, int subprojectID) {
+        return taskRepository.readMyTasks(empID, subprojectID);
+    }
+
+    public int readTotalTimeEstimateForProject(int projectID) {
+        return taskRepository.readTotalTimeEstimateForProject(projectID);
+    }
+
+    public int readTotalUsedTimeForProject(int projectID) {
+        return taskRepository.readTotalUsedTimeForProject(projectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
@@ -52,4 +60,7 @@ public class TaskService {
         taskRepository.deleteTask(task);
     }
 
+    public void updateUsedTime(Task task) {
+        taskRepository.updateUsedTime(task);
+    }
 }

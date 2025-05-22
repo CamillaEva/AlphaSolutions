@@ -15,29 +15,22 @@
     <div class="category-label">Project</div>
     <div class="main-elements">
         <div class="element-info">
-            <div th:if="${sessionEmp.role.name() == 'PROJECT_LEADER'}">
-                <h1 th:text="${projectByID.name}"></h1><br>
+
+            <div th:if="${sessionEmp.role.name() == 'EMPLOYEE'}">
+                <h1 th:text="${myProject.name}"></h1><br>
 
                 <label th:for="description"><strong>Description:</strong></label>
-                <span th:text="${projectByID.description}"></span><br>
+                <span th:text="${myProject.description}"></span><br>
 
                 <label th:for="startDate"><strong>Start date:</strong></label>
-                <span th:text="${projectByID.startDate}"></span><br>
+                <span th:text="${myProject.startDate}"></span><br>
 
                 <label th:for="endDate"><strong>End date:</strong></label>
-                <span th:text="${projectByID.endDate}"></span><br>
-
+                <span th:text="${myProject.endDate}"></span><br>
 
                 <div class="boxes">
-                    <div class="box">
-                        <h1>NEW SUBPROJECT</h1>
-                        <a th:href="@{/create-subproject/{projectID}(projectID=${projectID})}">
-                            <img src="/image/plus-icon.png" class="plus-icon">
-                        </a>
-                    </div>
-
-                    <div th:each="subproject : ${allSubprojects}" class="box">
-                        <a th:href="@{/read-subproject/{id}(id=${subproject.subProjectID})}"
+                    <div th:each="subproject : ${mySubprojects}" class="box">
+                        <a th:href="@{/{empID}/read-subproject/{subprojectID}/my-tasks (empID =${empID}, subprojectID = ${subproject.subProjectID})}"
                            th:text="${subproject.name}">Subproject Name</a><br>
                         <span th:text="${subproject.description}"></span><br>
                         Time Estimate: <span th:text="${subproject.getTimeEst()}"></span> hours
@@ -48,27 +41,14 @@
     </div>
     <div class="side-elements">
         <div class="box-button">
-            <a th:href="@{/edit-project/{projectID}(projectID=${projectByID.projectID})}">
-                <button type="button">Edit Project</button>
-            </a>
-
-            <form th:action="@{/delete-project/{projectID}(projectID=${project.getProjectID})}" method="post">
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this project?')">
-                    Delete
-                    project
-                </button>
-            </form>
-
             <a th:href="@{/main-page/{empID}(empID=${session.emp.empID})}">
                 <button type="button">Back</button>
             </a>
         </div>
-
         <section
                 th:replace="fragments/overview :: site-overview(${timeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
-    </div>
 
+    </div>
 </div>
-<footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>

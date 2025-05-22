@@ -16,6 +16,7 @@ import java.util.List;
 public class ProjectRepository {
 
     private ProjectMapper projectMapper;
+    private SubprojectMapper subprojectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public ProjectRepository() {
@@ -27,15 +28,16 @@ public class ProjectRepository {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
+        this.subprojectMapper = new SubprojectMapper();
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
-    public void assignSubprojectToProject(int subprojectID, int projectID){
+    public void assignSubprojectToProject(int subprojectID, int projectID) {
         String sql = "INSERT INTO PROJECT_SUBPROJECTS (SUBPROJECTID, PROJECTID) VALUES (?,?)";
         jdbcTemplate.update(sql, subprojectID, projectID);
     }
 
-    public List<Integer> showAssignedEmpProject(int projectID){
+    public List<Integer> showAssignedEmpProject(int projectID) {
         String sql = "SELECT DISTINCT E.EMPID FROM EMP E JOIN EMP_TASK TE ON E.EMPID = TE.EMPID" +
                 " JOIN SUBPROJECT_TASKS ST ON TE.TASKID = ST.TASKID JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = " +
                 "PS.SUBPROJECTID WHERE PS.PROJECTID = ?";
@@ -75,6 +77,33 @@ public class ProjectRepository {
         return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
 
+    public int readTotalTimeEstimateForProject(int projectID) {
+        String sql = "SELECT COALESCE(SUM(T.TIMEEST), 0) " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT S ON T.SUBPROJECTID = S.SUBPROJECTID " +  // Tilføjet mellemrum her
+                "WHERE S.PROJECTID = ?";
+
+        Integer totalTimeEstimate = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
+        return totalTimeEstimate != null ? totalTimeEstimate : 0;
+    }
+
+    public int readTotalUsedTimeForProject(int projectId) {
+        String sql = "SELECT COALESCE(SUM(T.USEDTIME), 0) AS TOTAL_USEDTIME " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT_TASKS ST ON T.TASKID = ST.TASKID " +
+                "JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = PS.SUBPROJECTID " +
+                "WHERE PS.PROJECTID = ?";
+
+        Integer totalUsedTime = jdbcTemplate.queryForObject(sql, Integer.class, projectId);
+        return totalUsedTime != null ? totalUsedTime : 0;
+    }
+
+    public List<Project> readMyProjects(int empID) {
+        String sql = "SELECT DISTINCT * FROM PROJECT P JOIN PROJECT_SUBPROJECTS PS ON P.PROJECTID = PS.PROJECTID" +
+                " JOIN SUBPROJECT_TASKS ST ON PS.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
+                "WHERE EMPID = ?";
+        return jdbcTemplate.query(sql, new ProjectRowMapper(), empID);
+    }
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
         String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE PROJECTID = ?";
@@ -88,8 +117,6 @@ public class ProjectRepository {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-
-
     public void deleteProject(Project project) {
         for (Subproject s : project.getSubProjects()){
             List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ",
@@ -115,6 +142,5 @@ public class ProjectRepository {
         String sql6 = "DELETE FROM PROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(sql6, project.getProjectID());
     }
-
 
 }

@@ -25,10 +25,6 @@
         <label th:for="*{endDate}">end date:</label>
         <input type="date" th:field="*{endDate}"/><br>
 
- <!-- <label th:for="*{timeEst}">time Estimate</label>
-  <input type="number" th:field="*{timeEst}" required/><br>-->
-
-
         <button type="submit" class="box-button">save</button>
         <a th:href="@{/main-page/{empID}(empID=${session.emp.empID})}" class="box-button">
             <button type="button">CANCEL</button>

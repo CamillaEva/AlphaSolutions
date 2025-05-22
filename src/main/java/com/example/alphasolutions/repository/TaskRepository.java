@@ -30,12 +30,12 @@ public class TaskRepository {
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
-    public void assignEmpToTask(int taskID, int empID){
+    public void assignEmpToTask(int taskID, int empID) {
         String sql = "INSERT INTO EMP_TASK (EMPID, TASKID) VALUES (?,?)";
         jdbcTemplate.update(sql, empID, taskID);
     }
 
-    public List<Integer> showAssignedEmpTask(int taskID){
+    public List<Integer> showAssignedEmpTask(int taskID) {
         String sql = "SELECT DISTINCT EMPID FROM EMP_TASK WHERE TASKID = ?";
         return jdbcTemplate.queryForList(sql, Integer.class, taskID);
     }
@@ -62,20 +62,41 @@ public class TaskRepository {
 
     //_______________________________________________READ_______________________________________________________________
     public List<Task> readAllTask() {
-        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM TASK";
+        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID, USEDTIME FROM TASK";
         return jdbcTemplate.query(sql, new TaskRowMapper());
     }
 
     public Task readTaskByID(int taskID) {
-        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID FROM TASK WHERE TASKID = ?";
+        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID, USEDTIME FROM TASK WHERE TASKID = ?";
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
-    public List<Task> readMyTasks(int empID) {
+    public List<Task> readMyTasks(int empID, int subprojectID) {
         String sql = "SELECT * FROM TASK T " +
                 "JOIN EMP_TASK ET ON T.TASKID = ET.TASKID " +
-                "WHERE ET.EMPID = ?";
-        return jdbcTemplate.query(sql, new TaskRowMapper(), empID);
+                "WHERE ET.EMPID = ? AND T.SUBPROJECTID = ?";
+        return jdbcTemplate.query(sql, new TaskRowMapper(), empID, subprojectID);
+    }
+
+    public int readTotalTimeEstimateForProject(int projectID) {
+        String sql = "SELECT COALESCE(SUM(T.TIMEEST), 0) AS TOTAL_ESTIMATE " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT_TASKS ST ON T.TASKID = ST.TASKID " +
+                "JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = PS.SUBPROJECTID " +
+                "WHERE PS.PROJECTID = ?";
+        Integer totalTimeEstimate = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
+        return totalTimeEstimate != null ? totalTimeEstimate : 0;
+    }
+
+    public int readTotalUsedTimeForProject(int projectID) {
+        String sql = "SELECT COALESCE(SUM(T.USEDTIME), 0) AS TOTAL_USEDTIME " +
+                "FROM TASK T " +
+                "JOIN SUBPROJECT_TASKS ST ON T.TASKID = ST.TASKID " +
+                "JOIN PROJECT_SUBPROJECTS PS ON ST.SUBPROJECTID = PS.SUBPROJECTID " +
+                "WHERE PS.PROJECTID = ?";
+
+        Integer totalUsedTime = jdbcTemplate.queryForObject(sql, Integer.class, projectID);
+        return totalUsedTime != null ? totalUsedTime : 0;
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
@@ -84,6 +105,10 @@ public class TaskRepository {
         jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getStartDate(), task.getEndDate(), task.getTimeEst(), task.getTaskID());
     }
 
+    public void updateUsedTime(Task task) {
+        String sql = "UPDATE TASK SET USEDTIME = USEDTIME + ? WHERE TASKID = ?";
+        jdbcTemplate.update(sql, task.getUsedTime(), task.getTaskID());
+    }
 
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteTask(Task task) {
@@ -94,6 +119,5 @@ public class TaskRepository {
         jdbcTemplate.update(sql1, task.getTaskID());
         jdbcTemplate.update(sql2, task.getTaskID());
     }
-
 
 }

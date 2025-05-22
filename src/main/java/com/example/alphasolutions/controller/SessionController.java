@@ -31,44 +31,42 @@ public class SessionController {
         return "login";
     }
 
-    @GetMapping("/admin")
-    public String adminMainPage(Model model, HttpSession session) {
-        Role sessionRole = (Role) session.getAttribute("role");
-
-        if (sessionRole == Role.ADMIN) {
-            List<Employee> employee = empService.readAllEmployees();
-            model.addAttribute("emp", employee);
-            return "admin-main"; //TODO: måske bare lav en html med if statements i forhold til hvad der skal være på main page
-        }
-        return "error/no-access";
-    }
-
     @GetMapping("/main-page/{empID}")
-    public String showMainPage(@PathVariable int empID, HttpSession session, Model model) {
-        List<Project> projects = projectService.readAllProjects();
-        model.addAttribute("projects", projects);
-
-        Employee sessionEmp = (Employee) session.getAttribute("emp");
+    public String mainPage(@PathVariable int empID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
+        Employee sessionEmp = (Employee) session.getAttribute("emp");
 
-        if (sessionEmp == null || sessionEmp.getEmpID() != empID) {
+        if(sessionEmp == null){
             return "redirect:/";
         }
 
-        if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
+
+        if (sessionRole == Role.EMPLOYEE) {
+            List<Project> myProjects = projectService.readMyProjects(empID);
+
+            model.addAttribute("myProjects", myProjects);
+            model.addAttribute("sessionEmp", sessionEmp);
             return "main-page";
         }
+        if(sessionRole == Role.PROJECT_LEADER){
+            List<Project> allProjects = projectService.readAllProjects();
+            model.addAttribute("allProjects", allProjects);
+            model.addAttribute("sessionEmp", sessionEmp);
+            return "main-page";
+        }
+        if (sessionRole == Role.ADMIN) {
+            List<Employee> employees = empService.readAllEmployees();
+            model.addAttribute("employees", employees);
+            model.addAttribute("sessionEmp", sessionEmp);
+            return "main-page";
+        }
+
         return "error/no-access";
     }
 
     @PostMapping("/")
-    public String login(@RequestParam("mail") String mail, @RequestParam("password") String password, HttpSession session, Model model) {
-        // checking if it's an admin user
-        if (empService.adminLogin(mail, password)) {
-            Employee admin = new Employee(mail, password, Role.ADMIN);
-            empService.attributeSetup(session, admin);
-            return "redirect:/admin";
-        }
+    public String login(@RequestParam("mailInitials") String mailInitials, @RequestParam("password") String password, HttpSession session, Model model) {
+        String mail = mailInitials + "@alphasolutions.com";
 
         // if the mail and password doesn't match the admin account, then check for employees
         Employee employee = empService.signIn(mail, password);

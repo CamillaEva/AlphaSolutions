@@ -6,6 +6,7 @@ import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class TaskController {
     }
 
     //_______________________________________________CREATE_____________________________________________________________
-    @GetMapping("/pl/create-task/{subProjectID}")
+    @GetMapping("/create-task/{subProjectID}")
     public String createTask(@PathVariable("subProjectID") int subProjectID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
@@ -43,7 +44,7 @@ public class TaskController {
 
     }
 
-    @PostMapping("/pl/create-task/{subProjectID}/add")
+    @PostMapping("/create-task/{subProjectID}/add")
     public String saveTask(@PathVariable("subProjectID") int subProjectID, @ModelAttribute Task task,
                            HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
@@ -65,51 +66,40 @@ public class TaskController {
     public String readTaskByID(@PathVariable int taskID, Model model,
                                HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
+        Employee sessionEmp = (Employee) session.getAttribute("emp");
 
-        //TODO: muligvis fjern employee, alt efter hvordan vi laver at man skal kunne se sine egne
         if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Task task = taskService.readTaskByID(taskID);
             Subproject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
             Project project = projectService.readProjectByID(subproject.getProjectID());
 
-            int totalTimeEstimate = 0;
-            for (Subproject sp : project.getSubProjects()) {
-                int est = subprojectService.getTimeEstFromTasks(sp.getSubProjectID());
-                totalTimeEstimate += est;
-            }
+
+            int totalTimeEstimate = taskService.readTotalTimeEstimateForProject(project.getProjectID());
+            //Method to get totalTimeUsed for tasks in a project
+            int totalTimeUsed = taskService.readTotalUsedTimeForProject(project.getProjectID());
 
             List<Integer> assignedEmpIDsTask = taskService.showAssignedEmpTask(taskID);
             List<Employee> assignedEmployeesTask = new ArrayList<>();
 
-            for (int empID : assignedEmpIDsTask){
+            for (int empID : assignedEmpIDsTask) {
                 assignedEmployeesTask.add(empService.readEmployeeById(empID));
             }
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(project.getProjectID());
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for(int empID : assignedEmpIDsProject){
+            for (int empID : assignedEmpIDsProject) {
                 assignedEmployeesProject.add(empService.readEmployeeById(empID));
             }
 
+            model.addAttribute("subproject", subproject);
+            model.addAttribute("sessionEmp", sessionEmp);
             model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
             model.addAttribute("assignedEmployeesTask", assignedEmployeesTask);
             model.addAttribute("task", task);
             model.addAttribute("totalTimeEstimate", totalTimeEstimate);
+            model.addAttribute("totalTimeUsed", totalTimeUsed);
             return "read-task";
-        }
-        return "error/no-access";
-    }
-
-    @GetMapping("/emp/{empID}/read-tasks")
-    public String readMyTasks(@PathVariable int empID, Model model, HttpSession session) {
-        Role sessionRole = (Role) session.getAttribute("role");
-        Employee sessionEmp = (Employee) session.getAttribute("emp");
-
-        if (sessionEmp != null && sessionEmp.getEmpID() == empID && sessionRole == Role.EMPLOYEE) {
-            List<Task> myTasks = taskService.readMyTasks(empID);
-            model.addAttribute("myTasks", myTasks);
-            return "read-my-tasks";
         }
         return "error/no-access";
     }
@@ -138,6 +128,13 @@ public class TaskController {
         }
         return "error/no-access";
     }
+
+    @PostMapping("/emp/edit-task/{taskID}")
+    public String updateUsedTime(@PathVariable int taskID, @ModelAttribute("task") Task task) {
+        taskService.updateUsedTime(task);
+        return "redirect:/read-tasks/" + taskID;
+    }
+
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-task/{taskID}")
@@ -170,7 +167,8 @@ public class TaskController {
     }
 
     @PostMapping("/read-tasks/{taskID}/assign-emp")
-    public String assignEmpToTask(@PathVariable int taskID, @RequestParam("empSelected") List<Integer> selectedEmpIDs,
+    public String assignEmpToTask(@PathVariable int taskID,
+                                  @RequestParam("empSelected") List<Integer> selectedEmpIDs,
                                   HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 

@@ -19,11 +19,11 @@ public class SubprojectService {
     }
 
     //___________________________________________ASSIGN EMP________________________________________________________________
-    public void assignTaskToSubproject(int taskID, int subprojectID){
+    public void assignTaskToSubproject(int taskID, int subprojectID) {
         subprojectRepository.assignTaskToSubproject(taskID, subprojectID);
     }
 
-    public List<Integer> showAssignedEmpSubproject(int subprojectID){
+    public List<Integer> showAssignedEmpSubproject(int subprojectID) {
         return subProjectRepository.showAssignedEmpSubproject(subprojectID);
     }
 
@@ -35,17 +35,29 @@ public class SubprojectService {
     } //Change to createSubProject + change in controller
 
     //_______________________________________________READ_______________________________________________________________
-    //TODO Not used
-    public List<Subproject> getSubProjectsByProjectID(int projectID) {
-        return subProjectRepository.getSubProjectsByProjectID(projectID);
-    }
-
     public Subproject readSubProjectByID(int subProjectID) {
         return subProjectRepository.readSubProjectById(subProjectID);
     }
 
-    public int getTimeEstFromTasks(int subProjectID){
+    public int getTimeEstFromTasks(int subProjectID) {
         return subProjectRepository.getTimeEstFromTasks(subProjectID);
+    }
+
+    public List<Subproject> readMySubprojects(int empID, int projectID) {
+        return subProjectRepository.readMySubprojects(projectID, empID);
+    }
+
+    public List<Subproject> getSubProjectsByProjectID(int projectID) {
+        return subProjectRepository.readSubProjectsByProjectID(projectID);
+    }
+
+    //TEST
+    public int readTotalTimeEstimateForProject(int projectID) {
+        return subProjectRepository.readTotalTimeEstimateForProject(projectID);
+    }
+
+    public int readTotalUsedTimeForProject(int projectID) {
+        return subProjectRepository.readTotalUsedTimeForProject(projectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
