@@ -73,13 +73,15 @@ public class ProjectController {
             List<Subproject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
             Project myProject = projectService.readProjectByID(projectID);
             Employee sessionEmp = empService.readEmployeeById(empID);
-            int totalEstimate = 0;
 
             for (Subproject subProject : mySubprojects) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
-                totalEstimate += est;
             }
+
+            int totalTimeEstimate = projectService.readTotalTimeEstimateForProject(projectID);
+            //Method to get totalTimeUsed for tasks in a project
+            int totalTimeUsed = projectService.readTotalUsedTimeForProject(projectID);
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
             List<Employee> assignedEmployeesProject = new ArrayList<>();
@@ -89,7 +91,8 @@ public class ProjectController {
             }
 
             model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
-            model.addAttribute("timeEstimate", totalEstimate);
+            model.addAttribute("totalTimeEstimate", totalTimeEstimate);
+            model.addAttribute("totalTimeUsed", totalTimeUsed);
             model.addAttribute("myProject", myProject);
             model.addAttribute("sessionEmp", sessionEmp);
             model.addAttribute("mySubprojects", mySubprojects);
@@ -112,7 +115,7 @@ public class ProjectController {
                 subProject.setTimeEst(est);
             }
 
-            int totalEstimate = projectService.readTotalTimeEstimateForProject(projectID);
+            int totalTimeEstimate = projectService.readTotalTimeEstimateForProject(projectID);
             //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = projectService.readTotalUsedTimeForProject(projectID);
 
@@ -126,7 +129,7 @@ public class ProjectController {
             model.addAttribute("sessionEmp", sessionEmp);
             model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
             model.addAttribute("project", projectByID);
-            model.addAttribute("timeEstimate", totalEstimate);
+            model.addAttribute("totalTimeEstimate", totalTimeEstimate);
             model.addAttribute("allSubprojects", allSubprojects);
             model.addAttribute("projectByID", projectByID);
             model.addAttribute("totalTimeUsed", totalTimeUsed);
