@@ -3,8 +3,7 @@ package com.example.alphasolutions.controller;
 import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubprojectService;
-import com.example.alphasolutions.service.TaskService;
+import com.example.alphasolutions.service.SubProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,16 +18,16 @@ import java.util.List;
 @Controller
 public class ProjectController {
     private final ProjectService projectService;
-    private final SubprojectService subprojectService;
+    private final SubProjectService subprojectService;
     private final EmpService empService;
-    private final TaskService taskService;
 
-    public ProjectController(ProjectService projectService, SubprojectService subprojectService,
-                             EmpService empService, TaskService taskService) {
+
+    public ProjectController(ProjectService projectService, SubProjectService subprojectService,
+                             EmpService empService) {
         this.projectService = projectService;
         this.subprojectService = subprojectService;
         this.empService = empService;
-        this.taskService = taskService;
+
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -70,11 +69,11 @@ public class ProjectController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if(sessionRole == Role.EMPLOYEE) {
-            List<Subproject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
+            List<SubProject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
             Project myProject = projectService.readProjectByID(projectID);
             Employee sessionEmp = empService.readEmployeeById(empID);
 
-            for (Subproject subProject : mySubprojects) {
+            for (SubProject subProject : mySubprojects) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
             }
@@ -107,10 +106,10 @@ public class ProjectController {
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
         if(sessionRole == Role.PROJECT_LEADER) {
-            List<Subproject> allSubprojects = subprojectService.getSubProjectsByProjectID(projectID);
+            List<SubProject> allSubprojects = subprojectService.readSubProjectsByProjectID(projectID);
             Project projectByID = projectService.readProjectByID(projectID);
 
-            for (Subproject subProject : allSubprojects) {
+            for (SubProject subProject : allSubprojects) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
             }

@@ -2,11 +2,11 @@ package com.example.alphasolutions.controller;
 
 import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.Role;
-import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.model.SubProject;
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubprojectService;
+import com.example.alphasolutions.service.SubProjectService;
 import com.example.alphasolutions.service.TaskService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,7 +36,7 @@ class TaskControllerTest {
     private TaskService taskService;
 
     @MockBean
-    private SubprojectService subprojectService;
+    private SubProjectService subprojectService;
 
     @MockBean
     private ProjectService projectService;
@@ -59,7 +58,7 @@ class TaskControllerTest {
     @Test
     void createTask() throws Exception{
         //Arrange
-        Subproject subproject = new Subproject();
+        SubProject subproject = new SubProject();
         subproject.setSubProjectID(subprojectID);
 
         Mockito.when(subprojectService.readSubProjectByID(subprojectID)).thenReturn(subproject);
