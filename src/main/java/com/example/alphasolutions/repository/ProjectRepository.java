@@ -7,6 +7,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -17,17 +19,24 @@ public class ProjectRepository {
 
     private ProjectMapper projectMapper;
     private final JdbcTemplate jdbcTemplate;
+    private DataSource dataSource;
 
-    public ProjectRepository() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-                System.getenv("DB_URL"),
-                System.getenv("DB_USERNAME"),
-                System.getenv("DB_PASSWORD")
-        );
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+    public ProjectRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
     }
+
+//    public ProjectRepository() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource(
+//                System.getenv("DB_URL"),
+//                System.getenv("DB_USERNAME"),
+//                System.getenv("DB_PASSWORD")
+//        );
+//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//        this.jdbcTemplate = new JdbcTemplate(dataSource);
+//        this.projectMapper = new ProjectMapper();
+//    }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
     public void assignSubprojectToProject(int subprojectID, int projectID) {
