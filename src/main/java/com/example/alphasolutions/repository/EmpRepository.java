@@ -12,6 +12,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -22,13 +23,7 @@ public class EmpRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public EmpRepository() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-                System.getenv("DB_URL"),
-                System.getenv("DB_USERNAME"),
-                System.getenv("DB_PASSWORD")
-        );
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+    public EmpRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
