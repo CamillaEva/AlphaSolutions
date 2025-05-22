@@ -35,19 +35,21 @@
         </div>
 
         <div class="under-elements">
-                <form th:action="@{/emp/edit-task/{taskID}(taskID=${task.getTaskID()})}" th:object="${task}"
-                      method="post">
-                    <label for="usedTime">Used time</label>
-                    <input type="number" id="usedTime" th:field="*{usedTime}"><br>
-                    <button type="submit">Save</button>
-                </form>
-
             <p><strong>Assigned employees: </strong></p>
             <ul>
                 <li th:each="emp : ${assignedEmployeesTask}">
                     <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
                 </li>
             </ul>
+
+            <div th:if="${sessionEmp.role.name() == 'EMPLOYEE'}">
+                <form th:action="@{/emp/edit-task/{taskID}(taskID=${task.getTaskID()})}" th:object="${task}"
+                      method="post">
+                    <label for="usedTime">Used time</label>
+                    <input type="number" id="usedTime" th:field="*{usedTime}"><br>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
         </div>
 
     </div>
