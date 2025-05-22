@@ -32,17 +32,6 @@ public class EmpRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    //-------------------------------------ADMIN-----------------------------------------------
-    List<Employee> admins = new ArrayList<>(List.of(new Employee("Admin", "1234", Role.ADMIN)));
-
-    public Employee getAdmin(String mail) {
-        for (Employee employee : admins) {
-            if (employee.getMail().equals(mail))
-                return employee;
-        }
-        return null;
-    }
-
     //-----------------------------------------LOGIN----------------------------------------------
     public void attributeSetup(HttpSession session, Employee employee){
         session.setAttribute("emp", employee);

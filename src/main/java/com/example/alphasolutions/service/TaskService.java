@@ -38,8 +38,8 @@ public class TaskService {
         return taskRepository.readTaskByID(taskID);
     }
 
-    public List<Task> readMyTasks(int empID) {
-        return taskRepository.readMyTasks(empID);
+    public List<Task> readMyTasks(int empID, int subprojectID) {
+        return taskRepository.readMyTasks(empID, subprojectID);
     }
 
     public int readTotalTimeEstimateForProject(int projectID) {

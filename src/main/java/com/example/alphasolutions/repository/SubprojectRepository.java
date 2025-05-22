@@ -64,6 +64,14 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________READ_______________________________________________________________
+    //TODO: skal nok fikses til subprojectMapper da det er en til mange relation mellem projekt og subprojects
+    public List<Subproject> readMySubprojects(int empID, int projectID) {
+        String sql = "SELECT DISTINCT S.SUBPROJECTID, S.PROJECTID, S.NAME, S.DESCRIPTION, S.STARTDATE, S.ENDDATE, S.TIMEEST FROM SUBPROJECT S " +
+                "JOIN SUBPROJECT_TASKS ST ON S.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
+                "WHERE ET.EMPID = ? AND S.PROJECTID = ?";
+        return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID, empID);
+    }
+
     public Subproject readSubProjectById(int subProjectID) {
         String sql = "SELECT SP.SUBPROJECTID, SP.PROJECTID, SP.NAME, SP.DESCRIPTION, SP.STARTDATE, SP.ENDDATE, SP.TIMEEST, T.TASKID AS TID, T.NAME AS TNAME, T.DESCRIPTION AS TDESCRIPTION, T.STARTDATE AS TSTARTDATE, T.ENDDATE AS TENDDATE, T.TIMEEST AS TTIMEEST, T.SUBPROJECTID AS TSUBPROJECTID FROM SUBPROJECT SP " +
                 "LEFT JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
@@ -78,9 +86,9 @@ public class SubprojectRepository {
         return subProject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
     }
 
-    //TODO Only used in service
-    public List<Subproject> getSubProjectsByProjectID(int projectID) {
-        String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST FROM SUBPROJECT WHERE PROJECTID = ?";
+    public List<Subproject> readSubProjectsByProjectID(int projectID) {
+        String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST " +
+                "FROM SUBPROJECT WHERE PROJECTID = ?";
         return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID);
     }
 

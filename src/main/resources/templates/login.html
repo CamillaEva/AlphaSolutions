@@ -12,8 +12,9 @@
     <h1>Login</h1>
     <form th:action="@{/}" method="post">
         <p th:if="${wrongCredentials}" class="error">Wrong mail or password. Try again</p>
-        <p><label>Mail:</label>
-            <input name="mail" type="text" autofocus></p> <!-- autofocus gør at man "starter" ved brugernavn input felt -->
+        <p><label for="mailInitials">Mail:</label>
+            <input id="mailInitials" name="mailInitials" type="text" placeholder="insert initials" autofocus></p> <!-- autofocus gør at man "starter" ved brugernavn input felt -->
+            <span>@alphasolutions.com</span><br>
         <p><label>Password:</label>
             <input name="password" type="password"></p>
         <p>

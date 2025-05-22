@@ -50,25 +50,40 @@
         </div>
 
     </div>
-    <div class="side-elements">
-        <div class="box-button">
-            <a th:href="@{/pl/edit-task/{taskID}(taskID=${task.getTaskID()})}">
-                <button type="submit">Edit task</button>
-            </a>
-            <form th:action="@{/delete-task/{taskID}(taskID=${task.getTaskID()})}" method="post">
-                <button type="submit" onclick="return confirm('Are you sure you want to delete the task?')">Delete
-                    task
-                </button>
-            </form>
-            <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
-                <button type="button">Back</button>
-            </a>
-            <a th:href="@{/read-tasks/{taskID}/assign-emp (taskID=${task.taskID})}">
-                <button type="submit">Assign</button>
-            </a>
-        </div>
+    <div th:if="${session.role.name() == 'PROJECT_LEADER'}">
+        <div class="side-elements">
+            <div class="box-button">
+                <a th:href="@{/pl/edit-task/{taskID}(taskID=${task.getTaskID()})}">
+                    <button type="submit">Edit task</button>
+                </a>
+                <form th:action="@{/delete-task/{taskID}(taskID=${task.getTaskID()})}" method="post">
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete the task?')">Delete
+                        task
+                    </button>
+                </form>
+                <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
+                    <button type="button">Back</button>
+                </a>
+                <a th:href="@{/read-tasks/{taskID}/assign-emp (taskID=${task.taskID})}">
+                    <button type="submit">Assign</button>
+                </a>
+            </div>
+            <section
+                    th:replace="fragments/overview :: site-overview(${timeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
 
-        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+        </div>
+    </div>
+    <div th:if="${session.role.name() == 'EMPLOYEE'}">
+        <div class="side-elements">
+            <div class="box-button">
+                <a th:href="@{/{empID}/read-subproject/{subprojectID}/my-tasks (empID = ${sessionEmp.empID}, subprojectID = ${subproject.subProjectID})}">
+                    <button type="button">Back</button>
+                </a>
+            </div>
+            <section
+                    th:replace="fragments/overview :: site-overview(${totalTimeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+
+        </div>
     </div>
 </div>
 <div th:replace="fragments/footer ::site-footer"></div>

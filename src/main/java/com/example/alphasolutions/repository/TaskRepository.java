@@ -71,11 +71,11 @@ public class TaskRepository {
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
-    public List<Task> readMyTasks(int empID) {
+    public List<Task> readMyTasks(int empID, int subprojectID) {
         String sql = "SELECT * FROM TASK T " +
                 "JOIN EMP_TASK ET ON T.TASKID = ET.TASKID " +
-                "WHERE ET.EMPID = ?";
-        return jdbcTemplate.query(sql, new TaskRowMapper(), empID);
+                "WHERE ET.EMPID = ? AND T.SUBPROJECTID = ?";
+        return jdbcTemplate.query(sql, new TaskRowMapper(), empID, subprojectID);
     }
 
     public int readTotalTimeEstimateForProject(int projectID) {

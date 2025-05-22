@@ -8,7 +8,6 @@ import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
-import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,14 +16,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.servlet.View;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @WebMvcTest(TaskController.class)
 class TaskControllerTest {
+
     private Employee projectleader;
     private MockHttpSession session;
     private int subprojectID;
@@ -64,8 +65,8 @@ class TaskControllerTest {
         Mockito.when(subprojectService.readSubProjectByID(subprojectID)).thenReturn(subproject);
 
         // Act & assert
-        mockMvc.perform(get("/pl/create-task/{subProjectID}",subprojectID) //simulates HTTP get call
-                .session(session)) //mock session
+        mockMvc.perform(get("/create-task/{subProjectID}",subprojectID) //simulates HTTP get call
+                        .session(session)) //mock session
                 .andExpect(status().isOk()) //expect no error (status is ok)
                 .andExpect(view().name("create-task")) //view html
                 .andExpect(model().attributeExists("task"))
@@ -74,23 +75,33 @@ class TaskControllerTest {
     }
 
     @Test
-    void saveTask() {
-    }
+    void saveTask() throws Exception {
+        int newTaskID = 42;
 
-    @Test
-    void readAllTasks() {
+        //the new task just need to be an instance of the Task class
+        Mockito.when(taskService.createTask(Mockito.any(Task.class))).thenReturn(newTaskID);
+
+        mockMvc.perform(post("/create-task/{subProjectID}/add", subprojectID)
+                        .session(session)
+                        .param("name", "wishlist")
+                        .param("description", "digital wishlist")
+                        .param("startDate", "2025-10-02")
+                        .param("endDate", "2025-11-05")
+                        .param("timeEst", "10")
+                        .param("subprojectID", "1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-subproject/" + subprojectID));
+
+        Mockito.verify(taskService).createTask(Mockito.any(Task.class));
+        Mockito.verify(subprojectService).assignTaskToSubproject(newTaskID, subprojectID);
     }
 
     @Test
     void readTaskByID() {
-    }
 
-    /* TODO: fix when method is used correct in case it needs to be changed
-    @Test
-    void readMyTasks() {
-    }
 
-     */
+
+    }
 
     @Test
     void editTask() {
@@ -98,6 +109,10 @@ class TaskControllerTest {
 
     @Test
     void updateTask() {
+    }
+
+    @Test
+    void updateUsedTime() {
     }
 
     @Test

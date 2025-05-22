@@ -10,7 +10,7 @@
 <header th:replace="fragments/header :: site-header"></header>
 <div class="form-box">
     <h1>Update employee</h1>
-    <form th:action="@{/admin/edit-employee/{empId}(empId=${employee.empID})}" th:object="${employee}" method="post">
+    <form th:action="@{/edit-employee/{empId}(empId=${employee.empID})}" th:object="${employee}" method="post">
 
         <input type="hidden" th:field="*{empID}"/>
 
@@ -35,7 +35,7 @@
         </select><br>
 
         <button type="submit" th:onclick="alert ('User has been updated')">Save</button>
-        <a th:href="@{/admin}">
+        <a th:href="@{/read-employee/{empID}(empID = ${empId})}">
             <button type="button">Cancel</button>
         </a>
     </form>
