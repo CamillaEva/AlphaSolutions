@@ -26,9 +26,9 @@ jobs:
 
       - name: Build with Maven
         env:
-          DB_URL: ${{secrets.DB_URL}}
-          DB_USERNAME: ${{secrets.DB_USERNAME}}
-          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          PROD_URL: ${{secrets.PROD_URL}}
+          PROD_USERNAME: ${{secrets.PROD_USERNAME}}
+          PROD_PASSWORD: ${{secrets.PROD_PASSWORD}}
         run: mvn clean install
 
       - name: Upload artifact for deployment job

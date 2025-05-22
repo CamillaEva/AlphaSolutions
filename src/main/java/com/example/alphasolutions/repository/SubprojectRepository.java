@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -17,16 +18,21 @@ public class SubprojectRepository {
     private SubprojectMapper subProjectMapper;
     private final JdbcTemplate jdbcTemplate;
 
-    public SubprojectRepository() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-                System.getenv("DB_URL"),
-                System.getenv("DB_USERNAME"),
-                System.getenv("DB_PASSWORD")
-        );
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+    public SubprojectRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.subProjectMapper = new SubprojectMapper();
     }
+
+//    public SubprojectRepository() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource(
+//                System.getenv("DB_URL"),
+//                System.getenv("DB_USERNAME"),
+//                System.getenv("DB_PASSWORD")
+//        );
+//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//        this.jdbcTemplate = new JdbcTemplate(dataSource);
+//        this.subProjectMapper = new SubprojectMapper();
+//    }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
     public void assignTaskToSubproject(int taskID, int subprojectID) {
