@@ -133,6 +133,7 @@ public class TaskController {
     public String updateUsedTime(@PathVariable int taskID, @ModelAttribute("task") Task task) {
         taskService.updateUsedTime(task);
         return "redirect:/read-tasks/" + taskID;
+
     }
 
 
