@@ -2,13 +2,11 @@ package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -18,25 +16,14 @@ import java.util.List;
 public class ProjectRepository {
 
     private ProjectMapper projectMapper;
-    private SubprojectMapper subprojectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public ProjectRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
-        this.subprojectMapper = new SubprojectMapper();
     }
 
-//    public ProjectRepository() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-//                System.getenv("DB_URL"),
-//                System.getenv("DB_USERNAME"),
-//                System.getenv("DB_PASSWORD")
-//        );
-//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        this.jdbcTemplate = new JdbcTemplate(dataSource);
-//        this.projectMapper = new ProjectMapper();
-//    }
+
 
     //______________________________________________ASSIGN EMP__________________________________________________________
     public void assignSubprojectToProject(int subprojectID, int projectID) {
@@ -81,7 +68,7 @@ public class ProjectRepository {
         String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE, P.TIMEEST, SP.SUBPROJECTID AS SPID, SP.NAME AS SPNAME, SP.DESCRIPTION AS SPDESCRIPTION, SP.STARTDATE AS SPSTARTDATE, SP.ENDDATE AS SPENDDATE, SP.TIMEEST AS SPTIMEEST " +
                 "FROM PROJECT P " +
                 "LEFT JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
-        return projectMapper.ProjectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
+        return projectMapper.projectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
     }
 
     public int readTotalTimeEstimateForProject(int projectID) {
@@ -125,7 +112,7 @@ public class ProjectRepository {
 
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteProject(Project project) {
-        for (Subproject s : project.getSubProjects()){
+        for (SubProject s : project.getSubProjects()){
             List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ",
                     (rs, rowNum)-> rs.getInt("TASKID"),
                     s.getSubProjectID());

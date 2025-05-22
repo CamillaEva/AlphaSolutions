@@ -9,7 +9,6 @@ public class Employee {
     private String lastName;
     private String mail;
     private String password;
-    //private Skill skill;  //har egen constructor - nice-to-have
     private Role role;
     private List<Task> tasks;
 
@@ -48,7 +47,7 @@ public class Employee {
         return empID;
     }
 
-    //TODO if we need to set empID to a task
+
     public void setEmpID(int empID) {
         this.empID = empID;
     }
@@ -57,7 +56,7 @@ public class Employee {
         return firstName;
     }
 
-    //Maybe not needed
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -66,7 +65,7 @@ public class Employee {
         return lastName;
     }
 
-    //Maybe not needed
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
