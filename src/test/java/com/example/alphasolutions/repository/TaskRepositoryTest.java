@@ -1,6 +1,7 @@
 package com.example.alphasolutions.repository;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -11,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
         scripts = {"classpath:h2init.sql"}
 )
 class TaskRepositoryTest {
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Test
     void assignEmpToTask() {
