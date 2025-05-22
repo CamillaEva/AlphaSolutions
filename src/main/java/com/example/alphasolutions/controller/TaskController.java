@@ -6,7 +6,6 @@ import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -139,7 +138,7 @@ public class TaskController {
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-task/{taskID}")
-    public String deleteSubProject(@PathVariable int taskID, HttpSession session) {
+    public String deleteTask(@PathVariable int taskID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {

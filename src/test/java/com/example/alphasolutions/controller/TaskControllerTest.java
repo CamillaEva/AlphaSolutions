@@ -17,7 +17,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -99,31 +106,117 @@ class TaskControllerTest {
     @Test
     void readTaskByID() {
 
-
-
     }
 
     @Test
-    void editTask() {
+    void editTask() throws Exception {
+        Task task = new Task();
+        int taskID = 1;
+        task.setTaskID(taskID);
+
+        Mockito.when(taskService.readTaskByID(taskID)).thenReturn(task);
+
+        mockMvc.perform(get("/pl/edit-task/{taskID}", taskID).session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("update-task"))
+                .andExpect(model().attributeExists("task"))
+                .andExpect(model().attribute("task", task));
     }
 
     @Test
-    void updateTask() {
+    void updateTask() throws Exception {
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+
+        doNothing().when(taskService).updateTask(task); //.doNothing() used for void method
+
+        mockMvc.perform(post("/pl/edit-task/{taskID}", taskID).session(
+                session).flashAttr("task", task)) //.flashAttr simulates the task object that the user would have submitted in the html form
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-tasks/" + taskID));
+
+        Mockito.verify(taskService).updateTask(task);
     }
 
     @Test
-    void updateUsedTime() {
+    void updateUsedTime() throws Exception{
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+
+        doNothing().when(taskService).updateUsedTime(task);
+
+        mockMvc.perform(post("/emp/edit-task/{taskID}", taskID).session(session).flashAttr("task", task))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-tasks/" + taskID));
+
+        Mockito.verify(taskService).updateUsedTime(task);
     }
 
     @Test
-    void deleteSubProject() {
+    void deleteTask() throws Exception{
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+        task.setSubProjectID(2);
+
+
+        Mockito.when(taskService.readTaskByID(taskID)).thenReturn(task);
+        doNothing().when(taskService).deleteTask(task);
+
+        mockMvc.perform(post("/delete-task/{taskID}", taskID).session(session))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-subproject/" + task.getSubProjectID()));
+
+        Mockito.verify(taskService).deleteTask(task);
     }
 
     @Test
-    void assignEmpToTask() {
+    void assignEmpToTask() throws Exception{
+        List<Employee> employees = Arrays.asList(new Employee(), new Employee());
+        List<Integer> alreadyAssigned = Arrays.asList(1,2);
+
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+
+        Mockito.when(empService.readAllEmployees()).thenReturn(employees);
+        Mockito.when(taskService.showAssignedEmpTask(taskID)).thenReturn(alreadyAssigned);
+
+        mockMvc.perform(get("/read-tasks/{taskID}/assign-emp", taskID).session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("assign-emp"))
+                .andExpect(model().attributeExists("alreadyAssigned"))
+                .andExpect(model().attributeExists("taskID"))
+                .andExpect(model().attributeExists("employees"))
+                .andExpect(model().attribute("employees", employees))
+                .andExpect(model().attribute("taskID", taskID))
+                .andExpect(model().attribute("alreadyAssigned", alreadyAssigned));
     }
 
+    /*
+       @PostMapping("/read-tasks/{taskID}/assign-emp")
+    public String assignEmpToTask(@PathVariable int taskID,
+                                  @RequestParam("empSelected") List<Integer> selectedEmpIDs,
+                                  HttpSession session) {
+        Role sessionRole = (Role) session.getAttribute("role");
+
+        if (sessionRole == Role.PROJECT_LEADER) {
+            if (selectedEmpIDs != null) {
+                for (int empID : selectedEmpIDs) {
+                    taskService.assignEmpToTask(taskID, empID);
+                }
+            }
+            return "redirect:/read-tasks/" + taskID;
+        }
+        return "error/no-access";
+    }
+
+     */
     @Test
     void testAssignEmpToTask() {
+
+
     }
 }
