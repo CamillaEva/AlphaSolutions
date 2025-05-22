@@ -19,16 +19,16 @@
 
     <div class="read-buttons">
         <div th:if="${session.emp.role.name() == 'ADMIN'}">
-            <form th:action="@{/admin/edit-employee/{empId}(empId=${employee.empID})}">
+            <form th:action="@{/edit-employee/{empId}(empId=${employee.empID})}">
                 <button type="submit">Edit employee</button>
             </form>
-            <form th:action="@{/admin/delete-employee/{empId}(empId=${employee.empID})}" th:method="post">
+            <form th:action="@{/delete-employee/{empId}(empId=${employee.empID})}" th:method="post">
                 <button type="submit" onclick="return confirm('Are you sure you want to delete this employee?')">Delete
                     employee
                 </button>
             </form>
 
-            <form th:action="@{/admin}">
+            <form th:action="@{/main-page/{empID}(empID = ${sessionID})}">
                 <button type="submit">Back</button>
             </form>
         </div>

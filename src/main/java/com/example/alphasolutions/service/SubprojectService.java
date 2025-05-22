@@ -28,23 +28,27 @@ public class SubprojectService {
     }
 
 
+
     //_______________________________________________CREATE_____________________________________________________________
     public int createSubProject(Subproject subProject) {
         return subProjectRepository.createSubProject(subProject);
     } //Change to createSubProject + change in controller
 
     //_______________________________________________READ_______________________________________________________________
-    //TODO Not used
-    public List<Subproject> getSubProjectsByProjectID(int projectID) {
-        return subProjectRepository.getSubProjectsByProjectID(projectID);
-    }
-
     public Subproject readSubProjectByID(int subProjectID) {
         return subProjectRepository.readSubProjectById(subProjectID);
     }
 
     public int getTimeEstFromTasks(int subProjectID) {
         return subProjectRepository.getTimeEstFromTasks(subProjectID);
+    }
+
+    public List<Subproject> readMySubprojects(int empID, int projectID) {
+        return subProjectRepository.readMySubprojects(projectID, empID);
+    }
+
+    public List<Subproject> getSubProjectsByProjectID(int projectID) {
+        return subProjectRepository.readSubProjectsByProjectID(projectID);
     }
 
     //TEST

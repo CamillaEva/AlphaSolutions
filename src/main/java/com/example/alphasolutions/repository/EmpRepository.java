@@ -29,28 +29,6 @@ public class EmpRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-//    public EmpRepository() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-//                System.getenv("DB_URL"),
-//                System.getenv("DB_USERNAME"),
-//                System.getenv("DB_PASSWORD")
-//        );
-//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        this.jdbcTemplate = new JdbcTemplate(dataSource);
-//    }
-
-
-    //-------------------------------------ADMIN-----------------------------------------------
-    List<Employee> admins = new ArrayList<>(List.of(new Employee("Admin", "1234", Role.ADMIN)));
-
-    public Employee getAdmin(String mail) {
-        for (Employee employee : admins) {
-            if (employee.getMail().equals(mail))
-                return employee;
-        }
-        return null;
-    }
-
     //-----------------------------------------LOGIN----------------------------------------------
     public void attributeSetup(HttpSession session, Employee employee){
         session.setAttribute("emp", employee);

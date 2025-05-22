@@ -48,6 +48,10 @@ public class ProjectService {
         return projectRepository.readTotalUsedTimeForProject(projectID);
     }
 
+    public List<Project> readMyProjects(int empID){
+        return projectRepository.readMyProjects(empID);
+    }
+
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
         projectRepository.updateProject(project);

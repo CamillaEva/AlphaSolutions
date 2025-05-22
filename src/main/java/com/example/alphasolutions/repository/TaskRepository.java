@@ -17,24 +17,12 @@ import java.util.List;
 @Repository
 public class TaskRepository {
     private final JdbcTemplate jdbcTemplate;
-    //private final ConnectionDetails connectionDetails;
     //private DataSource dataSource;
 
     public TaskRepository(DataSource dataSource) {
         //this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
-//    public TaskRepository(JdbcTemplate jdbcTemplate, ConnectionDetails connectionDetails) {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource(
-//                System.getenv("DB_URL"),
-//                System.getenv("DB_USERNAME"),
-//                System.getenv("DB_PASSWORD")
-//        );
-//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        this.jdbcTemplate = jdbcTemplate;
-//        this.connectionDetails = connectionDetails;
-//    }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
     public void assignEmpToTask(int taskID, int empID) {
@@ -78,11 +66,11 @@ public class TaskRepository {
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
-    public List<Task> readMyTasks(int empID) {
+    public List<Task> readMyTasks(int empID, int subprojectID) {
         String sql = "SELECT * FROM TASK T " +
                 "JOIN EMP_TASK ET ON T.TASKID = ET.TASKID " +
-                "WHERE ET.EMPID = ?";
-        return jdbcTemplate.query(sql, new TaskRowMapper(), empID);
+                "WHERE ET.EMPID = ? AND T.SUBPROJECTID = ?";
+        return jdbcTemplate.query(sql, new TaskRowMapper(), empID, subprojectID);
     }
 
     public int readTotalTimeEstimateForProject(int projectID) {

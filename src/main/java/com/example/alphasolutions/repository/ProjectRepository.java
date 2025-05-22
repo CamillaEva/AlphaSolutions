@@ -18,6 +18,7 @@ import java.util.List;
 public class ProjectRepository {
 
     private ProjectMapper projectMapper;
+    private SubprojectMapper subprojectMapper;
     private final JdbcTemplate jdbcTemplate;
     private DataSource dataSource;
 
@@ -25,6 +26,7 @@ public class ProjectRepository {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.projectMapper = new ProjectMapper();
+        this.subprojectMapper = new SubprojectMapper();
     }
 
 //    public ProjectRepository() {
@@ -105,6 +107,12 @@ public class ProjectRepository {
         return totalUsedTime != null ? totalUsedTime : 0;
     }
 
+    public List<Project> readMyProjects(int empID) {
+        String sql = "SELECT DISTINCT * FROM PROJECT P JOIN PROJECT_SUBPROJECTS PS ON P.PROJECTID = PS.PROJECTID" +
+                " JOIN SUBPROJECT_TASKS ST ON PS.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
+                "WHERE EMPID = ?";
+        return jdbcTemplate.query(sql, new ProjectRowMapper(), empID);
+    }
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
         String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ?, TIMEEST = ? WHERE PROJECTID = ?";
@@ -118,11 +126,10 @@ public class ProjectRepository {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-
-
     public void deleteProject(Project project) {
         for (Subproject s : project.getSubProjects()){
-            List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ", (rs, rowNum)-> rs.getInt("TASKID"),
+            List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ",
+                    (rs, rowNum)-> rs.getInt("TASKID"),
                     s.getSubProjectID());
             for (Integer taskID : taskIDs){
                 String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
@@ -144,6 +151,5 @@ public class ProjectRepository {
         String sql6 = "DELETE FROM PROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(sql6, project.getProjectID());
     }
-
 
 }

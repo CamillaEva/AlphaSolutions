@@ -6,10 +6,7 @@ import com.example.alphasolutions.service.EmpService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,26 +19,30 @@ public class EmpController {
     }
 
     //_______________________________________________CREATE_____________________________________________________________
-    @GetMapping("/admin/create-employee")
+    @GetMapping("/create-employee")
     public String createEmployee(Model model, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
+        int sessionID = (int) session.getAttribute("id");
 
         if(sessionRole == Role.ADMIN) {
             model.addAttribute("emp", new Employee());
             model.addAttribute("roles", Role.values());
+            model.addAttribute("sessionID", sessionID);
             return "create-employee";
         }
         return "error/no-access";
     }
 
-    @PostMapping("/admin/create-employee")
-    public String saveEmployee(@ModelAttribute("emp") Employee employee,
+    @PostMapping("/create-employee")
+    public String saveEmployee(@RequestParam String mailInitials, @ModelAttribute("emp") Employee employee,
                                HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
+        int sessionID = (int) session.getAttribute("id");
 
         if(sessionRole == Role.ADMIN) {
+            employee.setMail(mailInitials + "@alphasolutions.com");
             empService.createEmployee(employee);
-            return "redirect:/admin";
+            return "redirect:/main-page/" + sessionID;
         }
         return "error/no-access";
     }
@@ -65,9 +66,11 @@ public class EmpController {
                                    HttpSession session) {
 
         Role sessionRole = (Role) session.getAttribute("role");
+        int sessionID = (int) session.getAttribute("id");
 
         if(sessionRole == Role.PROJECT_LEADER || sessionRole == Role.ADMIN) {
             Employee employee = empService.readEmployeeById(empId);
+            model.addAttribute("sessionID", sessionID);
             model.addAttribute("employee", employee);
             return "read-employee";
         }
@@ -76,7 +79,7 @@ public class EmpController {
 
     //_______________________________________________UPDATE_____________________________________________________________
     //Mapping to edit employees data
-    @GetMapping("/admin/edit-employee/{empId}")
+    @GetMapping("/edit-employee/{empId}")
     public String editEmployee ( @PathVariable int empId, Model model,
                                  HttpSession session){
         Role sessionRole = (Role) session.getAttribute("role");
@@ -91,7 +94,7 @@ public class EmpController {
     }
 
     //Mapping to UPDATE employees data
-    @PostMapping("/admin/edit-employee/{empId}")
+    @PostMapping("/edit-employee/{empId}")
     public String updateEmployee ( @PathVariable int empId, @ModelAttribute("employee") Employee employee,
                                    HttpSession session){
         Role sessionRole = (Role) session.getAttribute("role");
@@ -109,14 +112,15 @@ public class EmpController {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    @PostMapping("/admin/delete-employee/{empId}")
+    @PostMapping("/delete-employee/{empId}")
     public String deleteEmployee ( @PathVariable int empId, HttpSession session){
         Role sessionRole = (Role) session.getAttribute("role");
+        int sessionID = (int) session.getAttribute("id");
 
         if(sessionRole == Role.ADMIN) {
             Employee employee = empService.readEmployeeById(empId);
             empService.deleteEmployee(employee);
-            return "redirect:/admin";
+            return "redirect:/main-page/" + sessionID;
         }
         return "error/no-access";
     }
