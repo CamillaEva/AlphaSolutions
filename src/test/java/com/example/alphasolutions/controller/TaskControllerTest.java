@@ -193,28 +193,16 @@ class TaskControllerTest {
                 .andExpect(model().attribute("alreadyAssigned", alreadyAssigned));
     }
 
-    /*
-       @PostMapping("/read-tasks/{taskID}/assign-emp")
-    public String assignEmpToTask(@PathVariable int taskID,
-                                  @RequestParam("empSelected") List<Integer> selectedEmpIDs,
-                                  HttpSession session) {
-        Role sessionRole = (Role) session.getAttribute("role");
-
-        if (sessionRole == Role.PROJECT_LEADER) {
-            if (selectedEmpIDs != null) {
-                for (int empID : selectedEmpIDs) {
-                    taskService.assignEmpToTask(taskID, empID);
-                }
-            }
-            return "redirect:/read-tasks/" + taskID;
-        }
-        return "error/no-access";
-    }
-
-     */
     @Test
-    void testAssignEmpToTask() {
+    void testAssignEmpToTask() throws Exception{
+    int taskID = 1;
 
+    mockMvc.perform(post("/read-tasks/{taskID}/assign-emp", taskID).session(session).param("empSelected",
+                    "4", "5"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/read-tasks/" + taskID));
 
+    Mockito.verify(taskService).assignEmpToTask(taskID, 4);
+    Mockito.verify(taskService).assignEmpToTask(taskID, 5);
     }
 }
