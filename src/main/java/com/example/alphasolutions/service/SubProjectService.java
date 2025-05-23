@@ -11,16 +11,16 @@ public class SubProjectService {
 
 
     private final SubprojectRepository subProjectRepository;
+    private final SubprojectRepository subprojectRepository;
 
-
-    public SubProjectService(SubprojectRepository subProjectRepository) {
+    public SubProjectService(SubprojectRepository subProjectRepository, SubprojectRepository subprojectRepository) {
         this.subProjectRepository = subProjectRepository;
-
+        this.subprojectRepository = subprojectRepository;
     }
 
     //___________________________________________ASSIGN EMP________________________________________________________________
     public void assignTaskToSubproject(int taskID, int subprojectID) {
-        subProjectRepository.assignTaskToSubproject(taskID, subprojectID);
+        subprojectRepository.assignTaskToSubproject(taskID, subprojectID);
     }
 
     public List<Integer> showAssignedEmpSubproject(int subprojectID) {
@@ -47,7 +47,7 @@ public class SubProjectService {
         return subProjectRepository.readMySubprojects(projectID, empID);
     }
 
-    public List<SubProject> readSubProjectsByProjectID(int projectID) {
+    public List<SubProject> getSubProjectsByProjectID(int projectID) {
         return subProjectRepository.readSubProjectsByProjectID(projectID);
     }
 

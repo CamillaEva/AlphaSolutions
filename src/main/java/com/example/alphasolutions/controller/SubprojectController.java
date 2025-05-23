@@ -103,22 +103,22 @@ public class SubprojectController {
     }
 
 
-    @GetMapping("/{empID}/read-subproject/{subProjectID}/my-tasks")
-    public String readMySubProject(@PathVariable int empID, @PathVariable int subProjectID, HttpSession session, Model model) {
+    @GetMapping("/{empID}/read-subproject/{subprojectID}/my-tasks")
+    public String readMySubproject(@PathVariable int empID, @PathVariable int subprojectID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
         if (sessionEmp.getEmpID() == empID && sessionRole == Role.EMPLOYEE) {
-            SubProject mySubproject = subprojectService.readSubProjectByID(subProjectID);
-            int timeEstimate = subprojectService.getTimeEstFromTasks(subProjectID);
-            List<Task> myTasks = taskService.readMyTasks(empID, subProjectID);
+            SubProject mySubproject = subprojectService.readSubProjectByID(subprojectID);
+            int timeEstimate = subprojectService.getTimeEstFromTasks(subprojectID);
+            List<Task> myTasks = taskService.readMyTasks(empID, subprojectID);
             Project project = projectService.readProjectByID(mySubproject.getProjectID());
 
             int totalTimeEstimate = subprojectService.readTotalTimeEstimateForProject(project.getProjectID());
             //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = subprojectService.readTotalUsedTimeForProject(project.getProjectID());
 
-            List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subProjectID);
+            List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subprojectID);
             List<Employee> assignedEmployeesSubproject = new ArrayList<>();
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(mySubproject.getProjectID());

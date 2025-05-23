@@ -15,8 +15,7 @@ public class SubprojectRowMapper implements RowMapper<SubProject> {
                 rs.getString("NAME"),
                 rs.getString("DESCRIPTION"),
                 rs.getDate("STARTDATE").toLocalDate(),
-                rs.getDate("ENDDATE").toLocalDate(),
-                rs.getInt("TIMEEST")
+                rs.getDate("ENDDATE").toLocalDate()
         );
     }
 

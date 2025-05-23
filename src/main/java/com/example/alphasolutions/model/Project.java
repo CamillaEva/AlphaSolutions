@@ -11,22 +11,18 @@ public class Project {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int timeEst = 0;
-    private int usedTime = 0;
 
 
     public Project() {
 
     }
 
-    public Project(int projectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+    public Project(int projectID, String name, String description, LocalDate startDate, LocalDate endDate) {
         this.projectID = projectID;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.timeEst = timeEst;
-
     }
 
     public void createSubproject(SubProject subProject) {
@@ -79,21 +75,5 @@ public class Project {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public int getTimeEst() {
-        return timeEst;
-    }
-
-    public void setTimeEst(int timeEst) {
-        this.timeEst = timeEst;
-    }
-
-    public int getUsedTime() {
-        return usedTime;
-    }
-
-    public void setUsedTime(int usedTime) {
-        this.usedTime = usedTime;
     }
 }

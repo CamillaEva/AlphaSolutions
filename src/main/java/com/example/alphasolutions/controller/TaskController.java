@@ -16,14 +16,14 @@ import java.util.List;
 @Controller
 public class TaskController {
     private final TaskService taskService;
-    private final SubProjectService subProjectService;
+    private final SubProjectService subprojectService;
     private final ProjectService projectService;
     private final EmpService empService;
 
-    public TaskController(TaskService taskService, SubProjectService subProjectService,
+    public TaskController(TaskService taskService, SubProjectService subprojectService,
                           ProjectService projectService, EmpService empService) {
         this.taskService = taskService;
-        this.subProjectService = subProjectService;
+        this.subprojectService = subprojectService;
         this.projectService = projectService;
         this.empService = empService;
     }
@@ -34,7 +34,7 @@ public class TaskController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            SubProject subProject = subProjectService.readSubProjectByID(subProjectID);
+            SubProject subProject = subprojectService.readSubProjectByID(subProjectID);
             model.addAttribute("subProject", subProject);
             model.addAttribute("task", new Task());
             return "create-task";
@@ -53,7 +53,7 @@ public class TaskController {
             int newTaskID = taskService.createTask(task);
 
             //puts new task in subproject_tasks in the database
-            subProjectService.assignTaskToSubproject(newTaskID, subProjectID);
+            subprojectService.assignTaskToSubproject(newTaskID, subProjectID);
 
             return "redirect:/read-subproject/" + subProjectID;
         }
@@ -69,7 +69,7 @@ public class TaskController {
 
         if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Task task = taskService.readTaskByID(taskID);
-            SubProject subproject = subProjectService.readSubProjectByID(task.getSubProjectID());
+            SubProject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
             Project project = projectService.readProjectByID(subproject.getProjectID());
 
 
@@ -138,7 +138,7 @@ public class TaskController {
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-task/{taskID}")
-    public String deleteTask(@PathVariable int taskID, HttpSession session) {
+    public String deleteSubProject(@PathVariable int taskID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
