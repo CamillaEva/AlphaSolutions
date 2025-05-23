@@ -3,7 +3,7 @@ package com.example.alphasolutions.controller;
 import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubprojectService;
+import com.example.alphasolutions.service.SubProjectService;
 import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -19,11 +19,11 @@ import java.util.List;
 @Controller
 public class ProjectController {
     private final ProjectService projectService;
-    private final SubprojectService subprojectService;
+    private final SubProjectService subprojectService;
     private final EmpService empService;
     private final TaskService taskService;
 
-    public ProjectController(ProjectService projectService, SubprojectService subprojectService,
+    public ProjectController(ProjectService projectService, SubProjectService subprojectService,
                              EmpService empService, TaskService taskService) {
         this.projectService = projectService;
         this.subprojectService = subprojectService;

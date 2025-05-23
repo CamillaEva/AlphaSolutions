@@ -6,7 +6,7 @@ import com.example.alphasolutions.model.SubProject;
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubprojectService;
+import com.example.alphasolutions.service.SubProjectService;
 import com.example.alphasolutions.service.TaskService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class TaskControllerTest {
     private TaskService taskService;
 
     @MockBean
-    private SubprojectService subprojectService;
+    private SubProjectService subprojectService;
 
     @MockBean
     private ProjectService projectService;
