@@ -109,7 +109,7 @@ public class ProjectRepository {
 
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteProject(Project project) {
-        for (Subproject s : project.getSubProjects()) {
+        for (SubProject s : project.getSubProjects()) {
             List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ",
                     (rs, rowNum) -> rs.getInt("TASKID"),
                     s.getSubProjectID());

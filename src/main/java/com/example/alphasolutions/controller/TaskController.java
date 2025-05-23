@@ -6,7 +6,6 @@ import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,7 @@ public class TaskController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            Subproject subProject = subprojectService.readSubProjectByID(subProjectID);
+            SubProject subProject = subprojectService.readSubProjectByID(subProjectID);
             model.addAttribute("subProject", subProject);
             model.addAttribute("task", new Task());
             return "create-task";
@@ -70,7 +69,7 @@ public class TaskController {
 
         if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Task task = taskService.readTaskByID(taskID);
-            Subproject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
+            SubProject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
             Project project = projectService.readProjectByID(subproject.getProjectID());
 
 

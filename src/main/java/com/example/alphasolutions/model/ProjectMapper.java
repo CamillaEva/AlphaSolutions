@@ -29,7 +29,7 @@ public class ProjectMapper {
             }
 
             if (rs.get("SPID") != null) {
-                Subproject subProject = new Subproject();
+                SubProject subProject = new SubProject();
 
                 subProject.setSubProjectID((int) rs.get("SPID"));
                 subProject.setName((String) rs.get("SPName"));

@@ -8,13 +8,13 @@ import java.util.Map;
 
 public class SubprojectMapper {
 
-    public List<Subproject> subProjectWithTasks(List<Map<String, Object>> rows) {
+    public List<SubProject> subProjectWithTasks(List<Map<String, Object>> rows) {
 
-        Map<Integer, Subproject> subProjects = new HashMap<>();
+        Map<Integer, SubProject> subProjects = new HashMap<>();
 
 
         for (Map rs : rows) {
-            Subproject subProject = new Subproject();
+            SubProject subProject = new SubProject();
 
             subProject.setSubProjectID((Integer) rs.get("SUBPROJECTID"));
             if (subProjects.containsKey(subProject.getSubProjectID())) {

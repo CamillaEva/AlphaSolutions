@@ -70,11 +70,11 @@ public class ProjectController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if(sessionRole == Role.EMPLOYEE) {
-            List<Subproject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
+            List<SubProject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
             Project myProject = projectService.readProjectByID(projectID);
             Employee sessionEmp = empService.readEmployeeById(empID);
 
-            for (Subproject subProject : mySubprojects) {
+            for (SubProject subProject : mySubprojects) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
             }
@@ -107,10 +107,10 @@ public class ProjectController {
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
         if(sessionRole == Role.PROJECT_LEADER) {
-            List<Subproject> allSubprojects = subprojectService.getSubProjectsByProjectID(projectID);
+            List<SubProject> allSubprojects = subprojectService.getSubProjectsByProjectID(projectID);
             Project projectByID = projectService.readProjectByID(projectID);
 
-            for (Subproject subProject : allSubprojects) {
+            for (SubProject subProject : allSubprojects) {
                 int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
                 subProject.setTimeEst(est);
             }

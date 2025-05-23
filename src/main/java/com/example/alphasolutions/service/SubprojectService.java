@@ -1,6 +1,6 @@
 package com.example.alphasolutions.service;
 
-import com.example.alphasolutions.model.Subproject;
+import com.example.alphasolutions.model.SubProject;
 import com.example.alphasolutions.repository.SubprojectRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +30,12 @@ public class SubprojectService {
 
 
     //_______________________________________________CREATE_____________________________________________________________
-    public int createSubProject(Subproject subProject) {
+    public int createSubProject(SubProject subProject) {
         return subProjectRepository.createSubProject(subProject);
     } //Change to createSubProject + change in controller
 
     //_______________________________________________READ_______________________________________________________________
-    public Subproject readSubProjectByID(int subProjectID) {
+    public SubProject readSubProjectByID(int subProjectID) {
         return subProjectRepository.readSubProjectById(subProjectID);
     }
 
@@ -43,11 +43,11 @@ public class SubprojectService {
         return subProjectRepository.getTimeEstFromTasks(subProjectID);
     }
 
-    public List<Subproject> readMySubprojects(int empID, int projectID) {
+    public List<SubProject> readMySubprojects(int empID, int projectID) {
         return subProjectRepository.readMySubprojects(projectID, empID);
     }
 
-    public List<Subproject> getSubProjectsByProjectID(int projectID) {
+    public List<SubProject> getSubProjectsByProjectID(int projectID) {
         return subProjectRepository.readSubProjectsByProjectID(projectID);
     }
 
@@ -61,12 +61,12 @@ public class SubprojectService {
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    public void updateSubProject(Subproject subProject) {
+    public void updateSubProject(SubProject subProject) {
         subProjectRepository.updateSubProject(subProject);
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteSubProject(Subproject subproject) {
+    public void deleteSubProject(SubProject subproject) {
         subProjectRepository.deleteSubProject(subproject);
     }
 
