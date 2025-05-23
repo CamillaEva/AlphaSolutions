@@ -56,14 +56,6 @@ public class ProjectController {
     }
 
     //_______________________________________________READ_______________________________________________________________
-
-    @GetMapping("/read-projects")
-    public String readAllprojects(Model model) {
-        List<Project> projects = projectService.readAllProjects();
-        model.addAttribute("projects", projects);
-        return "read-projects";
-    }
-
     @GetMapping("/{empID}/read-my-project/{projectID}")
     public String readMyProject(@PathVariable int empID, @PathVariable int projectID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
