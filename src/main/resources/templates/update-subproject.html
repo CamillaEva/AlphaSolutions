@@ -10,10 +10,10 @@
 <header th:replace="fragments/header :: site-header"></header>
 <div class="form-box">
     <h1>Update subproject</h1>
-    <form th:action="@{/edit-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}"
-          th:object="${subProject}" method="post">
+    <form th:action="@{/edit-subproject/{subProjectID}(subProjectID=${subproject.getSubprojectID()})}"
+          th:object="${subproject}" method="post">
 
-        <input type="hidden" th:field="*{subProjectID}"/>
+        <input type="hidden" th:field="*{subprojectID}"/>
 
         <label for="name">Name:</label>
         <input type="text" id="name" th:field="*{name}"/><br>
@@ -28,7 +28,7 @@
         <input type="text" id="endDate" th:field="*{endDate}"/><br>
 
         <button type="submit">Save</button>
-        <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subProject.getSubProjectID()})}">
+        <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subproject.getSubprojectID()})}">
             <button type="button">CANCEL</button>
         </a>
     </form>

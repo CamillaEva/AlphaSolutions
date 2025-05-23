@@ -34,7 +34,7 @@ public class TaskController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            Subproject subProject = subprojectService.readSubProjectByID(subProjectID);
+            Subproject subProject = subprojectService.readSubprojectByID(subProjectID);
             model.addAttribute("subProject", subProject);
             model.addAttribute("task", new Task());
             return "create-task";
@@ -49,7 +49,7 @@ public class TaskController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            task.setSubProjectID(subProjectID);
+            task.setSubprojectID(subProjectID);
             int newTaskID = taskService.createTask(task);
 
             //puts new task in subproject_tasks in the database
@@ -69,7 +69,7 @@ public class TaskController {
 
         if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Task task = taskService.readTaskByID(taskID);
-            Subproject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
+            Subproject subproject = subprojectService.readSubprojectByID(task.getSubprojectID());
             Project project = projectService.readProjectByID(subproject.getProjectID());
 
 
@@ -144,7 +144,7 @@ public class TaskController {
         if (sessionRole == Role.PROJECT_LEADER) {
             Task task = taskService.readTaskByID(taskID);
             taskService.deleteTask(task);
-            return "redirect:/read-subproject/" + task.getSubProjectID();
+            return "redirect:/read-subproject/" + task.getSubprojectID();
         }
         return "error/no-access";
     }

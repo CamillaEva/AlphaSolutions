@@ -10,11 +10,9 @@ import java.util.List;
 public class SubprojectService {
 
 
-    private final SubprojectRepository subProjectRepository;
     private final SubprojectRepository subprojectRepository;
 
-    public SubprojectService(SubprojectRepository subProjectRepository, SubprojectRepository subprojectRepository) {
-        this.subProjectRepository = subProjectRepository;
+    public SubprojectService(SubprojectRepository subprojectRepository) {
         this.subprojectRepository = subprojectRepository;
     }
 
@@ -24,49 +22,49 @@ public class SubprojectService {
     }
 
     public List<Integer> showAssignedEmpSubproject(int subprojectID) {
-        return subProjectRepository.showAssignedEmpSubproject(subprojectID);
+        return subprojectRepository.showAssignedEmpSubproject(subprojectID);
     }
 
 
     //_______________________________________________CREATE_____________________________________________________________
-    public int createSubProject(Subproject subProject) {
-        return subProjectRepository.createSubProject(subProject);
+    public int createSubproject(Subproject subProject) {
+        return subprojectRepository.createSubProject(subProject);
     } //Change to createSubProject + change in controller
 
     //_______________________________________________READ_______________________________________________________________
-    public Subproject readSubProjectByID(int subProjectID) {
-        return subProjectRepository.readSubprojectById(subProjectID);
+    public Subproject readSubprojectByID(int subprojectID) {
+        return subprojectRepository.readSubprojectById(subprojectID);
     }
 
-    public int getTimeEstFromTasks(int subProjectID) {
-        return subProjectRepository.getTimeEstFromTasks(subProjectID);
+    public int getTimeEstFromTasks(int subprojectID) {
+        return subprojectRepository.getTimeEstFromTasks(subprojectID);
     }
 
     public List<Subproject> readMySubprojects(int empID, int projectID) {
-        return subProjectRepository.readMySubprojects(projectID, empID);
+        return subprojectRepository.readMySubprojects(projectID, empID);
     }
 
-    public List<Subproject> getSubProjectsByProjectID(int projectID) {
-        return subProjectRepository.readSubprojectsByProjectID(projectID);
+    public List<Subproject> getSubprojectsByProjectID(int projectID) {
+        return subprojectRepository.readSubprojectsByProjectID(projectID);
     }
 
     //TEST
     public int readTotalTimeEstimateForProject(int projectID) {
-        return subProjectRepository.readTotalTimeEstimateForProject(projectID);
+        return subprojectRepository.readTotalTimeEstimateForProject(projectID);
     }
 
     public int readTotalUsedTimeForProject(int projectID) {
-        return subProjectRepository.readTotalUsedTimeForProject(projectID);
+        return subprojectRepository.readTotalUsedTimeForProject(projectID);
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    public void updateSubProject(Subproject subProject) {
-        subProjectRepository.updateSubproject(subProject);
+    public void updateSubproject(Subproject subproject) {
+        subprojectRepository.updateSubproject(subproject);
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteSubProject(Subproject subproject) {
-        subProjectRepository.deleteSubProject(subproject);
+    public void deleteSubproject(Subproject subproject) {
+        subprojectRepository.deleteSubproject(subproject);
     }
 
 

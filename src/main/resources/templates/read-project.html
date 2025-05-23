@@ -37,7 +37,7 @@
                     </div>
 
                     <div th:each="subproject : ${allSubprojects}" class="box">
-                        <a th:href="@{/read-subproject/{id}(id=${subproject.subProjectID})}"
+                        <a th:href="@{/read-subproject/{id}(id=${subproject.subprojectID})}"
                            th:text="${subproject.name}">Subproject Name</a><br>
                         <span th:text="${subproject.description}"></span><br>
                         Time Estimate: <span th:text="${subproject.getTimeEst()}"></span> hours

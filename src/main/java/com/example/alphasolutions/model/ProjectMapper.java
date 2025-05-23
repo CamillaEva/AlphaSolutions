@@ -31,7 +31,7 @@ public class ProjectMapper {
             if (rs.get("SPID") != null) {
                 Subproject subProject = new Subproject();
 
-                subProject.setSubProjectID((int) rs.get("SPID"));
+                subProject.setSubprojectID((int) rs.get("SPID"));
                 subProject.setName((String) rs.get("SPName"));
                 subProject.setDescription((String) rs.get("SPDESCRIPTION"));
                 if (rs.get("SPSTARTDATE") != null) {

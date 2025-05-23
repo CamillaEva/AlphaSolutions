@@ -73,9 +73,9 @@ public class ProjectController {
             Project myProject = projectService.readProjectByID(projectID);
             Employee sessionEmp = empService.readEmployeeById(empID);
 
-            for (Subproject subProject : mySubprojects) {
-                int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
-                subProject.setTimeEst(est);
+            for (Subproject subproject : mySubprojects) {
+                int est = subprojectService.getTimeEstFromTasks(subproject.getSubprojectID());
+                subproject.setTimeEst(est);
             }
 
             int totalTimeEstimate = projectService.readTotalTimeEstimateForProject(projectID);
@@ -106,12 +106,12 @@ public class ProjectController {
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            List<Subproject> allSubprojects = subprojectService.getSubProjectsByProjectID(projectID);
+            List<Subproject> allSubprojects = subprojectService.getSubprojectsByProjectID(projectID);
             Project projectByID = projectService.readProjectByID(projectID);
 
-            for (Subproject subProject : allSubprojects) {
-                int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
-                subProject.setTimeEst(est);
+            for (Subproject subproject : allSubprojects) {
+                int est = subprojectService.getTimeEstFromTasks(subproject.getSubprojectID());
+                subproject.setTimeEst(est);
             }
 
             int totalTimeEstimate = projectService.readTotalTimeEstimateForProject(projectID);

@@ -16,9 +16,9 @@ public class SubprojectMapper {
         for (Map rs : rows) {
             Subproject subProject = new Subproject();
 
-            subProject.setSubProjectID((Integer) rs.get("SUBPROJECTID"));
-            if (subProjects.containsKey(subProject.getSubProjectID())) {
-                subProject = subProjects.get(subProject.getSubProjectID());
+            subProject.setSubprojectID((Integer) rs.get("SUBPROJECTID"));
+            if (subProjects.containsKey(subProject.getSubprojectID())) {
+                subProject = subProjects.get(subProject.getSubprojectID());
             } else {
                 subProject.setName((String) rs.get("NAME"));
                 subProject.setDescription((String) rs.get("DESCRIPTION"));
@@ -33,7 +33,7 @@ public class SubprojectMapper {
                 Task task = new Task();
 
                 task.setTaskID((int) rs.get("TID"));
-                task.setSubProjectID((Integer) rs.get("TSUBPROJECTID"));
+                task.setSubprojectID((Integer) rs.get("TSUBPROJECTID"));
                 task.setName((String) rs.get("TName"));
                 task.setDescription((String) rs.get("TDESCRIPTION"));
                 if (rs.get("TSTARTDATE") != null) {
@@ -48,7 +48,7 @@ public class SubprojectMapper {
                 subProject.createTask(task);
             }
 
-            subProjects.put(subProject.getSubProjectID(), subProject);
+            subProjects.put(subProject.getSubprojectID(), subProject);
 
 
         }

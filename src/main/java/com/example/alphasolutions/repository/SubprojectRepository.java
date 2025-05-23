@@ -109,13 +109,13 @@ public class SubprojectRepository {
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateSubproject(Subproject subproject) {
         String sql = "UPDATE SUBPROJECT SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ? WHERE SUBPROJECTID = ?";
-        jdbcTemplate.update(sql, subproject.getName(), subproject.getDescription(), subproject.getStartDate(), subproject.getEndDate(), subproject.getSubProjectID());
+        jdbcTemplate.update(sql, subproject.getName(), subproject.getDescription(), subproject.getStartDate(), subproject.getEndDate(), subproject.getSubprojectID());
 
     }
 
     //_______________________________________________DELETE_____________________________________________________________
 
-    public void deleteSubProject(Subproject subproject) {
+    public void deleteSubproject(Subproject subproject) {
         for (Task t : subproject.getTasks()) {
             String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
             String sql1 = "DELETE FROM SUBPROJECT_TASKS WHERE TASKID = ?";
@@ -127,8 +127,8 @@ public class SubprojectRepository {
         String sql3 = "DELETE FROM PROJECT_SUBPROJECTS WHERE SUBPROJECTID = ?";
         String sql4 = "DELETE FROM SUBPROJECT WHERE SUBPROJECTID = ?";
 
-        jdbcTemplate.update(sql3, subproject.getSubProjectID());
-        jdbcTemplate.update(sql4, subproject.getSubProjectID());
+        jdbcTemplate.update(sql3, subproject.getSubprojectID());
+        jdbcTemplate.update(sql4, subproject.getSubprojectID());
     }
 
 

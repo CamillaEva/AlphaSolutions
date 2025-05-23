@@ -65,9 +65,9 @@ class TaskControllerTest {
     void createTask() throws Exception{
         //Arrange
         Subproject subproject = new Subproject();
-        subproject.setSubProjectID(subprojectID);
+        subproject.setSubprojectID(subprojectID);
 
-        Mockito.when(subprojectService.readSubProjectByID(subprojectID)).thenReturn(subproject);
+        Mockito.when(subprojectService.readSubprojectByID(subprojectID)).thenReturn(subproject);
 
         // Act & assert
         mockMvc.perform(get("/create-task/{subProjectID}",subprojectID) //simulates HTTP get call
@@ -157,7 +157,7 @@ class TaskControllerTest {
         int taskID = 1;
         Task task = new Task();
         task.setTaskID(taskID);
-        task.setSubProjectID(2);
+        task.setSubprojectID(2);
 
 
         Mockito.when(taskService.readTaskByID(taskID)).thenReturn(task);
@@ -165,7 +165,7 @@ class TaskControllerTest {
 
         mockMvc.perform(post("/delete-task/{taskID}", taskID).session(session))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/read-subproject/" + task.getSubProjectID()));
+                .andExpect(redirectedUrl("/read-subproject/" + task.getSubprojectID()));
 
         Mockito.verify(taskService).deleteTask(task);
     }
