@@ -17,12 +17,10 @@ public class SubprojectRepository {
 
     private final SubprojectMapper subprojectMapper;
     private final JdbcTemplate jdbcTemplate;
-    private final SubprojectService subprojectService;
 
-    public SubprojectRepository(DataSource dataSource, SubprojectService subprojectService) {
+    public SubprojectRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.subprojectMapper = new SubprojectMapper();
-        this.subprojectService = subprojectService;
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
@@ -74,11 +72,11 @@ public class SubprojectRepository {
     }
 
     public int getTimeEstFromTasks(int subprojectID) {
-        Subproject subprojectServicerobject = readSubprojectById(subprojectID);
-        if (subprojectServicerobject.getTasks() == null) {
+        Subproject subproject = readSubprojectById(subprojectID);
+        if (subproject.getTasks() == null) {
             return 0;
         }
-        return subprojectServicerobject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
+        return subproject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
     }
 
     public List<Subproject> readSubprojectsByProjectID(int projectID) {

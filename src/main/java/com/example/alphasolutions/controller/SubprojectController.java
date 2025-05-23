@@ -23,15 +23,13 @@ public class SubprojectController {
     private final EmpService empService;
     private final SubprojectService subprojectService;
     private final TaskService taskService;
-    private final SubprojectRepository subprojectRepository;
 
     public SubprojectController(SubprojectService subprojectService, ProjectService projectService,
-                                EmpService empService, TaskService taskService, SubprojectRepository subprojectRepository) {
+                                EmpService empService, TaskService taskService) {
         this.projectService = projectService;
         this.empService = empService;
         this.taskService = taskService;
         this.subprojectService = subprojectService;
-        this.subprojectRepository = subprojectRepository;
     }
 
     //_______________________________________________CREATE_____________________________________________________________
