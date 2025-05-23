@@ -17,39 +17,6 @@ public class Task {
     private List<Employee> employees;
 
 
-
-    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
-        this.taskID = taskID;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.timeEst = timeEst;
-    }
-
-    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subProjectID) {
-        this.taskID = taskID;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.timeEst = timeEst;
-        this.subProjectID = subProjectID;
-    }
-
-    //TODO: fiks om nogle af constructorene kan slås sammen?
-    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subProjectID, List<Employee> employees) {
-        this.taskID = taskID;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.timeEst = timeEst;
-        this.subProjectID = subProjectID;
-        this.employees = employees;
-    }
-
-    //TODO Constructor when usedTime is being added
     public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subProjectID, int usedTime) {
         this.taskID = taskID;
         this.name = name;
@@ -113,12 +80,12 @@ public class Task {
         this.timeEst = timeEst;
     }
 
-    //TODO When usedTime is being added to tasks
+
     public int getUsedTime() {
         return usedTime;
     }
 
-    //TODO When usedTime is being added to tasks
+
     public void setUsedTime(int usedTime) {
         this.usedTime = usedTime;
     }

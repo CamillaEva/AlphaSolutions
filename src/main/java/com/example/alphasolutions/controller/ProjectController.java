@@ -4,7 +4,6 @@ import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubProjectService;
-import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,14 +20,14 @@ public class ProjectController {
     private final ProjectService projectService;
     private final SubProjectService subprojectService;
     private final EmpService empService;
-    private final TaskService taskService;
+
 
     public ProjectController(ProjectService projectService, SubProjectService subprojectService,
-                             EmpService empService, TaskService taskService) {
+                             EmpService empService) {
         this.projectService = projectService;
         this.subprojectService = subprojectService;
         this.empService = empService;
-        this.taskService = taskService;
+
     }
 
     //_______________________________________________CREATE_____________________________________________________________
@@ -66,10 +65,10 @@ public class ProjectController {
     }
 
     @GetMapping("/{empID}/read-my-project/{projectID}")
-    public String readMyProject (@PathVariable int empID, @PathVariable int projectID, HttpSession session, Model model){
+    public String readMyProject(@PathVariable int empID, @PathVariable int projectID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.EMPLOYEE) {
+        if (sessionRole == Role.EMPLOYEE) {
             List<SubProject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
             Project myProject = projectService.readProjectByID(projectID);
             Employee sessionEmp = empService.readEmployeeById(empID);
@@ -86,7 +85,7 @@ public class ProjectController {
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for(int employeeID : assignedEmpIDsProject){
+            for (int employeeID : assignedEmpIDsProject) {
                 assignedEmployeesProject.add(empService.readEmployeeById(employeeID));
             }
 
@@ -96,17 +95,17 @@ public class ProjectController {
             model.addAttribute("myProject", myProject);
             model.addAttribute("sessionEmp", sessionEmp);
             model.addAttribute("mySubprojects", mySubprojects);
-        return "read-my-project";
+            return "read-my-project";
         }
-    return "error/no-access";
+        return "error/no-access";
     }
 
     @GetMapping("/read-project/{projectID}")
-    public String readProjectByID (@PathVariable int projectID, HttpSession session, Model model){
+    public String readProjectByID(@PathVariable int projectID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
-        if(sessionRole == Role.PROJECT_LEADER) {
+        if (sessionRole == Role.PROJECT_LEADER) {
             List<SubProject> allSubprojects = subprojectService.getSubProjectsByProjectID(projectID);
             Project projectByID = projectService.readProjectByID(projectID);
 
@@ -122,7 +121,7 @@ public class ProjectController {
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
-            for(int employeeID : assignedEmpIDsProject){
+            for (int employeeID : assignedEmpIDsProject) {
                 assignedEmployeesProject.add(empService.readEmployeeById(employeeID));
             }
 
@@ -137,6 +136,7 @@ public class ProjectController {
         }
         return "error/no-access";
     }
+
     //_______________________________________________UPDATE_____________________________________________________________
     @GetMapping("/edit-project/{projectID}")
     public String editProject(@PathVariable int projectID, HttpSession session,
