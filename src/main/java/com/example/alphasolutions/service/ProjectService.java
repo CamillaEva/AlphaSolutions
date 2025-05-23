@@ -48,7 +48,7 @@ public class ProjectService {
         return projectRepository.readTotalUsedTimeForProject(projectID);
     }
 
-    public List<Project> readMyProjects(int empID){
+    public List<Project> readMyProjects(int empID) {
         return projectRepository.readMyProjects(empID);
     }
 

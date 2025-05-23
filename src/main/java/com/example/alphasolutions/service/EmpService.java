@@ -17,7 +17,7 @@ public class EmpService {
     }
 
     //---------------------------------------LOGIN---------------------------------------------------
-    public void attributeSetup(HttpSession session, Employee employee){
+    public void attributeSetup(HttpSession session, Employee employee) {
         empRepository.attributeSetup(session, employee);
     }
 
@@ -35,7 +35,7 @@ public class EmpService {
         return empRepository.readEmployeeById(empId);
     }
 
-    public Employee signIn(String mail, String password){
+    public Employee signIn(String mail, String password) {
         return empRepository.signIn(mail, password);
     }
 

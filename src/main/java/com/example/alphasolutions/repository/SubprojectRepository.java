@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class SubprojectRepository {
 
-    private SubprojectMapper subProjectMapper;
+    private final SubprojectMapper subProjectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public SubprojectRepository(DataSource dataSource) {
@@ -57,7 +57,6 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    //TODO: skal nok fikses til subprojectMapper da det er en til mange relation mellem projekt og subprojects
     public List<SubProject> readMySubprojects(int empID, int projectID) {
         String sql = "SELECT DISTINCT S.SUBPROJECTID, S.PROJECTID, S.NAME, S.DESCRIPTION, S.STARTDATE, S.ENDDATE FROM SUBPROJECT S " +
                 "JOIN SUBPROJECT_TASKS ST ON S.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +

@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public class ProjectRepository {
 
-    private ProjectMapper projectMapper;
+    private final ProjectMapper projectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public ProjectRepository(DataSource dataSource) {

@@ -22,13 +22,6 @@ public class SubProject {
         tasks = new ArrayList<>();
     }
 
-    public SubProject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate) {
-        this.subProjectID = subProjectID;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
 
     public SubProject(int subProjectID, int projectID, String name, String description, LocalDate startDate, LocalDate endDate) {
         this.subProjectID = subProjectID;
@@ -39,15 +32,6 @@ public class SubProject {
         this.endDate = endDate;
     }
 
-    public SubProject(int subProjectID, int projectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate) {
-        this.subProjectID = subProjectID;
-        this.projectID = projectID;
-        this.taskID = taskID;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
 
     public void createTask(Task task) {
         tasks.add(task);

@@ -22,26 +22,11 @@ public class Employee {
         this.role = role;
     }
 
-    public Employee(String mail, String password, Role role){
-        this.mail = mail;
-        this.password = password;
-        this.role = role;
-    }
 
-    //Empty constructor to add emp
     public Employee() {
 
     }
 
-    public Employee(int empID, String firstName, String lastName, String mail, String password, Role role, List<Task> tasks) {
-        this.empID = empID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mail = mail;
-        this.password = password;
-        this.role = role;
-        this.tasks = tasks;
-    }
 
     public int getEmpID() {
         return empID;
@@ -102,16 +87,5 @@ public class Employee {
         this.tasks = tasks;
     }
 
-    //TODO: er toString overhovedet nødvendigt???
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "empID=" + empID +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", mail='" + mail + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
-    }
+
 }
