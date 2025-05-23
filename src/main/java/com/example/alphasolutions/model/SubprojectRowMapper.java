@@ -5,11 +5,11 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SubprojectRowMapper implements RowMapper<SubProject> {
+public class SubprojectRowMapper implements RowMapper<Subproject> {
     @Override
 
-    public SubProject mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new SubProject(
+    public Subproject mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new Subproject(
                 rs.getInt("SUBPROJECTID"),
                 rs.getInt("PROJECTID"),
                 rs.getString("NAME"),

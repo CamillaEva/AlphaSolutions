@@ -1,19 +1,19 @@
 package com.example.alphasolutions.service;
 
-import com.example.alphasolutions.model.SubProject;
+import com.example.alphasolutions.model.Subproject;
 import com.example.alphasolutions.repository.SubprojectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SubProjectService {
+public class SubprojectService {
 
 
     private final SubprojectRepository subProjectRepository;
     private final SubprojectRepository subprojectRepository;
 
-    public SubProjectService(SubprojectRepository subProjectRepository, SubprojectRepository subprojectRepository) {
+    public SubprojectService(SubprojectRepository subProjectRepository, SubprojectRepository subprojectRepository) {
         this.subProjectRepository = subProjectRepository;
         this.subprojectRepository = subprojectRepository;
     }
@@ -29,25 +29,25 @@ public class SubProjectService {
 
 
     //_______________________________________________CREATE_____________________________________________________________
-    public int createSubProject(SubProject subProject) {
+    public int createSubProject(Subproject subProject) {
         return subProjectRepository.createSubProject(subProject);
     } //Change to createSubProject + change in controller
 
     //_______________________________________________READ_______________________________________________________________
-    public SubProject readSubProjectByID(int subProjectID) {
-        return subProjectRepository.readSubProjectById(subProjectID);
+    public Subproject readSubProjectByID(int subProjectID) {
+        return subProjectRepository.readSubprojectById(subProjectID);
     }
 
     public int getTimeEstFromTasks(int subProjectID) {
         return subProjectRepository.getTimeEstFromTasks(subProjectID);
     }
 
-    public List<SubProject> readMySubprojects(int empID, int projectID) {
+    public List<Subproject> readMySubprojects(int empID, int projectID) {
         return subProjectRepository.readMySubprojects(projectID, empID);
     }
 
-    public List<SubProject> getSubProjectsByProjectID(int projectID) {
-        return subProjectRepository.readSubProjectsByProjectID(projectID);
+    public List<Subproject> getSubProjectsByProjectID(int projectID) {
+        return subProjectRepository.readSubprojectsByProjectID(projectID);
     }
 
     //TEST
@@ -60,12 +60,12 @@ public class SubProjectService {
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    public void updateSubProject(SubProject subProject) {
-        subProjectRepository.updateSubProject(subProject);
+    public void updateSubProject(Subproject subProject) {
+        subProjectRepository.updateSubproject(subProject);
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    public void deleteSubProject(SubProject subproject) {
+    public void deleteSubProject(Subproject subproject) {
         subProjectRepository.deleteSubProject(subproject);
     }
 

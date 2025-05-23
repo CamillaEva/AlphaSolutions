@@ -6,7 +6,7 @@ import java.util.List;
 public class Project {
 
     private int projectID;
-    private List<SubProject> subprojects;
+    private List<Subproject> subprojects;
     private String name;
     private String description;
     private LocalDate startDate;
@@ -25,7 +25,7 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public void createSubproject(SubProject subProject) {
+    public void createSubproject(Subproject subProject) {
         subprojects.add(subProject);
     }
 
@@ -37,11 +37,11 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public List<SubProject> getSubProjects() {
+    public List<Subproject> getSubProjects() {
         return subprojects;
     }
 
-    public void setSubProjects(List<SubProject> subprojects) {
+    public void setSubProjects(List<Subproject> subprojects) {
         this.subprojects = subprojects;
     }
 

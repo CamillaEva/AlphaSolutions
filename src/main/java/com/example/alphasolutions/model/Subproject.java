@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubProject {
+public class Subproject {
 
 
     private int subProjectID;
@@ -18,12 +18,12 @@ public class SubProject {
     private int timeEst = 0;
 
 
-    public SubProject() {
+    public Subproject() {
         tasks = new ArrayList<>();
     }
 
 
-    public SubProject(int subProjectID, int projectID, String name, String description, LocalDate startDate, LocalDate endDate) {
+    public Subproject(int subProjectID, int projectID, String name, String description, LocalDate startDate, LocalDate endDate) {
         this.subProjectID = subProjectID;
         this.projectID = projectID;
         this.name = name;
