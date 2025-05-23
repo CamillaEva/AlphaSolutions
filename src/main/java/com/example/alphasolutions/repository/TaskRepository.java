@@ -2,9 +2,7 @@ package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.model.TaskRowMapper;
-import org.springframework.boot.autoconfigure.service.connection.ConnectionDetails;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;

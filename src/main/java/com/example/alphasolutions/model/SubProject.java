@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Subproject {
+public class SubProject {
 
 
     private int subProjectID;
@@ -16,42 +16,22 @@ public class Subproject {
     private LocalDate startDate;
     private LocalDate endDate;
     private int timeEst = 0;
-    private int usedTime = 0;
 
 
-    public Subproject() {
+    public SubProject() {
         tasks = new ArrayList<>();
     }
 
-    public Subproject(int subProjectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
-        this.subProjectID = subProjectID;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.timeEst = timeEst;
-    }
 
-    public Subproject(int subProjectID, int projectID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
+    public SubProject(int subProjectID, int projectID, String name, String description, LocalDate startDate, LocalDate endDate) {
         this.subProjectID = subProjectID;
         this.projectID = projectID;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.timeEst = timeEst;
     }
 
-    public Subproject(int subProjectID, int projectID, int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst) {
-        this.subProjectID = subProjectID;
-        this.projectID = projectID;
-        this.taskID = taskID;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.timeEst = timeEst;
-    }
 
     public void createTask(Task task) {
         tasks.add(task);
@@ -129,13 +109,5 @@ public class Subproject {
 
     public void setTimeEst(int timeEst) {
         this.timeEst = timeEst;
-    }
-
-    public int getUsedTime() {
-        return usedTime;
-    }
-
-    public void setUsedTime(int usedTime) {
-        this.usedTime = usedTime;
     }
 }

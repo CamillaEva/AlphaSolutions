@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 public class SessionController {
     private final ProjectService projectService;
-    private EmpService empService;
+    private final EmpService empService;
 
     public SessionController(EmpService empService, ProjectService projectService) {
         this.empService = empService;
@@ -36,7 +36,7 @@ public class SessionController {
         Role sessionRole = (Role) session.getAttribute("role");
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
-        if(sessionEmp == null){
+        if (sessionEmp == null) {
             return "redirect:/";
         }
 
@@ -48,7 +48,7 @@ public class SessionController {
             model.addAttribute("sessionEmp", sessionEmp);
             return "main-page";
         }
-        if(sessionRole == Role.PROJECT_LEADER){
+        if (sessionRole == Role.PROJECT_LEADER) {
             List<Project> allProjects = projectService.readAllProjects();
             model.addAttribute("allProjects", allProjects);
             model.addAttribute("sessionEmp", sessionEmp);

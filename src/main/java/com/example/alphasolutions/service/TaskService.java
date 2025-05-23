@@ -55,12 +55,14 @@ public class TaskService {
         taskRepository.updateTask(task);
     }
 
+    public void updateUsedTime(Task task) {
+        taskRepository.updateUsedTime(task);
+    }
+
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteTask(Task task) {
         taskRepository.deleteTask(task);
     }
 
-    public void updateUsedTime(Task task) {
-        taskRepository.updateUsedTime(task);
-    }
+
 }

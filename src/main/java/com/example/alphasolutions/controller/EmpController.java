@@ -24,7 +24,7 @@ public class EmpController {
         Role sessionRole = (Role) session.getAttribute("role");
         int sessionID = (int) session.getAttribute("id");
 
-        if(sessionRole == Role.ADMIN) {
+        if (sessionRole == Role.ADMIN) {
             model.addAttribute("emp", new Employee());
             model.addAttribute("roles", Role.values());
             model.addAttribute("sessionID", sessionID);
@@ -39,7 +39,7 @@ public class EmpController {
         Role sessionRole = (Role) session.getAttribute("role");
         int sessionID = (int) session.getAttribute("id");
 
-        if(sessionRole == Role.ADMIN) {
+        if (sessionRole == Role.ADMIN) {
             employee.setMail(mailInitials + "@alphasolutions.com");
             empService.createEmployee(employee);
             return "redirect:/main-page/" + sessionID;
@@ -53,7 +53,7 @@ public class EmpController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         //TODO: alm. medarbejdere skal vel ikke kunne se alle medarbejdere, kun de tilknyttede til samme projekter osv?
-        if(sessionRole == Role.PROJECT_LEADER || sessionRole == Role.ADMIN) {
+        if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.ADMIN) {
             List<Employee> employees = empService.readAllEmployees();
             model.addAttribute("employees", employees);
             return "read-employees";
@@ -68,7 +68,7 @@ public class EmpController {
         Role sessionRole = (Role) session.getAttribute("role");
         int sessionID = (int) session.getAttribute("id");
 
-        if(sessionRole == Role.PROJECT_LEADER || sessionRole == Role.ADMIN) {
+        if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.ADMIN) {
             Employee employee = empService.readEmployeeById(empId);
             model.addAttribute("sessionID", sessionID);
             model.addAttribute("employee", employee);
@@ -80,11 +80,11 @@ public class EmpController {
     //_______________________________________________UPDATE_____________________________________________________________
     //Mapping to edit employees data
     @GetMapping("/edit-employee/{empId}")
-    public String editEmployee ( @PathVariable int empId, Model model,
-                                 HttpSession session){
+    public String editEmployee(@PathVariable int empId, Model model,
+                               HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.ADMIN) {
+        if (sessionRole == Role.ADMIN) {
             Employee employee = empService.readEmployeeById(empId);
             model.addAttribute("employee", employee);
             model.addAttribute("roles", Role.values());
@@ -95,11 +95,11 @@ public class EmpController {
 
     //Mapping to UPDATE employees data
     @PostMapping("/edit-employee/{empId}")
-    public String updateEmployee ( @PathVariable int empId, @ModelAttribute("employee") Employee employee,
-                                   HttpSession session){
+    public String updateEmployee(@PathVariable int empId, @ModelAttribute("employee") Employee employee,
+                                 HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
-        if(sessionRole == Role.ADMIN) {
+        if (sessionRole == Role.ADMIN) {
             // Convert enum to a String
             String roleAsString = employee.getRole().name(); // 'ADMIN', 'USER', etc.
 
@@ -113,11 +113,11 @@ public class EmpController {
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-employee/{empId}")
-    public String deleteEmployee ( @PathVariable int empId, HttpSession session){
+    public String deleteEmployee(@PathVariable int empId, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
         int sessionID = (int) session.getAttribute("id");
 
-        if(sessionRole == Role.ADMIN) {
+        if (sessionRole == Role.ADMIN) {
             Employee employee = empService.readEmployeeById(empId);
             empService.deleteEmployee(employee);
             return "redirect:/main-page/" + sessionID;

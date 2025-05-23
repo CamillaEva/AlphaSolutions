@@ -2,20 +2,15 @@ package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.EmployeeRowMapper;
-import com.example.alphasolutions.model.Role;
-import com.example.alphasolutions.model.Task;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -28,7 +23,7 @@ public class EmpRepository {
     }
 
     //-----------------------------------------LOGIN----------------------------------------------
-    public void attributeSetup(HttpSession session, Employee employee){
+    public void attributeSetup(HttpSession session, Employee employee) {
         session.setAttribute("emp", employee);
         session.setAttribute("role", employee.getRole());
         session.setAttribute("id", employee.getEmpID());
@@ -46,7 +41,7 @@ public class EmpRepository {
             ps.setString(2, employee.getLastName());
             ps.setString(3, employee.getMail());
             ps.setString(4, employee.getPassword());
-            ps.setString(5, employee.getRole().toString().toUpperCase()); //Konvertere ENUM til en string
+            ps.setString(5, employee.getRole().toString().toUpperCase());
             return ps;
         }, keyHolder);
         return keyHolder.getKey().intValue();
@@ -63,11 +58,11 @@ public class EmpRepository {
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), empId);
     }
 
-    public Employee signIn(String mail, String password){
+    public Employee signIn(String mail, String password) {
         try {
             String sql = "SELECT * FROM EMP WHERE MAIL = ? AND PASSWORD = ?";
             return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), mail, password);
-        } catch(EmptyResultDataAccessException o){
+        } catch (EmptyResultDataAccessException o) {
             return null;
         }
     }
