@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ProjectMapper {
 
-    public List<Project> ProjectWithSubProjects(List<Map<String, Object>> rows) {
+    public List<Project> projectWithSubProjects(List<Map<String, Object>> rows) {
 
         Map<Integer, Project> projects = new HashMap<>();
 
