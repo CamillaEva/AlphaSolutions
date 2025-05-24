@@ -14,16 +14,16 @@
     <div class="category-label">Subproject</div>
     <div class="main-elements">
         <div class="element-info">
-            <h1 th:text="${subProject.name}"></h1><br>
+            <h1 th:text="${subproject.name}"></h1><br>
 
             <label th:for="description"><strong>Description:</strong></label>
-            <span th:text="${subProject.description}"></span><br>
+            <span th:text="${subproject.description}"></span><br>
 
             <label th:for="startDate"><strong>Start date:</strong></label>
-            <span th:text="${subProject.startDate}"></span><br>
+            <span th:text="${subproject.startDate}"></span><br>
 
             <label th:for="endDate"><strong>End date:</strong></label>
-            <span th:text="${subProject.endDate}"></span><br>
+            <span th:text="${subproject.endDate}"></span><br>
 
             <label th:for="timeEst"><strong>Time-estimate from tasks: </strong></label>
             <span><span th:text="${timeEstimate}"></span> hours</span>
@@ -33,13 +33,13 @@
         <div class="boxes">
             <div class="box">
                 <h1>NEW TASK</h1>
-                <a th:href="@{/create-task/{subprojectID}(subprojectID=${subProject.subProjectID})}">
+                <a th:href="@{/create-task/{subprojectID}(subprojectID=${subproject.subprojectID})}">
                     <img src="/image/plus-icon.png" class="plus-icon">
                 </a>
             </div>
 
 
-            <div th:each="task : ${subProject.tasks}" class="box">
+            <div th:each="task : ${subproject.tasks}" class="box">
                 <a th:href="@{/read-tasks/{taskID}(taskID=${task.taskID})}"
                    th:text="${task.name}">task Name</a><br>
                 <span th:text="${task.description}"></span><br>
@@ -51,18 +51,18 @@
 
     <div class="side-elements">
         <div class="box-button">
-            <a th:href="@{/edit-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}">
+            <a th:href="@{/edit-subproject/{subprojectID}(subProjectID=${subproject.getSubprojectID()})}">
                 <button type="submit">Edit subproject</button>
             </a>
 
-            <form th:action="@{/delete-subproject/{subProjectID}(subProjectID=${subProject.getSubProjectID()})}"
+            <form th:action="@{/delete-subproject/{subprojectID}(subProjectID=${subproject.getSubprojectID()})}"
                   method="post">
                 <button type="submit" onclick="return confirm('Are you sure you want to delete the subproject?')">Delete
                     subproject
                 </button>
             </form>
 
-            <a th:href="@{/read-project/{projectID}(projectID=${subProject.projectID})}">
+            <a th:href="@{/read-project/{projectID}(projectID=${subproject.projectID})}">
                 <button type="button">Back</button>
             </a>
         </div>

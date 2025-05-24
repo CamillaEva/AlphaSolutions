@@ -2,11 +2,11 @@ package com.example.alphasolutions.controller;
 
 import com.example.alphasolutions.model.Employee;
 import com.example.alphasolutions.model.Role;
-import com.example.alphasolutions.model.SubProject;
+import com.example.alphasolutions.model.Subproject;
 import com.example.alphasolutions.model.Task;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubProjectService;
+import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +17,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,7 +42,7 @@ class TaskControllerTest {
     private TaskService taskService;
 
     @MockBean
-    private SubProjectService subprojectService;
+    private SubprojectService subprojectService;
 
     @MockBean
     private ProjectService projectService;
@@ -58,10 +64,10 @@ class TaskControllerTest {
     @Test
     void createTask() throws Exception{
         //Arrange
-        SubProject subproject = new SubProject();
-        subproject.setSubProjectID(subprojectID);
+        Subproject subproject = new Subproject();
+        subproject.setSubprojectID(subprojectID);
 
-        Mockito.when(subprojectService.readSubProjectByID(subprojectID)).thenReturn(subproject);
+        Mockito.when(subprojectService.readSubprojectByID(subprojectID)).thenReturn(subproject);
 
         // Act & assert
         mockMvc.perform(get("/create-task/{subProjectID}",subprojectID) //simulates HTTP get call
@@ -98,31 +104,105 @@ class TaskControllerTest {
     @Test
     void readTaskByID() {
 
-
-
     }
 
     @Test
-    void editTask() {
+    void editTask() throws Exception {
+        Task task = new Task();
+        int taskID = 1;
+        task.setTaskID(taskID);
+
+        Mockito.when(taskService.readTaskByID(taskID)).thenReturn(task);
+
+        mockMvc.perform(get("/pl/edit-task/{taskID}", taskID).session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("update-task"))
+                .andExpect(model().attributeExists("task"))
+                .andExpect(model().attribute("task", task));
     }
 
     @Test
-    void updateTask() {
+    void updateTask() throws Exception {
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+
+        doNothing().when(taskService).updateTask(task); //.doNothing() used for void method
+
+        mockMvc.perform(post("/pl/edit-task/{taskID}", taskID).session(
+                session).flashAttr("task", task)) //.flashAttr simulates the task object that the user would have submitted in the html form
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-tasks/" + taskID));
+
+        Mockito.verify(taskService).updateTask(task);
     }
 
     @Test
-    void updateUsedTime() {
+    void updateUsedTime() throws Exception{
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+
+        doNothing().when(taskService).updateUsedTime(task);
+
+        mockMvc.perform(post("/emp/edit-task/{taskID}", taskID).session(session).flashAttr("task", task))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-tasks/" + taskID));
+
+        Mockito.verify(taskService).updateUsedTime(task);
     }
 
     @Test
-    void deleteSubProject() {
+    void deleteTask() throws Exception{
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+        task.setSubprojectID(2);
+
+
+        Mockito.when(taskService.readTaskByID(taskID)).thenReturn(task);
+        doNothing().when(taskService).deleteTask(task);
+
+        mockMvc.perform(post("/delete-task/{taskID}", taskID).session(session))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-subproject/" + task.getSubprojectID()));
+
+        Mockito.verify(taskService).deleteTask(task);
     }
 
     @Test
-    void assignEmpToTask() {
+    void assignEmpToTask() throws Exception{
+        List<Employee> employees = Arrays.asList(new Employee(), new Employee());
+        List<Integer> alreadyAssigned = Arrays.asList(1,2);
+
+        int taskID = 1;
+        Task task = new Task();
+        task.setTaskID(taskID);
+
+        Mockito.when(empService.readAllEmployees()).thenReturn(employees);
+        Mockito.when(taskService.showAssignedEmpTask(taskID)).thenReturn(alreadyAssigned);
+
+        mockMvc.perform(get("/read-tasks/{taskID}/assign-emp", taskID).session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("assign-emp"))
+                .andExpect(model().attributeExists("alreadyAssigned"))
+                .andExpect(model().attributeExists("taskID"))
+                .andExpect(model().attributeExists("employees"))
+                .andExpect(model().attribute("employees", employees))
+                .andExpect(model().attribute("taskID", taskID))
+                .andExpect(model().attribute("alreadyAssigned", alreadyAssigned));
     }
 
     @Test
-    void testAssignEmpToTask() {
+    void testAssignEmpToTask() throws Exception{
+    int taskID = 1;
+
+    mockMvc.perform(post("/read-tasks/{taskID}/assign-emp", taskID).session(session).param("empSelected",
+                    "4", "5"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/read-tasks/" + taskID));
+
+    Mockito.verify(taskService).assignEmpToTask(taskID, 4);
+    Mockito.verify(taskService).assignEmpToTask(taskID, 5);
     }
 }

@@ -3,7 +3,7 @@ package com.example.alphasolutions.controller;
 import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubProjectService;
+import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,11 @@ import java.util.List;
 @Controller
 public class TaskController {
     private final TaskService taskService;
-    private final SubProjectService subprojectService;
+    private final SubprojectService subprojectService;
     private final ProjectService projectService;
     private final EmpService empService;
 
-    public TaskController(TaskService taskService, SubProjectService subprojectService,
+    public TaskController(TaskService taskService, SubprojectService subprojectService,
                           ProjectService projectService, EmpService empService) {
         this.taskService = taskService;
         this.subprojectService = subprojectService;
@@ -34,7 +34,7 @@ public class TaskController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            SubProject subProject = subprojectService.readSubProjectByID(subProjectID);
+            Subproject subProject = subprojectService.readSubprojectByID(subProjectID);
             model.addAttribute("subProject", subProject);
             model.addAttribute("task", new Task());
             return "create-task";
@@ -49,7 +49,7 @@ public class TaskController {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            task.setSubProjectID(subProjectID);
+            task.setSubprojectID(subProjectID);
             int newTaskID = taskService.createTask(task);
 
             //puts new task in subproject_tasks in the database
@@ -69,7 +69,7 @@ public class TaskController {
 
         if (sessionRole == Role.PROJECT_LEADER || sessionRole == Role.EMPLOYEE) {
             Task task = taskService.readTaskByID(taskID);
-            SubProject subproject = subprojectService.readSubProjectByID(task.getSubProjectID());
+            Subproject subproject = subprojectService.readSubprojectByID(task.getSubprojectID());
             Project project = projectService.readProjectByID(subproject.getProjectID());
 
 
@@ -138,13 +138,13 @@ public class TaskController {
 
     //_______________________________________________DELETE_____________________________________________________________
     @PostMapping("/delete-task/{taskID}")
-    public String deleteSubProject(@PathVariable int taskID, HttpSession session) {
+    public String deleteTask(@PathVariable int taskID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
             Task task = taskService.readTaskByID(taskID);
             taskService.deleteTask(task);
-            return "redirect:/read-subproject/" + task.getSubProjectID();
+            return "redirect:/read-subproject/" + task.getSubprojectID();
         }
         return "error/no-access";
     }

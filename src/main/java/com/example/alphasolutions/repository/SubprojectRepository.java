@@ -1,6 +1,7 @@
 package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.*;
+import com.example.alphasolutions.service.SubprojectService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -14,12 +15,12 @@ import java.util.List;
 @Repository
 public class SubprojectRepository {
 
-    private final SubprojectMapper subProjectMapper;
+    private final SubprojectMapper subprojectMapper;
     private final JdbcTemplate jdbcTemplate;
 
     public SubprojectRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.subProjectMapper = new SubprojectMapper();
+        this.subprojectMapper = new SubprojectMapper();
     }
 
     //______________________________________________ASSIGN EMP__________________________________________________________
@@ -39,17 +40,17 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________CREATE_____________________________________________________________
-    public int createSubProject(SubProject subProject) {
+    public int createSubProject(Subproject subproject) {
         String sql = "INSERT INTO subproject (NAME, DESCRIPTION, STARTDATE, ENDDATE, PROJECTID) VALUES (?,?,?,?,?)";
         KeyHolder keyholder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1, subProject.getName());
-            ps.setString(2, subProject.getDescription());
-            ps.setDate(3, Date.valueOf(subProject.getStartDate()));
-            ps.setDate(4, Date.valueOf(subProject.getEndDate()));
-            ps.setInt(5, subProject.getProjectID());
+            ps.setString(1, subproject.getName());
+            ps.setString(2, subproject.getDescription());
+            ps.setDate(3, Date.valueOf(subproject.getStartDate()));
+            ps.setDate(4, Date.valueOf(subproject.getEndDate()));
+            ps.setInt(5, subproject.getProjectID());
             return ps;
         }, keyholder);
 
@@ -57,28 +58,28 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    public List<SubProject> readMySubprojects(int empID, int projectID) {
+    public List<Subproject> readMySubprojects(int empID, int projectID) {
         String sql = "SELECT DISTINCT S.SUBPROJECTID, S.PROJECTID, S.NAME, S.DESCRIPTION, S.STARTDATE, S.ENDDATE FROM SUBPROJECT S " +
                 "JOIN SUBPROJECT_TASKS ST ON S.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
                 "WHERE ET.EMPID = ? AND S.PROJECTID = ?";
         return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID, empID);
     }
 
-    public SubProject readSubProjectById(int subProjectID) {
+    public Subproject readSubprojectById(int subprojectID) {
         String sql = "SELECT SP.SUBPROJECTID, SP.PROJECTID, SP.NAME, SP.DESCRIPTION, SP.STARTDATE, SP.ENDDATE, T.TASKID AS TID, T.NAME AS TNAME, T.DESCRIPTION AS TDESCRIPTION, T.STARTDATE AS TSTARTDATE, T.ENDDATE AS TENDDATE, T.TIMEEST AS TTIMEEST, T.SUBPROJECTID AS TSUBPROJECTID FROM SUBPROJECT SP " +
                 "LEFT JOIN TASK T ON SP.SUBPROJECTID = T.SUBPROJECTID WHERE SP.SUBPROJECTID = ?";
-        return subProjectMapper.subProjectWithTasks(jdbcTemplate.queryForList(sql, subProjectID)).get(0);
+        return subprojectMapper.subprojectWithTasks(jdbcTemplate.queryForList(sql, subprojectID)).get(0);
     }
 
-    public int getTimeEstFromTasks(int subProjectID) {
-        SubProject subProject = readSubProjectById(subProjectID);
-        if (subProject.getTasks() == null) {
+    public int getTimeEstFromTasks(int subprojectID) {
+        Subproject subproject = readSubprojectById(subprojectID);
+        if (subproject.getTasks() == null) {
             return 0;
         }
-        return subProject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
+        return subproject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
     }
 
-    public List<SubProject> readSubProjectsByProjectID(int projectID) {
+    public List<Subproject> readSubprojectsByProjectID(int projectID) {
         String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE " +
                 "FROM SUBPROJECT WHERE PROJECTID = ?";
         return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID);
@@ -104,16 +105,16 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    public void updateSubProject(SubProject subProject) {
+    public void updateSubproject(Subproject subproject) {
         String sql = "UPDATE SUBPROJECT SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ? WHERE SUBPROJECTID = ?";
-        jdbcTemplate.update(sql, subProject.getName(), subProject.getDescription(), subProject.getStartDate(), subProject.getEndDate(), subProject.getSubProjectID());
+        jdbcTemplate.update(sql, subproject.getName(), subproject.getDescription(), subproject.getStartDate(), subproject.getEndDate(), subproject.getSubprojectID());
 
     }
 
     //_______________________________________________DELETE_____________________________________________________________
 
-    public void deleteSubProject(SubProject subProject) {
-        for (Task t : subProject.getTasks()) {
+    public void deleteSubproject(Subproject subproject) {
+        for (Task t : subproject.getTasks()) {
             String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
             String sql1 = "DELETE FROM SUBPROJECT_TASKS WHERE TASKID = ?";
             String sql2 = "DELETE FROM TASK WHERE TASKID = ?";
@@ -124,8 +125,8 @@ public class SubprojectRepository {
         String sql3 = "DELETE FROM PROJECT_SUBPROJECTS WHERE SUBPROJECTID = ?";
         String sql4 = "DELETE FROM SUBPROJECT WHERE SUBPROJECTID = ?";
 
-        jdbcTemplate.update(sql3, subProject.getSubProjectID());
-        jdbcTemplate.update(sql4, subProject.getSubProjectID());
+        jdbcTemplate.update(sql3, subproject.getSubprojectID());
+        jdbcTemplate.update(sql4, subproject.getSubprojectID());
     }
 
 

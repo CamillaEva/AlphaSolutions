@@ -1,9 +1,10 @@
 package com.example.alphasolutions.controller;
 
 import com.example.alphasolutions.model.*;
+import com.example.alphasolutions.repository.SubprojectRepository;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubProjectService;
+import com.example.alphasolutions.service.SubprojectService;
 import com.example.alphasolutions.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,10 @@ import java.util.List;
 public class SubprojectController {
     private final ProjectService projectService;
     private final EmpService empService;
-    private final SubProjectService subprojectService;
+    private final SubprojectService subprojectService;
     private final TaskService taskService;
 
-    public SubprojectController(SubProjectService subprojectService, ProjectService projectService,
+    public SubprojectController(SubprojectService subprojectService, ProjectService projectService,
                                 EmpService empService, TaskService taskService) {
         this.projectService = projectService;
         this.empService = empService;
@@ -33,26 +34,26 @@ public class SubprojectController {
 
     //_______________________________________________CREATE_____________________________________________________________
     @GetMapping("/create-subproject/{projectID}")
-    public String createSubProject(@PathVariable("projectID") int projectID, HttpSession session,
+    public String createSubproject(@PathVariable("projectID") int projectID, HttpSession session,
                                    Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
             Project project = projectService.readProjectByID(projectID);
             model.addAttribute("project", project);
-            model.addAttribute("subproject", new SubProject());
+            model.addAttribute("subproject", new Subproject());
             return "create-subproject";
         }
         return "error/no-access";
     }
 
     @PostMapping("/create-subproject/{projectID}/add")
-    public String createSubProject(@PathVariable("projectID") int projectID, @ModelAttribute SubProject subProject,
+    public String createSubproject(@PathVariable("projectID") int projectID, @ModelAttribute Subproject subproject,
                                    HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
         if (sessionRole == Role.PROJECT_LEADER) {
-            subProject.setProjectID(projectID);
-            int newSubprojectID = subprojectService.createSubProject(subProject);
+            subproject.setProjectID(projectID);
+            int newSubprojectID = subprojectService.createSubproject(subproject);
 
             projectService.assignSubprojectToProject(newSubprojectID, projectID);
 
@@ -62,25 +63,25 @@ public class SubprojectController {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    @GetMapping("/read-subproject/{subProjectID}")
-    public String readSubProjectByIDWithTime(@PathVariable("subProjectID") int subProjectID,
+    @GetMapping("/read-subproject/{subprojectID}")
+    public String readSubprojectByIDWithTime(@PathVariable("subprojectID") int subprojectID,
                                              HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            SubProject subProject = subprojectService.readSubProjectByID(subProjectID);
-            int timeEstimate = subprojectService.getTimeEstFromTasks(subProjectID);
+            Subproject subproject = subprojectService.readSubprojectByID(subprojectID);
+            int timeEstimate = subprojectService.getTimeEstFromTasks(subprojectID);
 
-            Project project = projectService.readProjectByID(subProject.getProjectID());
+            Project project = projectService.readProjectByID(subproject.getProjectID());
 //            }
             int totalTimeEstimate = subprojectService.readTotalTimeEstimateForProject(project.getProjectID());
             //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = subprojectService.readTotalUsedTimeForProject(project.getProjectID());
 
-            List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subProjectID);
+            List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subprojectID);
             List<Employee> assignedEmployeesSubproject = new ArrayList<>();
 
-            List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(subProject.getProjectID());
+            List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(subproject.getProjectID());
             List<Employee> assignedEmployeesProject = new ArrayList<>();
 
             for (int empID : assignedEmpIDsSubproject) {
@@ -93,7 +94,7 @@ public class SubprojectController {
 
             model.addAttribute("assignedEmployeesProject", assignedEmployeesProject);
             model.addAttribute("assignedEmployeesSubproject", assignedEmployeesSubproject);
-            model.addAttribute("subProject", subProject);
+            model.addAttribute("subproject", subproject);
             model.addAttribute("timeEstimate", timeEstimate);
             model.addAttribute("totalTimeEstimate", totalTimeEstimate);
             model.addAttribute("totalTimeUsed", totalTimeUsed);
@@ -109,7 +110,7 @@ public class SubprojectController {
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
         if (sessionEmp.getEmpID() == empID && sessionRole == Role.EMPLOYEE) {
-            SubProject mySubproject = subprojectService.readSubProjectByID(subprojectID);
+            Subproject mySubproject = subprojectService.readSubprojectByID(subprojectID);
             int timeEstimate = subprojectService.getTimeEstFromTasks(subprojectID);
             List<Task> myTasks = taskService.readMyTasks(empID, subprojectID);
             Project project = projectService.readProjectByID(mySubproject.getProjectID());
@@ -145,42 +146,42 @@ public class SubprojectController {
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    @GetMapping("/edit-subproject/{subProjectID}")
-    public String editSubProject(@PathVariable int subProjectID, Model model,
+    @GetMapping("/edit-subproject/{subprojectID}")
+    public String editSubproject(@PathVariable int subprojectID, Model model,
                                  HttpSession session) {
 
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            SubProject subProject = subprojectService.readSubProjectByID(subProjectID);
-            model.addAttribute("subProject", subProject);
+            Subproject subproject = subprojectService.readSubprojectByID(subprojectID);
+            model.addAttribute("subproject", subproject);
             return "update-subproject";
         }
         return "error/no-access";
     }
 
-    @PostMapping("/edit-subproject/{subProjectID}")
-    public String updateSubProject(@PathVariable int subProjectID,
-                                   @ModelAttribute("subProject") SubProject subProject,
+    @PostMapping("/edit-subproject/{subprojectID}")
+    public String updateSubproject(@PathVariable int subprojectID,
+                                   @ModelAttribute("subProject") Subproject subproject,
                                    HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            subprojectService.updateSubProject(subProject);
-            return "redirect:/read-subproject/" + subProjectID;
+            subprojectService.updateSubproject(subproject);
+            return "redirect:/read-subproject/" + subprojectID;
         }
         return "error/no-access";
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-    @PostMapping("/delete-subproject/{subProjectID}")
-    public String deleteSubProject(@PathVariable int subProjectID, HttpSession session) {
+    @PostMapping("/delete-subproject/{subprojectID}")
+    public String deleteSubproject(@PathVariable int subprojectID, HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            SubProject subProject = subprojectService.readSubProjectByID(subProjectID);
-            subprojectService.deleteSubProject(subProject);
-            return "redirect:/read-project/" + subProject.getProjectID();
+            Subproject subproject = subprojectService.readSubprojectByID(subprojectID);
+            subprojectService.deleteSubproject(subproject);
+            return "redirect:/read-project/" + subproject.getProjectID();
         }
         return "error/no-access";
     }

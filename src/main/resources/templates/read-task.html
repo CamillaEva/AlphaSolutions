@@ -64,7 +64,7 @@
                         task
                     </button>
                 </form>
-                <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subProjectID})}">
+                <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${task.subprojectID})}">
                     <button type="button">Back</button>
                 </a>
                 <a th:href="@{/read-tasks/{taskID}/assign-emp (taskID=${task.taskID})}">
@@ -79,7 +79,7 @@
     <div th:if="${session.role.name() == 'EMPLOYEE'}">
         <div class="side-elements">
             <div class="box-button">
-                <a th:href="@{/{empID}/read-subproject/{subprojectID}/my-tasks (empID = ${sessionEmp.empID}, subprojectID = ${subproject.subProjectID})}">
+                <a th:href="@{/{empID}/read-subproject/{subprojectID}/my-tasks (empID = ${sessionEmp.empID}, subprojectID = ${subproject.subprojectID})}">
                     <button type="button">Back</button>
                 </a>
             </div>

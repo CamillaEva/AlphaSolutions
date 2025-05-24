@@ -3,7 +3,7 @@ package com.example.alphasolutions.controller;
 import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
-import com.example.alphasolutions.service.SubProjectService;
+import com.example.alphasolutions.service.SubprojectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +18,11 @@ import java.util.List;
 @Controller
 public class ProjectController {
     private final ProjectService projectService;
-    private final SubProjectService subprojectService;
+    private final SubprojectService subprojectService;
     private final EmpService empService;
 
 
-    public ProjectController(ProjectService projectService, SubProjectService subprojectService,
+    public ProjectController(ProjectService projectService, SubprojectService subprojectService,
                              EmpService empService) {
         this.projectService = projectService;
         this.subprojectService = subprojectService;
@@ -56,26 +56,18 @@ public class ProjectController {
     }
 
     //_______________________________________________READ_______________________________________________________________
-
-    @GetMapping("/read-projects")
-    public String readAllprojects(Model model) {
-        List<Project> projects = projectService.readAllProjects();
-        model.addAttribute("projects", projects);
-        return "read-projects";
-    }
-
     @GetMapping("/{empID}/read-my-project/{projectID}")
     public String readMyProject(@PathVariable int empID, @PathVariable int projectID, HttpSession session, Model model) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.EMPLOYEE) {
-            List<SubProject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
+            List<Subproject> mySubprojects = subprojectService.readMySubprojects(empID, projectID);
             Project myProject = projectService.readProjectByID(projectID);
             Employee sessionEmp = empService.readEmployeeById(empID);
 
-            for (SubProject subProject : mySubprojects) {
-                int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
-                subProject.setTimeEst(est);
+            for (Subproject subproject : mySubprojects) {
+                int est = subprojectService.getTimeEstFromTasks(subproject.getSubprojectID());
+                subproject.setTimeEst(est);
             }
 
             int totalTimeEstimate = projectService.readTotalTimeEstimateForProject(projectID);
@@ -106,12 +98,12 @@ public class ProjectController {
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            List<SubProject> allSubprojects = subprojectService.getSubProjectsByProjectID(projectID);
+            List<Subproject> allSubprojects = subprojectService.getSubprojectsByProjectID(projectID);
             Project projectByID = projectService.readProjectByID(projectID);
 
-            for (SubProject subProject : allSubprojects) {
-                int est = subprojectService.getTimeEstFromTasks(subProject.getSubProjectID());
-                subProject.setTimeEst(est);
+            for (Subproject subproject : allSubprojects) {
+                int est = subprojectService.getTimeEstFromTasks(subproject.getSubprojectID());
+                subproject.setTimeEst(est);
             }
 
             int totalTimeEstimate = projectService.readTotalTimeEstimateForProject(projectID);

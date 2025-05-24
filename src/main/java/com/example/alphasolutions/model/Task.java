@@ -7,7 +7,7 @@ public class Task {
 
 
     private int taskID;
-    private int subProjectID;
+    private int subprojectID;
     private String name;
     private String description;
     private LocalDate startDate;
@@ -17,14 +17,14 @@ public class Task {
     private List<Employee> employees;
 
 
-    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subProjectID, int usedTime) {
+    public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subprojectID, int usedTime) {
         this.taskID = taskID;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.timeEst = timeEst;
-        this.subProjectID = subProjectID;
+        this.subprojectID = subprojectID;
         this.usedTime = usedTime;
     }
 
@@ -90,12 +90,12 @@ public class Task {
         this.usedTime = usedTime;
     }
 
-    public int getSubProjectID() {
-        return subProjectID;
+    public int getSubprojectID() {
+        return subprojectID;
     }
 
-    public void setSubProjectID(int subProjectID) {
-        this.subProjectID = subProjectID;
+    public void setSubprojectID(int subprojectID) {
+        this.subprojectID = subprojectID;
     }
 
     public List<Employee> getEmployees() {

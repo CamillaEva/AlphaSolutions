@@ -44,7 +44,7 @@ public class TaskRepository {
             ps.setDate(3, Date.valueOf(task.getStartDate()));
             ps.setDate(4, Date.valueOf(task.getEndDate()));
             ps.setInt(5, task.getTimeEst());
-            ps.setInt(6, task.getSubProjectID());
+            ps.setInt(6, task.getSubprojectID());
             return ps;
         }, keyHolder);
 

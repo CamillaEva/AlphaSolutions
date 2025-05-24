@@ -8,17 +8,17 @@ import java.util.Map;
 
 public class SubprojectMapper {
 
-    public List<SubProject> subProjectWithTasks(List<Map<String, Object>> rows) {
+    public List<Subproject> subprojectWithTasks(List<Map<String, Object>> rows) {
 
-        Map<Integer, SubProject> subProjects = new HashMap<>();
+        Map<Integer, Subproject> subProjects = new HashMap<>();
 
 
         for (Map rs : rows) {
-            SubProject subProject = new SubProject();
+            Subproject subProject = new Subproject();
 
-            subProject.setSubProjectID((Integer) rs.get("SUBPROJECTID"));
-            if (subProjects.containsKey(subProject.getSubProjectID())) {
-                subProject = subProjects.get(subProject.getSubProjectID());
+            subProject.setSubprojectID((Integer) rs.get("SUBPROJECTID"));
+            if (subProjects.containsKey(subProject.getSubprojectID())) {
+                subProject = subProjects.get(subProject.getSubprojectID());
             } else {
                 subProject.setName((String) rs.get("NAME"));
                 subProject.setDescription((String) rs.get("DESCRIPTION"));
@@ -33,7 +33,7 @@ public class SubprojectMapper {
                 Task task = new Task();
 
                 task.setTaskID((int) rs.get("TID"));
-                task.setSubProjectID((Integer) rs.get("TSUBPROJECTID"));
+                task.setSubprojectID((Integer) rs.get("TSUBPROJECTID"));
                 task.setName((String) rs.get("TName"));
                 task.setDescription((String) rs.get("TDESCRIPTION"));
                 if (rs.get("TSTARTDATE") != null) {
@@ -48,7 +48,7 @@ public class SubprojectMapper {
                 subProject.createTask(task);
             }
 
-            subProjects.put(subProject.getSubProjectID(), subProject);
+            subProjects.put(subProject.getSubprojectID(), subProject);
 
 
         }
