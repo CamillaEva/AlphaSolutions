@@ -44,7 +44,13 @@ public class EmpRepository {
             ps.setString(5, employee.getRole().toString().toUpperCase());
             return ps;
         }, keyHolder);
-        return keyHolder.getKey().intValue();
+
+        Number key = keyHolder.getKey();
+        if (key != null) {
+            return key.intValue();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     //_______________________________________________READ_______________________________________________________________

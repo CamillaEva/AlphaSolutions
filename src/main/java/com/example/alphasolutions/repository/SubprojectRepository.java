@@ -1,7 +1,6 @@
 package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.*;
-import com.example.alphasolutions.service.SubprojectService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -42,7 +41,7 @@ public class SubprojectRepository {
     //_______________________________________________CREATE_____________________________________________________________
     public int createSubProject(Subproject subproject) {
         String sql = "INSERT INTO subproject (NAME, DESCRIPTION, STARTDATE, ENDDATE, PROJECTID) VALUES (?,?,?,?,?)";
-        KeyHolder keyholder = new GeneratedKeyHolder();
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -52,9 +51,14 @@ public class SubprojectRepository {
             ps.setDate(4, Date.valueOf(subproject.getEndDate()));
             ps.setInt(5, subproject.getProjectID());
             return ps;
-        }, keyholder);
+        }, keyHolder);
 
-        return keyholder.getKey().intValue();
+        Number key = keyHolder.getKey();
+        if (key != null) {
+            return key.intValue();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     //_______________________________________________READ_______________________________________________________________
