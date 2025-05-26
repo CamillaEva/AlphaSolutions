@@ -1,6 +1,8 @@
 package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Task;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,10 +30,25 @@ class TaskRepositoryTest {
 
     @Test
     void assignEmpToTask() {
+    int empID = 3;
+    int taskID = 1;
+
+    taskRepository.assignEmpToTask(taskID, empID);
+
+    String sql = "SELECT COUNT(*) FROM EMP_TASK WHERE EMPID = ? AND TASKID = ?";
+    Integer actual = jdbcTemplate.queryForObject(sql, Integer.class,empID,taskID);
+
+    assertEquals(1, actual);
     }
 
     @Test
     void showAssignedEmpTask() {
+        int taskID = 1;
+        List<Integer> assignedEmpIDs = List.of(3);
+
+        taskRepository.showAssignedEmpTask(taskID);
+
+
     }
 
     @Test
@@ -71,11 +89,11 @@ class TaskRepositoryTest {
 
     }
 
-    @Test
+    @Disabled
     void readTotalTimeEstimateForProject() {
     }
 
-    @Test
+    @Disabled
     void readTotalUsedTimeForProject() {
     }
 
