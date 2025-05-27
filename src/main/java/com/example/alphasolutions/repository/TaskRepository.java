@@ -57,11 +57,6 @@ public class TaskRepository {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    public List<Task> readAllTask() {
-        String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID, USEDTIME FROM TASK";
-        return jdbcTemplate.query(sql, new TaskRowMapper());
-    }
-
     public Task readTaskByID(int taskID) {
         String sql = "SELECT TASKID, NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID, USEDTIME FROM TASK WHERE TASKID = ?";
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);

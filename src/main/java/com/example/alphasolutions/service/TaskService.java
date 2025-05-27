@@ -30,10 +30,6 @@ public class TaskService {
     }
 
     //_______________________________________________READ_______________________________________________________________
-    public List<Task> readAllTasks() {
-        return taskRepository.readAllTask();
-    }
-
     public Task readTaskByID(int taskID) {
         return taskRepository.readTaskByID(taskID);
     }
