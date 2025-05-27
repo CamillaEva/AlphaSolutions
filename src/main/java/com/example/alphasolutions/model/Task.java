@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Task {
 
-
     private int taskID;
     private int subprojectID;
     private String name;
@@ -16,6 +15,9 @@ public class Task {
     private int usedTime = 0;
     private List<Employee> employees;
 
+    public Task() {
+
+    }
 
     public Task(int taskID, String name, String description, LocalDate startDate, LocalDate endDate, int timeEst, int subprojectID, int usedTime) {
         this.taskID = taskID;
@@ -26,10 +28,6 @@ public class Task {
         this.timeEst = timeEst;
         this.subprojectID = subprojectID;
         this.usedTime = usedTime;
-    }
-
-    public Task() {
-
     }
 
     public int getTaskID() {
@@ -80,14 +78,8 @@ public class Task {
         this.timeEst = timeEst;
     }
 
-
     public int getUsedTime() {
         return usedTime;
-    }
-
-
-    public void setUsedTime(int usedTime) {
-        this.usedTime = usedTime;
     }
 
     public int getSubprojectID() {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Create Project</title>
@@ -8,7 +8,6 @@
 </head>
 <body>
 <header th:replace="fragments/header :: site-header"></header>
-
 <div class="form-box">
     <h1>Create Project</h1>
     <form th:action="@{/create-project}" th:object="${project}" th:method="post">

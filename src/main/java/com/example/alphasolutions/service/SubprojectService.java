@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public class SubprojectService {
 
-
     private final SubprojectRepository subprojectRepository;
 
     public SubprojectService(SubprojectRepository subprojectRepository) {
@@ -25,30 +24,28 @@ public class SubprojectService {
         return subprojectRepository.showAssignedEmpSubproject(subprojectID);
     }
 
-
     //_______________________________________________CREATE_____________________________________________________________
-    public int createSubproject(Subproject subProject) {
-        return subprojectRepository.createSubProject(subProject);
-    } //Change to createSubProject + change in controller
+    public int createSubproject(Subproject subproject) {
+        return subprojectRepository.createSubProject(subproject);
+    }
 
     //_______________________________________________READ_______________________________________________________________
     public Subproject readSubprojectByID(int subprojectID) {
         return subprojectRepository.readSubprojectById(subprojectID);
     }
 
-    public int getTimeEstFromTasks(int subprojectID) {
-        return subprojectRepository.getTimeEstFromTasks(subprojectID);
+    public int readTimeEstFromTasks(int subprojectID) {
+        return subprojectRepository.readTimeEstFromTasks(subprojectID);
     }
 
     public List<Subproject> readMySubprojects(int empID, int projectID) {
         return subprojectRepository.readMySubprojects(projectID, empID);
     }
 
-    public List<Subproject> getSubprojectsByProjectID(int projectID) {
+    public List<Subproject> readSubprojectsByProjectID(int projectID) {
         return subprojectRepository.readSubprojectsByProjectID(projectID);
     }
 
-    //TEST
     public int readTotalTimeEstimateForProject(int projectID) {
         return subprojectRepository.readTotalTimeEstimateForProject(projectID);
     }
@@ -66,6 +63,4 @@ public class SubprojectService {
     public void deleteSubproject(Subproject subproject) {
         subprojectRepository.deleteSubproject(subproject);
     }
-
-
 }

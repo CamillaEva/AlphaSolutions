@@ -68,13 +68,13 @@ class TaskControllerTest {
         Mockito.when(subprojectService.readSubprojectByID(subprojectID)).thenReturn(subproject);
 
         // Act & assert
-        mockMvc.perform(get("/create-task/{subProjectID}", subprojectID) //simulates HTTP get call
-                        .session(session)) //mock session
-                .andExpect(status().isOk()) //expect no error (status is ok)
-                .andExpect(view().name("create-task")) //view html
+        mockMvc.perform(get("/create-task/{subProjectID}", subprojectID)
+                        .session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("create-task"))
                 .andExpect(model().attributeExists("task"))
                 .andExpect(model().attributeExists("subProject"))
-                .andExpect(model().attribute("subProject", subproject)); //expect subproject-attribute
+                .andExpect(model().attribute("subProject", subproject));
     }
 
     @Test
@@ -100,7 +100,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void readTaskByID() throws Exception{
+    void readTaskByID() throws Exception {
         int taskID = 1;
         int subprojectID = 1;
         int projectID = 1;

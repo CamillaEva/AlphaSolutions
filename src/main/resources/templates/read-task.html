@@ -9,7 +9,6 @@
 </head>
 <body>
 <header th:replace="fragments/header ::site-header"></header>
-
 <div class="elements">
     <div class="category-label">Task</div>
     <div class="main-elements">
@@ -83,9 +82,7 @@
                     <button type="button">Back</button>
                 </a>
             </div>
-            <section
-                    th:replace="fragments/overview :: site-overview(${totalTimeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
-
+            <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
         </div>
     </div>
 </div>

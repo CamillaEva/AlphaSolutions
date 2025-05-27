@@ -69,12 +69,10 @@ public class SubprojectController {
 
         if (sessionRole == Role.PROJECT_LEADER) {
             Subproject subproject = subprojectService.readSubprojectByID(subprojectID);
-            int timeEstimate = subprojectService.getTimeEstFromTasks(subprojectID);
-
+            int timeEstimate = subprojectService.readTimeEstFromTasks(subprojectID);
             Project project = projectService.readProjectByID(subproject.getProjectID());
-//            }
+
             int totalTimeEstimate = subprojectService.readTotalTimeEstimateForProject(project.getProjectID());
-            //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = subprojectService.readTotalUsedTimeForProject(project.getProjectID());
 
             List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subprojectID);
@@ -110,12 +108,11 @@ public class SubprojectController {
 
         if (sessionEmp.getEmpID() == empID && sessionRole == Role.EMPLOYEE) {
             Subproject mySubproject = subprojectService.readSubprojectByID(subprojectID);
-            int timeEstimate = subprojectService.getTimeEstFromTasks(subprojectID);
+            int timeEstimate = subprojectService.readTimeEstFromTasks(subprojectID);
             List<Task> myTasks = taskService.readMyTasks(empID, subprojectID);
             Project project = projectService.readProjectByID(mySubproject.getProjectID());
 
             int totalTimeEstimate = subprojectService.readTotalTimeEstimateForProject(project.getProjectID());
-            //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = subprojectService.readTotalUsedTimeForProject(project.getProjectID());
 
             List<Integer> assignedEmpIDsSubproject = subprojectService.showAssignedEmpSubproject(subprojectID);

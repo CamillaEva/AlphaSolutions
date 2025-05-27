@@ -40,7 +40,6 @@ public class SessionController {
             return "redirect:/";
         }
 
-
         if (sessionRole == Role.EMPLOYEE) {
             List<Project> myProjects = projectService.readMyProjects(empID);
 
@@ -68,7 +67,6 @@ public class SessionController {
     public String login(@RequestParam("mailInitials") String mailInitials, @RequestParam("password") String password, HttpSession session, Model model) {
         String mail = mailInitials + "@alphasolutions.com";
 
-        // if the mail and password doesn't match the admin account, then check for employees
         Employee employee = empService.signIn(mail, password);
 
         if (employee != null) {

@@ -59,7 +59,6 @@ public class ProjectRepository {
         }
     }
 
-
     //_______________________________________________READ_______________________________________________________________
     public List<Project> readAllProjects() {
         String sql = "SELECT P.PROJECTID, P.NAME, P.DESCRIPTION, P.STARTDATE, P.ENDDATE FROM PROJECT P";
@@ -71,7 +70,14 @@ public class ProjectRepository {
                 " SP.DESCRIPTION AS SPDESCRIPTION, SP.STARTDATE AS SPSTARTDATE, SP.ENDDATE AS SPENDDATE" +
                 " FROM PROJECT P " +
                 "LEFT JOIN SUBPROJECT SP ON P.PROJECTID = SP.PROJECTID WHERE P.PROJECTID = ?";
-        return projectMapper.projectWithSubProjects(jdbcTemplate.queryForList(sql, projectID)).get(0);
+        return projectMapper.projectWithSubprojects(jdbcTemplate.queryForList(sql, projectID)).get(0);
+    }
+
+    public List<Project> readMyProjects(int empID) {
+        String sql = "SELECT DISTINCT P.* FROM PROJECT P JOIN PROJECT_SUBPROJECTS PS ON P.PROJECTID = PS.PROJECTID" +
+                " JOIN SUBPROJECT_TASKS ST ON PS.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
+                "WHERE EMPID = ?";
+        return jdbcTemplate.query(sql, new ProjectRowMapper(), empID);
     }
 
     public int readTotalTimeEstimateForProject(int projectID) {
@@ -94,14 +100,6 @@ public class ProjectRepository {
         Integer totalUsedTime = jdbcTemplate.queryForObject(sql, Integer.class, projectId);
         return totalUsedTime != null ? totalUsedTime : 0;
     }
-
-    public List<Project> readMyProjects(int empID) {
-        String sql = "SELECT DISTINCT P.* FROM PROJECT P JOIN PROJECT_SUBPROJECTS PS ON P.PROJECTID = PS.PROJECTID" +
-                " JOIN SUBPROJECT_TASKS ST ON PS.SUBPROJECTID = ST.SUBPROJECTID JOIN EMP_TASK ET ON ST.TASKID = ET.TASKID " +
-                "WHERE EMPID = ?";
-        return jdbcTemplate.query(sql, new ProjectRowMapper(), empID);
-    }
-
     //_______________________________________________UPDATE_____________________________________________________________
     public void updateProject(Project project) {
         String sql = "UPDATE project SET NAME = ?, DESCRIPTION = ?, STARTDATE = ?, ENDDATE = ? WHERE PROJECTID = ?";
@@ -115,7 +113,7 @@ public class ProjectRepository {
 
     //_______________________________________________DELETE_____________________________________________________________
     public void deleteProject(Project project) {
-        for (Subproject s : project.getSubProjects()) {
+        for (Subproject s : project.getSubprojects()) {
             List<Integer> taskIDs = jdbcTemplate.query("SELECT TASKID FROM TASK WHERE SUBPROJECTID = ? ",
                     (rs, rowNum) -> rs.getInt("TASKID"),
                     s.getSubprojectID());
@@ -139,5 +137,4 @@ public class ProjectRepository {
         String sql6 = "DELETE FROM PROJECT WHERE PROJECTID = ?";
         jdbcTemplate.update(sql6, project.getProjectID());
     }
-
 }

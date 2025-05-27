@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Subproject {
 
-
     private int subprojectID;
     private int projectID;
     private List<Task> tasks = new ArrayList<>();
@@ -17,11 +16,9 @@ public class Subproject {
     private LocalDate endDate;
     private int timeEst = 0;
 
-
     public Subproject() {
         tasks = new ArrayList<>();
     }
-
 
     public Subproject(int subprojectID, int projectID, String name, String description, LocalDate startDate, LocalDate endDate) {
         this.subprojectID = subprojectID;
@@ -32,11 +29,9 @@ public class Subproject {
         this.endDate = endDate;
     }
 
-
     public void createTask(Task task) {
         tasks.add(task);
     }
-
 
     public int getSubprojectID() {
         return subprojectID;
@@ -61,7 +56,6 @@ public class Subproject {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
-
 
     public int getTaskID() {
         return taskID;

@@ -9,7 +9,6 @@
 </head>
 <body>
 <header th:replace="fragments/header ::site-header"></header>
-
 <div class="elements">
     <div class="category-label">Subproject</div>
     <div class="main-elements">
@@ -29,7 +28,6 @@
             <span><span th:text="${timeEstimate}"></span> hours</span>
         </div>
 
-
         <div class="boxes">
             <div th:each="task : ${myTasks}" class="box">
                 <a th:href="@{/read-tasks/{taskID}(taskID=${task.taskID})}"
@@ -47,7 +45,8 @@
                 <button type="button">Back</button>
             </a>
         </div>
-        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+        <section
+                th:replace="fragments/overview :: site-overview(${totalTimeEstimate},${assignedEmployeesProject}, ${totalTimeUsed})"></section>
 
         <div class="assignedEmps">
             <div class="mini-box">
@@ -59,10 +58,8 @@
                 </ul>
             </div>
         </div>
-
     </div>
 </div>
-
 <footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
 </html>

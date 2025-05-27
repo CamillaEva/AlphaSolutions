@@ -78,7 +78,6 @@ public class EmpController {
     }
 
     //_______________________________________________UPDATE_____________________________________________________________
-    //Mapping to edit employees data
     @GetMapping("/edit-employee/{empId}")
     public String editEmployee(@PathVariable int empId, Model model,
                                HttpSession session) {
@@ -93,17 +92,15 @@ public class EmpController {
         return "error/no-access";
     }
 
-    //Mapping to UPDATE employees data
     @PostMapping("/edit-employee/{empId}")
     public String updateEmployee(@PathVariable int empId, @ModelAttribute("employee") Employee employee,
                                  HttpSession session) {
         Role sessionRole = (Role) session.getAttribute("role");
 
         if (sessionRole == Role.ADMIN) {
-            // Convert enum to a String
-            String roleAsString = employee.getRole().name(); // 'ADMIN', 'USER', etc.
 
-            // Set role as a String in the Employee object
+            String roleAsString = employee.getRole().name();
+
             employee.setRole(Role.valueOf(roleAsString)); // Covert back to enum if necessary
             empService.updateEmployee(employee);
             return "redirect:/read-employee/" + empId;

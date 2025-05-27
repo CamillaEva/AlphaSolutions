@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public class ProjectService {
 
-
     private final ProjectRepository projectRepository;
 
     public ProjectService(ProjectRepository projectRepository) {
@@ -24,7 +23,6 @@ public class ProjectService {
     public List<Integer> showAssignedEmpProject(int projectID) {
         return projectRepository.showAssignedEmpProject(projectID);
     }
-
 
     //_______________________________________________CREATE_____________________________________________________________
     public int createProject(Project project) {
@@ -61,6 +59,4 @@ public class ProjectService {
     public void deleteProject(Project project) {
         projectRepository.deleteProject(project);
     }
-
-
 }

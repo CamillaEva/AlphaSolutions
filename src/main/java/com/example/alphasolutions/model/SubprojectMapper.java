@@ -10,22 +10,21 @@ public class SubprojectMapper {
 
     public List<Subproject> subprojectWithTasks(List<Map<String, Object>> rows) {
 
-        Map<Integer, Subproject> subProjects = new HashMap<>();
-
+        Map<Integer, Subproject> subprojects = new HashMap<>();
 
         for (Map rs : rows) {
-            Subproject subProject = new Subproject();
+            Subproject subproject = new Subproject();
 
-            subProject.setSubprojectID((Integer) rs.get("SUBPROJECTID"));
-            if (subProjects.containsKey(subProject.getSubprojectID())) {
-                subProject = subProjects.get(subProject.getSubprojectID());
+            subproject.setSubprojectID((Integer) rs.get("SUBPROJECTID"));
+            if (subprojects.containsKey(subproject.getSubprojectID())) {
+                subproject = subprojects.get(subproject.getSubprojectID());
             } else {
-                subProject.setName((String) rs.get("NAME"));
-                subProject.setDescription((String) rs.get("DESCRIPTION"));
-                subProject.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
-                subProject.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
-                subProject.setProjectID((Integer) rs.get("PROJECTID"));
-                subProject.setTasks(new ArrayList<>());
+                subproject.setName((String) rs.get("NAME"));
+                subproject.setDescription((String) rs.get("DESCRIPTION"));
+                subproject.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
+                subproject.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
+                subproject.setProjectID((Integer) rs.get("PROJECTID"));
+                subproject.setTasks(new ArrayList<>());
             }
 
 
@@ -45,16 +44,12 @@ public class SubprojectMapper {
                 if (rs.get("TTIMEEST") != null) {
                     task.setTimeEst((Integer) rs.get("TTIMEEST"));
                 }
-                subProject.createTask(task);
+                subproject.createTask(task);
             }
-
-            subProjects.put(subProject.getSubprojectID(), subProject);
-
-
+            subprojects.put(subproject.getSubprojectID(), subproject);
         }
 
-
-        return subProjects.values().stream().toList();
+        return subprojects.values().stream().toList();
     }
 }
 

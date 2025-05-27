@@ -74,7 +74,6 @@ public class TaskController {
 
 
             int totalTimeEstimate = taskService.readTotalTimeEstimateForProject(project.getProjectID());
-            //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = taskService.readTotalUsedTimeForProject(project.getProjectID());
 
             List<Integer> assignedEmpIDsTask = taskService.showAssignedEmpTask(taskID);

@@ -7,10 +7,8 @@
     <link rel="stylesheet" th:href="@{/css/box.css}">
     <link rel="stylesheet" th:href="@{/css/info-elements.css}">
 </head>
-
 <body>
 <header th:replace="fragments/header ::site-header"></header>
-
 <div class="elements">
     <div class="category-label">Project</div>
     <div class="main-elements">
@@ -47,7 +45,6 @@
         </div>
         <section
                 th:replace="fragments/overview :: site-overview(${totalTimeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
-
     </div>
 </div>
 </body>

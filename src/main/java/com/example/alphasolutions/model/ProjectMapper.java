@@ -9,10 +9,9 @@ import java.util.Map;
 
 public class ProjectMapper {
 
-    public List<Project> projectWithSubProjects(List<Map<String, Object>> rows) {
+    public List<Project> projectWithSubprojects(List<Map<String, Object>> rows) {
 
         Map<Integer, Project> projects = new HashMap<>();
-
 
         for (Map rs : rows) {
             Project project = new Project();
@@ -25,22 +24,22 @@ public class ProjectMapper {
                 project.setDescription((String) rs.get("DESCRIPTION"));
                 project.setStartDate(((LocalDateTime) rs.get("STARTDATE")).toLocalDate());
                 project.setEndDate(((LocalDateTime) rs.get("ENDDATE")).toLocalDate());
-                project.setSubProjects(new ArrayList<>());
+                project.setSubprojects(new ArrayList<>());
             }
 
             if (rs.get("SPID") != null) {
-                Subproject subProject = new Subproject();
+                Subproject subproject = new Subproject();
 
-                subProject.setSubprojectID((int) rs.get("SPID"));
-                subProject.setName((String) rs.get("SPName"));
-                subProject.setDescription((String) rs.get("SPDESCRIPTION"));
+                subproject.setSubprojectID((int) rs.get("SPID"));
+                subproject.setName((String) rs.get("SPName"));
+                subproject.setDescription((String) rs.get("SPDESCRIPTION"));
                 if (rs.get("SPSTARTDATE") != null) {
-                    subProject.setStartDate(((LocalDateTime) rs.get("SPSTARTDATE")).toLocalDate());
+                    subproject.setStartDate(((LocalDateTime) rs.get("SPSTARTDATE")).toLocalDate());
                 }
                 if (rs.get("SPENDDATE") != null) {
-                    subProject.setEndDate(((LocalDateTime) rs.get("SPENDDATE")).toLocalDate());
+                    subproject.setEndDate(((LocalDateTime) rs.get("SPENDDATE")).toLocalDate());
                 }
-                project.createSubproject(subProject);
+                project.createSubproject(subproject);
             }
             projects.put(project.getProjectID(), project);
 

@@ -23,7 +23,6 @@ public class TaskService {
         return taskRepository.showAssignedEmpTask(taskID);
     }
 
-
     //_______________________________________________CREATE_____________________________________________________________
     public int createTask(Task task) {
         return taskRepository.createTask(task);
@@ -59,6 +58,4 @@ public class TaskService {
     public void deleteTask(Task task) {
         taskRepository.deleteTask(task);
     }
-
-
 }

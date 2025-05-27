@@ -12,6 +12,9 @@ public class Employee {
     private Role role;
     private List<Task> tasks;
 
+    public Employee() {
+
+    }
 
     public Employee(int empID, String firstName, String lastName, String mail, String password, Role role) {
         this.empID = empID;
@@ -22,16 +25,9 @@ public class Employee {
         this.role = role;
     }
 
-
-    public Employee() {
-
-    }
-
-
     public int getEmpID() {
         return empID;
     }
-
 
     public void setEmpID(int empID) {
         this.empID = empID;
@@ -41,7 +37,6 @@ public class Employee {
         return firstName;
     }
 
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -49,7 +44,6 @@ public class Employee {
     public String getLastName() {
         return lastName;
     }
-
 
     public void setLastName(String lastName) {
         this.lastName = lastName;

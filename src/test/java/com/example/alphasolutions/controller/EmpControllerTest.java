@@ -29,7 +29,6 @@ class EmpControllerTest {
     private MockHttpSession session;
     private Employee employee;
 
-
     @BeforeEach
     void setUp() {
         employee = new Employee(1, "John", "Wick", "jw@alphasolutions.com",

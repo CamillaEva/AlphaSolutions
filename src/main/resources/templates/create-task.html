@@ -6,38 +6,35 @@
     <link rel="stylesheet" th:href="@{/css/general.css}">
     <link rel="stylesheet" th:href="@{/css/box.css}">
 </head>
-
 <body>
 <header th:replace="fragments/header :: site-header"></header>
 
 <div class="form-box">
     <h1>Create task</h1>
-<form th:action="@{/create-task/{subProjectID}/add(subProjectID=${subProject.subprojectID})}" th:object="${task}"
-      th:method="post">
-    <input type="hidden" th:field="*{subprojectID}" th:value="subProject.subProjectID"/>
+    <form th:action="@{/create-task/{subProjectID}/add(subProjectID=${subProject.subprojectID})}" th:object="${task}"
+          th:method="post">
+        <input type="hidden" th:field="*{subprojectID}" th:value="subProject.subProjectID"/>
 
-    <label th:for="*{name}">Name</label>
-    <input type="text" th:field="*{name}" autofocus required/><br>
+        <label th:for="*{name}">Name</label>
+        <input type="text" th:field="*{name}" autofocus required/><br>
 
-    <label th:for="*{description}">Description</label>
-    <input type="text" th:field="*{description}"/><br>
+        <label th:for="*{description}">Description</label>
+        <input type="text" th:field="*{description}"/><br>
 
-    <label th:for="*{startDate}">Start date</label>
-    <input type="date" th:field="*{startDate}" required/><br>
+        <label th:for="*{startDate}">Start date</label>
+        <input type="date" th:field="*{startDate}" required/><br>
 
-    <label th:for="*{endDate}">End date</label>
-    <input type="date" th:field="*{endDate}" required/><br>
+        <label th:for="*{endDate}">End date</label>
+        <input type="date" th:field="*{endDate}" required/><br>
 
-    <label th:for="*{timeEst}">Time estimated</label>
-    <input type="number" th:field="*{timeEst}" required/><br>
+        <label th:for="*{timeEst}">Time estimated</label>
+        <input type="number" th:field="*{timeEst}" required/><br>
 
-    <button type="submit" class="box-button">Save</button>
-    <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subProject.subprojectID})}" class="box-button">
-        <button type="button">CANCEL</button>
-    </a>
-
-</form>
-
+        <button type="submit" class="box-button">Save</button>
+        <a th:href="@{/read-subproject/{subprojectID}(subprojectID=${subProject.subprojectID})}" class="box-button">
+            <button type="button">CANCEL</button>
+        </a>
+    </form>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>
 </body>
