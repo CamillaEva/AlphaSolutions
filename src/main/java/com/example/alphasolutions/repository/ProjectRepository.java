@@ -51,7 +51,12 @@ public class ProjectRepository {
             return ps;
         }, keyHolder);
 
-        return keyHolder.getKey().intValue();
+        Number key = keyHolder.getKey();
+        if (key != null) {
+            return key.intValue();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
 
