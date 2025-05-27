@@ -51,19 +51,20 @@ public class ProjectRepositoryTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    void readProjectByID(){
-        //Arrange
-
-        //Act
-        Project project = projectRepository.readProjectByID(1);
-        //Assert
-        assertNotNull(project);
-        assertEquals("Testprojekt", project.getName());
-        assertEquals("Et projekt til integrationstest", project.getDescription());
-        assertEquals(LocalDate.now(), project.getStartDate());
-        assertEquals(LocalDate.now(), project.getEndDate());
-    }
+    //this is still here, because we wrote about it in our paper.
+//    @Test
+//    void readProjectByID(){
+//        //Arrange
+//
+//        //Act
+//        Project project = projectRepository.readProjectByID(1);
+//        //Assert
+//        assertNotNull(project);
+//        assertEquals("Testprojekt", project.getName());
+//        assertEquals("Et projekt til integrationstest", project.getDescription());
+//        assertEquals(LocalDate.now(), project.getStartDate());
+//        assertEquals(LocalDate.now(), project.getEndDate());
+//    }
 
 
 }
