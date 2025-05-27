@@ -41,7 +41,7 @@ class EmpControllerTest {
     }
 
     @Test
-    void getCreateEmployee() throws Exception {
+    void createEmployee() throws Exception {
 
         mockMvc.perform(get("/create-employee").session(session))
                 .andExpect(status().isOk())
