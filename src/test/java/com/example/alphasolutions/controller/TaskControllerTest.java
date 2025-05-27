@@ -1,9 +1,6 @@
 package com.example.alphasolutions.controller;
 
-import com.example.alphasolutions.model.Employee;
-import com.example.alphasolutions.model.Role;
-import com.example.alphasolutions.model.Subproject;
-import com.example.alphasolutions.model.Task;
+import com.example.alphasolutions.model.*;
 import com.example.alphasolutions.service.EmpService;
 import com.example.alphasolutions.service.ProjectService;
 import com.example.alphasolutions.service.SubprojectService;
@@ -17,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,7 +60,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void createTask() throws Exception{
+    void createTask() throws Exception {
         //Arrange
         Subproject subproject = new Subproject();
         subproject.setSubprojectID(subprojectID);
@@ -70,7 +68,7 @@ class TaskControllerTest {
         Mockito.when(subprojectService.readSubprojectByID(subprojectID)).thenReturn(subproject);
 
         // Act & assert
-        mockMvc.perform(get("/create-task/{subProjectID}",subprojectID) //simulates HTTP get call
+        mockMvc.perform(get("/create-task/{subProjectID}", subprojectID) //simulates HTTP get call
                         .session(session)) //mock session
                 .andExpect(status().isOk()) //expect no error (status is ok)
                 .andExpect(view().name("create-task")) //view html
@@ -102,8 +100,39 @@ class TaskControllerTest {
     }
 
     @Test
-    void readTaskByID() {
+    void readTaskByID() throws Exception{
+        int taskID = 1;
+        int subprojectID = 1;
+        int projectID = 1;
+        Task task = new Task(taskID, "test", "test task object", LocalDate.of(2025, 5, 14), LocalDate.of(2025, 5, 28), 10, subprojectID, 2);
 
+        Subproject subproject = new Subproject(subprojectID, projectID, "test", "test subproject object", LocalDate.of(2025, 5, 14), LocalDate.of(2025, 5, 28));
+
+        Project project = new Project(projectID, "test", "test project object", LocalDate.of(2025, 5, 14), LocalDate.of(2025, 5, 28));
+
+        List<Integer> assignedEmpIDsTask = List.of(1);
+
+        List<Integer> assignedEmpIDsProject = List.of(1);
+
+        Mockito.when(taskService.readTaskByID(taskID)).thenReturn(task);
+        Mockito.when(subprojectService.readSubprojectByID(subprojectID)).thenReturn(subproject);
+        Mockito.when(projectService.readProjectByID(projectID)).thenReturn(project);
+        Mockito.when(taskService.readTotalTimeEstimateForProject(projectID)).thenReturn(10);
+        Mockito.when(taskService.readTotalUsedTimeForProject(projectID)).thenReturn(2);
+        Mockito.when(taskService.showAssignedEmpTask(taskID)).thenReturn(assignedEmpIDsTask);
+        Mockito.when(empService.readEmployeeById(1)).thenReturn(projectleader);
+        Mockito.when(projectService.showAssignedEmpProject(projectID)).thenReturn(assignedEmpIDsProject);
+
+        mockMvc.perform(get("/read-tasks/{taskID}", taskID).session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("read-task"))
+                .andExpect(model().attributeExists("subproject"))
+                .andExpect(model().attributeExists("sessionEmp"))
+                .andExpect(model().attributeExists("assignedEmployeesProject"))
+                .andExpect(model().attributeExists("assignedEmployeesTask"))
+                .andExpect(model().attributeExists("task"))
+                .andExpect(model().attributeExists("totalTimeEstimate"))
+                .andExpect(model().attributeExists("totalTimeUsed"));
     }
 
     @Test
@@ -130,7 +159,7 @@ class TaskControllerTest {
         doNothing().when(taskService).updateTask(task); //.doNothing() used for void method
 
         mockMvc.perform(post("/pl/edit-task/{taskID}", taskID).session(
-                session).flashAttr("task", task)) //.flashAttr simulates the task object that the user would have submitted in the html form
+                        session).flashAttr("task", task)) //.flashAttr simulates the task object that the user would have submitted in the html form
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/read-tasks/" + taskID));
 
@@ -138,7 +167,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void updateUsedTime() throws Exception{
+    void updateUsedTime() throws Exception {
         int taskID = 1;
         Task task = new Task();
         task.setTaskID(taskID);
@@ -153,7 +182,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void deleteTask() throws Exception{
+    void deleteTask() throws Exception {
         int taskID = 1;
         Task task = new Task();
         task.setTaskID(taskID);
@@ -171,9 +200,9 @@ class TaskControllerTest {
     }
 
     @Test
-    void assignEmpToTask() throws Exception{
+    void assignEmpToTask() throws Exception {
         List<Employee> employees = Arrays.asList(new Employee(), new Employee());
-        List<Integer> alreadyAssigned = Arrays.asList(1,2);
+        List<Integer> alreadyAssigned = Arrays.asList(1, 2);
 
         int taskID = 1;
         Task task = new Task();
@@ -194,15 +223,15 @@ class TaskControllerTest {
     }
 
     @Test
-    void testAssignEmpToTask() throws Exception{
-    int taskID = 1;
+    void testAssignEmpToTask() throws Exception {
+        int taskID = 1;
 
-    mockMvc.perform(post("/read-tasks/{taskID}/assign-emp", taskID).session(session).param("empSelected",
-                    "4", "5"))
-            .andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl("/read-tasks/" + taskID));
+        mockMvc.perform(post("/read-tasks/{taskID}/assign-emp", taskID).session(session).param("empSelected",
+                        "4", "5"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/read-tasks/" + taskID));
 
-    Mockito.verify(taskService).assignEmpToTask(taskID, 4);
-    Mockito.verify(taskService).assignEmpToTask(taskID, 5);
+        Mockito.verify(taskService).assignEmpToTask(taskID, 4);
+        Mockito.verify(taskService).assignEmpToTask(taskID, 5);
     }
 }
