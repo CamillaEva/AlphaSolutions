@@ -27,11 +27,11 @@ __________________
 3. Open your browser on http://localhost:8080/
 4. login with one of the users listed underneath: 
 
-| Role           |     Username     | Password |
-|:---------------|:----------------:|---------:|
-| Admin          |      Admin       |     1234 |
-| Project Leader |  cami@gmail.com  |  kODe456 |
-| Employee       | kapper@gmail.com |  KoDe789 |
+| Role           | Username | Password |
+|:---------------|:--------:|---------:|
+| Admin          |  admin   |     1234 |
+| Project Leader |   caha   |     1234 |
+| Employee       |   clfr   |     1234 |
 
 
 ## Usage
