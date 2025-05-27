@@ -29,7 +29,6 @@
             <span><span th:text="${timeEstimate}"></span> hours</span>
         </div>
 
-
         <div class="boxes">
             <div class="box">
                 <h1>NEW TASK</h1>
@@ -37,7 +36,6 @@
                     <img src="/image/plus-icon.png" class="plus-icon">
                 </a>
             </div>
-
 
             <div th:each="task : ${subproject.tasks}" class="box">
                 <a th:href="@{/read-tasks/{taskID}(taskID=${task.taskID})}"

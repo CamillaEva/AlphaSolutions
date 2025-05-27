@@ -10,7 +10,6 @@
 
 <body>
 <header th:replace="fragments/header ::site-header"></header>
-
 <div class="elements">
     <div class="category-label">Project</div>
     <div class="main-elements">
@@ -26,7 +25,6 @@
 
                 <label th:for="endDate"><strong>End date:</strong></label>
                 <span th:text="${projectByID.endDate}"></span><br>
-
 
                 <div class="boxes">
                     <div class="box">
@@ -64,10 +62,8 @@
             </a>
         </div>
 
-        <section
-                th:replace="fragments/overview :: site-overview(${totalTimeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
+        <section th:replace="fragments/overview :: site-overview(${totalTimeEstimate}, ${assignedEmployeesProject}, ${totalTimeUsed})"></section>
     </div>
-
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>
 </body>

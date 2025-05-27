@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -33,7 +34,6 @@ public class SubprojectRepository {
                 " JOIN SUBPROJECT_TASKS ST ON TE.TASKID = ST.TASKID WHERE ST.SUBPROJECTID = ?";
 
         //Integer.class refers to the class object of the integer
-        //queryForList expect to return an Integer (empID)
         return jdbcTemplate.queryForList(sql, Integer.class, subprojectID);
     }
 
@@ -74,18 +74,18 @@ public class SubprojectRepository {
         return subprojectMapper.subprojectWithTasks(jdbcTemplate.queryForList(sql, subprojectID)).get(0);
     }
 
-    public int getTimeEstFromTasks(int subprojectID) {
-        Subproject subproject = readSubprojectById(subprojectID);
-        if (subproject.getTasks() == null) {
-            return 0;
-        }
-        return subproject.getTasks().stream().mapToInt(Task::getTimeEst).sum(); //readSubProjectByID henter et SubProject, som også indeholder en liste af Task-objekter. Derefter bruger vi Java Streams til at summere alle task.getTimeEst().
-    }
-
     public List<Subproject> readSubprojectsByProjectID(int projectID) {
         String sql = "SELECT SUBPROJECTID, PROJECTID, NAME, DESCRIPTION, STARTDATE, ENDDATE " +
                 "FROM SUBPROJECT WHERE PROJECTID = ?";
         return jdbcTemplate.query(sql, new SubprojectRowMapper(), projectID);
+    }
+
+    public int readTimeEstFromTasks(int subprojectID) {
+        Subproject subproject = readSubprojectById(subprojectID);
+        if (subproject.getTasks() == null) {
+            return 0;
+        }
+        return subproject.getTasks().stream().mapToInt(Task::getTimeEst).sum();
     }
 
     public int readTotalTimeEstimateForProject(int projectID) {
@@ -115,7 +115,6 @@ public class SubprojectRepository {
     }
 
     //_______________________________________________DELETE_____________________________________________________________
-
     public void deleteSubproject(Subproject subproject) {
         for (Task t : subproject.getTasks()) {
             String sql = "DELETE FROM EMP_TASK WHERE TASKID = ?";
@@ -131,6 +130,4 @@ public class SubprojectRepository {
         jdbcTemplate.update(sql3, subproject.getSubprojectID());
         jdbcTemplate.update(sql4, subproject.getSubprojectID());
     }
-
-
 }

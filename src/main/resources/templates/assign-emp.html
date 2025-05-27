@@ -18,7 +18,7 @@
                        th:id="'emp_' + ${employee.empID}"
                        th:name="empSelected"
                        th:value="${employee.empID}"
-                        th:checked="${alreadyAssigned.contains(employee.empID)}"/>
+                       th:checked="${alreadyAssigned.contains(employee.empID)}"/>
                 <label th:for="'emp_' + ${employee.empID}"
                        th:text="${employee.firstName + ' ' + employee.lastName}"></label>
             </div>
@@ -28,7 +28,6 @@
                 <button type="button">Back</button>
             </a>
         </form>
-
     </div>
 </div>
 <footer th:replace="fragments/footer :: site-footer"></footer>

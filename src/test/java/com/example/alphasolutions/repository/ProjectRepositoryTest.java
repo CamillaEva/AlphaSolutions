@@ -1,6 +1,7 @@
 package com.example.alphasolutions.repository;
 
 import com.example.alphasolutions.model.Project;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,13 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
         scripts = {"classpath:h2init.sql"}
 )
-
 public class ProjectRepositoryTest {
 
     @Autowired
     ProjectRepository projectRepository;
-
-
 
     @Test
     void createProject() {
@@ -52,19 +50,17 @@ public class ProjectRepositoryTest {
     }
 
     //this is still here, because we wrote about it in our paper.
-//    @Test
-//    void readProjectByID(){
-//        //Arrange
-//
-//        //Act
-//        Project project = projectRepository.readProjectByID(1);
-//        //Assert
-//        assertNotNull(project);
-//        assertEquals("Testprojekt", project.getName());
-//        assertEquals("Et projekt til integrationstest", project.getDescription());
-//        assertEquals(LocalDate.now(), project.getStartDate());
-//        assertEquals(LocalDate.now(), project.getEndDate());
-//    }
+    @Disabled
+    void readProjectByID() {
+        //Arrange
 
-
+        //Act
+        Project project = projectRepository.readProjectByID(1);
+        //Assert
+        assertNotNull(project);
+        assertEquals("Testprojekt", project.getName());
+        assertEquals("Et projekt til integrationstest", project.getDescription());
+        assertEquals(LocalDate.now(), project.getStartDate());
+        assertEquals(LocalDate.now(), project.getEndDate());
+    }
 }

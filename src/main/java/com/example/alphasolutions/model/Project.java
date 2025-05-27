@@ -25,8 +25,8 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public void createSubproject(Subproject subProject) {
-        subprojects.add(subProject);
+    public void createSubproject(Subproject subproject) {
+        subprojects.add(subproject);
     }
 
     public int getProjectID() {
@@ -37,11 +37,11 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public List<Subproject> getSubProjects() {
+    public List<Subproject> getSubprojects() {
         return subprojects;
     }
 
-    public void setSubProjects(List<Subproject> subprojects) {
+    public void setSubprojects(List<Subproject> subprojects) {
         this.subprojects = subprojects;
     }
 

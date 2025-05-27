@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" th:href="@{/css/general.css}">
-    <link rel="stylesheet" th:href="@{/css/box.css}">
+<link rel="stylesheet" th:href="@{/css/general.css}">
+<link rel="stylesheet" th:href="@{/css/box.css}">
 
 <section th:fragment="site-overview(timeEstimate,assignedEmployeesProject, totalTimeUsed)">
-<div class="overview">
-    <h1>Overview of project</h1>
-    <div class="mini-box">
-        <h1>Time estimate: </h1>
-        <p th:text="${timeEstimate}"></p>
+    <div class="overview">
+        <h1>Overview of project</h1>
+        <div class="mini-box">
+            <h1>Time estimate: </h1>
+            <p th:text="${timeEstimate}"></p>
+        </div>
+
+        <div class="mini-box">
+            <h1>Time used: </h1>
+            <p th:text="${totalTimeUsed}"></p>
+        </div>
+
+        <div class="mini-box">
+            <h1>Time left: </h1>
+            <p></p>
+        </div>
+
+        <div class="mini-box">
+            <h1>Assigned employees: </h1>
+            <li th:each="emp : ${assignedEmployeesProject}">
+                <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
+            </li>
+        </div>
+
     </div>
-
-    <div class="mini-box">
-        <h1>Time used: </h1>
-        <p th:text="${totalTimeUsed}"></p>
-    </div>
-
-    <div class="mini-box">
-        <h1>Time left: </h1>
-        <p></p>
-    </div>
-
-    <div class="mini-box">
-        <h1>Assigned employees: </h1>
-        <li th:each="emp : ${assignedEmployeesProject}">
-            <span th:text="${emp.firstName} + ' ' + ${emp.lastName}"></span>
-        </li>
-    </div>
-
-</div>
-
 </section>
 </html>

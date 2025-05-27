@@ -31,7 +31,6 @@ public class TaskRepository {
         return jdbcTemplate.queryForList(sql, Integer.class, taskID);
     }
 
-
     //_______________________________________________CREATE_____________________________________________________________
     public int createTask(Task task) {
         String sql = "INSERT INTO TASK (NAME, DESCRIPTION, STARTDATE, ENDDATE, TIMEEST, SUBPROJECTID) VALUES (?,?,?,?,?,?)";

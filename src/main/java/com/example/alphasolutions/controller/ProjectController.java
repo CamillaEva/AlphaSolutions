@@ -66,7 +66,7 @@ public class ProjectController {
             Employee sessionEmp = empService.readEmployeeById(empID);
 
             for (Subproject subproject : mySubprojects) {
-                int est = subprojectService.getTimeEstFromTasks(subproject.getSubprojectID());
+                int est = subprojectService.readTimeEstFromTasks(subproject.getSubprojectID());
                 subproject.setTimeEst(est);
             }
 
@@ -98,16 +98,15 @@ public class ProjectController {
         Employee sessionEmp = (Employee) session.getAttribute("emp");
 
         if (sessionRole == Role.PROJECT_LEADER) {
-            List<Subproject> allSubprojects = subprojectService.getSubprojectsByProjectID(projectID);
+            List<Subproject> allSubprojects = subprojectService.readSubprojectsByProjectID(projectID);
             Project projectByID = projectService.readProjectByID(projectID);
 
             for (Subproject subproject : allSubprojects) {
-                int est = subprojectService.getTimeEstFromTasks(subproject.getSubprojectID());
+                int est = subprojectService.readTimeEstFromTasks(subproject.getSubprojectID());
                 subproject.setTimeEst(est);
             }
 
             int totalTimeEstimate = projectService.readTotalTimeEstimateForProject(projectID);
-            //Method to get totalTimeUsed for tasks in a project
             int totalTimeUsed = projectService.readTotalUsedTimeForProject(projectID);
 
             List<Integer> assignedEmpIDsProject = projectService.showAssignedEmpProject(projectID);

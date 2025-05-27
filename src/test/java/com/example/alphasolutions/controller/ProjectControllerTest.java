@@ -54,7 +54,6 @@ class ProjectControllerTest {
         session.setAttribute("role", Role.PROJECT_LEADER);
     }
 
-
     @Test
     void createProjectSuccess() throws Exception {
         //Arrange
@@ -133,7 +132,7 @@ class ProjectControllerTest {
         Mockito.when(projectService.readProjectByID(projectID)).thenReturn(project);
         Mockito.when(empService.readEmployeeById(empID)).thenReturn(emp);
         Mockito.when(subprojectService.readMySubprojects(empID, projectID)).thenReturn(subprojects);
-        Mockito.when(subprojectService.getTimeEstFromTasks(Mockito.anyInt())).thenReturn(10);
+        Mockito.when(subprojectService.readTimeEstFromTasks(Mockito.anyInt())).thenReturn(10);
         Mockito.when(projectService.readTotalTimeEstimateForProject(projectID)).thenReturn(40);
         Mockito.when(projectService.readTotalUsedTimeForProject(projectID)).thenReturn(20);
         Mockito.when(projectService.showAssignedEmpProject(projectID)).thenReturn(empIDs);
@@ -170,8 +169,8 @@ class ProjectControllerTest {
         List<Employee> emps = List.of(new Employee(), new Employee());
 
         Mockito.when(projectService.readProjectByID(projectID)).thenReturn(project);
-        Mockito.when(subprojectService.getSubprojectsByProjectID(projectID)).thenReturn(subprojects);
-        Mockito.when(subprojectService.getTimeEstFromTasks(Mockito.anyInt())).thenReturn(8);
+        Mockito.when(subprojectService.readSubprojectsByProjectID(projectID)).thenReturn(subprojects);
+        Mockito.when(subprojectService.readTimeEstFromTasks(Mockito.anyInt())).thenReturn(8);
         Mockito.when(projectService.readTotalTimeEstimateForProject(projectID)).thenReturn(30);
         Mockito.when(projectService.readTotalUsedTimeForProject(projectID)).thenReturn(15);
         Mockito.when(projectService.showAssignedEmpProject(projectID)).thenReturn(empIDs);
