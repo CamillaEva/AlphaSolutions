@@ -82,6 +82,10 @@ public class Task {
         return usedTime;
     }
 
+    public void setUsedTime(int usedTime){
+        this.usedTime = usedTime;
+    }
+
     public int getSubprojectID() {
         return subprojectID;
     }
